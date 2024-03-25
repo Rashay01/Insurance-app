@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>All Policies</h2>
+    {% for policy in polices %}
+    <div>
+        <h3>Policy No: {{policy.id}}</h3>
+        <p>Item/s:</p>
+        <ul>
+            {% for item in policy['items'] %}
+            <li>{{item.name}}</li>
+            {% endfor %}
+        </ul>
+        <p>Price: R{{policy.price}} p/m</p>
+        <a href="/all-polices/{{policy.id}}">View More</a>
+    </div>
+    {% endfor %}
+</body>
+</html>

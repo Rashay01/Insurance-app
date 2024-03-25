@@ -19,15 +19,101 @@ users = [
     },
 ]
 
-policies = [{
+policies = [
+    {
     "id":1,
     "user_id": "0101165410081",
     "date": "2023-01-3",
-    "price":"1798",
+    "price":1798,
+    "num_years": 5,
+    "active": True,
+    "items": [
+        {"id":1,
+         "name": "watch",
+         "item_price": 30009,
+         "description":"a vintage watch"}
+    ]},
+    {
+    "id":2,
+    "user_id": "0101165410081",
+    "date": "2023-01-4",
+    "price":2000,
+    "num_years": 5,
+    "active": True,
+    "items": [
+        {"id":1,
+         "name": "Car",
+         "item_price": 30009,
+         "description":"a vintage watch"}
+    ]},
+    {
+    "id":3,
+    "user_id": "0101165410082",
+    "date": "2023-01-3",
+    "price":1798,
+    "num_years": 5,
+    "active": True,
+    "items": [
+        {"id":1,
+         "name": "watch",
+         "item_price": 30009,
+         "description":"a vintage watch"}
+    ]},
+]
 
-}]
-
-quotes = []
+quotes = [{
+    "id":1,
+    "user_id": "0101165410081",
+    "date": "2023-01-3",
+    "price":1798,
+    "num_years": 5,
+    "status": "accepted",
+    "items": [
+        {"id":1,
+         "name": "watch",
+         "item_price": 30009,
+         "description":"a vintage watch"}
+    ]},
+    {
+    "id":2,
+    "user_id": "0101165410081",
+    "date": "2023-01-4",
+    "price":2000,
+    "num_years": 5,
+    "status": "waiting",
+    "items": [
+        {"id":1,
+         "name": "Car",
+         "item_price": 30009,
+         "description":"a vintage watch"}
+    ]},
+    {
+    "id":3,
+    "user_id": "0101165410082",
+    "date": "2023-01-3",
+    "price":1798,
+    "num_years": 5,
+    "status": "declined",
+    "items": [
+        {"id":1,
+         "name": "watch",
+         "item_price": 30009,
+         "description":"a vintage watch"}
+    ]},
+    {
+    "id":4,
+    "user_id": "0101165410081",
+    "date": "2023-01-3",
+    "price":1798,
+    "num_years": 5,
+    "status": "declined",
+    "items": [
+        {"id":1,
+         "name": "watch",
+         "item_price": 30009,
+         "description":"a vintage watch"}
+    ]},
+]
 
 lg_user ={}
 
@@ -59,6 +145,25 @@ def dashboard():
         return redirect("/login")
     lg_user.update(filtered_user)
     return render_template("dashboard.html", curr_page="dashboard",user = lg_user)
+
+#all policies pages
+@app.route("/all-polices")
+def all_policies():
+    filtered_policies = [policy for policy in policies if policy['user_id']== lg_user['id']]
+    return render_template("all-polices.html", curr_page="all polices", polices=filtered_policies)
+
+@app.route("/all-polices/<id>", methods=["GET"])
+def specific_policies(id):
+    filtered_policy = next((policy for policy in policies if policy["id"] == int(id)), None)
+    if filtered_policy is None:
+        return "<h2>404 Page not found</h2>"
+    return render_template("policy.html", curr_page="all polices", policy=filtered_policy)
+
+# @app.route("/all-polices", methods=["POST"])
+# def remove_specific_policies(id):
+#     filtered_policy = next((policy for policy in policies if policy["id"] == int(id)), None)
+#     policies.remove(filtered_policy)
+#     return render_template("all-polices.html", curr_page="all polices", polices=policies)
 
 # -------------------------------------------------------Users-------------------------------------------
 
@@ -102,7 +207,7 @@ def add_user():
     return jsonify(new_user), 201
 
 
-# ------------------------------------------------------Quotes-------------------------------------------
+# ------------------------------------------------------Policies-------------------------------------------
 
 
 @app.get("/policies")

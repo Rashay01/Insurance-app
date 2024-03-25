@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block body%}
+
+<div>
+    <h2>Login</h2>
+    <form action="{{url_for('dashboard')}}" method="POST">
+        <input type= "text" name = "id_num" placeholder="id_num" />
+        <input type= "password" name = "password" placeholder="password" />
+        <button type="submit">Login</button>
+    </form>
+</div>
+
+{% endblock %}

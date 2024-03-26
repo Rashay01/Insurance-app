@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, request, render_template, redirect
+from flask import Flask, jsonify, request, render_template, redirect, flash
 
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 users = [
     {
@@ -21,101 +22,124 @@ users = [
 
 policies = [
     {
-    "id":1,
-    "user_id": "0101165410081",
-    "date": "2023-01-3",
-    "price":1798,
-    "num_years": 5,
-    "active": True,
-    "items": [
-        {"id":1,
-         "name": "watch",
-         "item_price": 30009,
-         "description":"a vintage watch"}
-    ]},
+        "id": 1,
+        "user_id": "0101165410081",
+        "date": "2023-01-3",
+        "price": 1798,
+        "num_years": 5,
+        "active": True,
+        "items": [
+            {
+                "id": 1,
+                "name": "watch",
+                "item_price": 30009,
+                "description": "a vintage watch",
+            }
+        ],
+    },
     {
-    "id":2,
-    "user_id": "0101165410081",
-    "date": "2023-01-4",
-    "price":2000,
-    "num_years": 5,
-    "active": True,
-    "items": [
-        {"id":1,
-         "name": "Car",
-         "item_price": 30009,
-         "description":"a vintage watch"}
-    ]},
+        "id": 2,
+        "user_id": "0101165410081",
+        "date": "2023-01-4",
+        "price": 2000,
+        "num_years": 5,
+        "active": True,
+        "items": [
+            {
+                "id": 1,
+                "name": "Car",
+                "item_price": 30009,
+                "description": "a vintage watch",
+            }
+        ],
+    },
     {
-    "id":3,
-    "user_id": "0101165410082",
-    "date": "2023-01-3",
-    "price":1798,
-    "num_years": 5,
-    "active": True,
-    "items": [
-        {"id":1,
-         "name": "watch",
-         "item_price": 30009,
-         "description":"a vintage watch"}
-    ]},
+        "id": 3,
+        "user_id": "0101165410082",
+        "date": "2023-01-3",
+        "price": 1798,
+        "num_years": 5,
+        "active": True,
+        "items": [
+            {
+                "id": 1,
+                "name": "watch",
+                "item_price": 30009,
+                "description": "a vintage watch",
+            }
+        ],
+    },
 ]
 
-quotes = [{
-    "id":1,
-    "user_id": "0101165410081",
-    "date": "2023-01-3",
-    "price":1798,
-    "num_years": 5,
-    "status": "accepted",
-    "items": [
-        {"id":1,
-         "name": "watch",
-         "item_price": 30009,
-         "description":"a vintage watch"}
-    ]},
+quotes = [
     {
-    "id":2,
-    "user_id": "0101165410081",
-    "date": "2023-01-4",
-    "price":2000,
-    "num_years": 5,
-    "status": "waiting",
-    "items": [
-        {"id":1,
-         "name": "Car",
-         "item_price": 30009,
-         "description":"a vintage watch"}
-    ]},
+        "id": 1,
+        "user_id": "0101165410081",
+        "date": "2023-01-3",
+        "price": 1798,
+        "num_years": 5,
+        "status": "accepted",
+        "items": [
+            {
+                "id": 1,
+                "name": "watch",
+                "item_price": 30009,
+                "description": "a vintage watch",
+            }
+        ],
+    },
     {
-    "id":3,
-    "user_id": "0101165410082",
-    "date": "2023-01-3",
-    "price":1798,
-    "num_years": 5,
-    "status": "declined",
-    "items": [
-        {"id":1,
-         "name": "watch",
-         "item_price": 30009,
-         "description":"a vintage watch"}
-    ]},
+        "id": 2,
+        "user_id": "0101165410081",
+        "date": "2023-01-4",
+        "price": 2000,
+        "num_years": 5,
+        "status": "waiting",
+        "items": [
+            {
+                "id": 1,
+                "name": "Car",
+                "item_price": 30009,
+                "description": "a vintage watch",
+            }
+        ],
+    },
     {
-    "id":4,
-    "user_id": "0101165410081",
-    "date": "2023-01-3",
-    "price":1798,
-    "num_years": 5,
-    "status": "declined",
-    "items": [
-        {"id":1,
-         "name": "watch",
-         "item_price": 30009,
-         "description":"a vintage watch"}
-    ]},
+        "id": 3,
+        "user_id": "0101165410082",
+        "date": "2023-01-3",
+        "price": 1798,
+        "num_years": 5,
+        "status": "declined",
+        "items": [
+            {
+                "id": 1,
+                "name": "watch",
+                "item_price": 30009,
+                "description": "a vintage watch",
+            }
+        ],
+    },
+    {
+        "id": 4,
+        "user_id": "0101165410081",
+        "date": "2023-01-3",
+        "price": 1798,
+        "num_years": 5,
+        "status": "declined",
+        "items": [
+            {
+                "id": 1,
+                "name": "watch",
+                "item_price": 30009,
+                "description": "a vintage watch",
+            }
+        ],
+    },
 ]
 
-lg_user ={}
+lg_user = {}
+
 
 @app.route("/")
 def home():
@@ -131,33 +155,59 @@ def about():
 def contact():
     return render_template("contact.html", curr_page="contact")
 
-#next two methods are for logging in 
+
+# next two methods are for logging in
 @app.route("/login", methods=["GET"])
 def login():
     return render_template("login.html", curr_page="login")
+
 
 @app.route("/dashboard", methods=["POST"])
 def dashboard():
     id_num = request.form.get("id_num")
     password = request.form.get("password")
-    filtered_user = next((user for user in users if (user["id"] == id_num)and (user["password"] == password)), None)
+    filtered_user = next(
+        (
+            user
+            for user in users
+            if (user["id"] == id_num) and (user["password"] == password)
+        ),
+        None,
+    )
     if filtered_user is None:
         return redirect("/login")
     lg_user.update(filtered_user)
-    return render_template("dashboard.html", curr_page="dashboard",user = lg_user)
+    return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
-#all policies pages
+
+# all policies pages
 @app.route("/all-polices")
 def all_policies():
-    filtered_policies = [policy for policy in policies if policy['user_id']== lg_user['id']]
-    return render_template("all-polices.html", curr_page="all polices", polices=filtered_policies)
+    filtered_policies = [
+        policy for policy in policies if policy["user_id"] == lg_user["id"]
+    ]
+    return render_template(
+        "all-polices.html", curr_page="all polices", polices=filtered_policies
+    )
 
-@app.route("/all-polices/<id>", methods=["GET"])
+
+@app.route("/all-polices/<id>", methods=["POST", "GET"])
 def specific_policies(id):
-    filtered_policy = next((policy for policy in policies if policy["id"] == int(id)), None)
+    filtered_policy = next(
+        (policy for policy in policies if policy["id"] == int(id)), None
+    )
     if filtered_policy is None:
         return "<h2>404 Page not found</h2>"
-    return render_template("policy.html", curr_page="all polices", policy=filtered_policy)
+    if request.method == "POST":
+        policies.remove(filtered_policy)
+        flash("Deleted successfully")
+        return redirect("/all-polices")
+    else:
+
+        return render_template(
+            "policy.html", curr_page="all polices", policy=filtered_policy
+        )
+
 
 # @app.route("/all-polices", methods=["POST"])
 # def remove_specific_policies(id):

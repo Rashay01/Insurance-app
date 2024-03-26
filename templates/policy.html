@@ -5,6 +5,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+        .form-policy-invisible{
+            display: none;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,9 +27,10 @@
             <p>R{{item.item_price}}</p>
             {% endfor %}
         </div>
-        <form action="" method="POST">
+        <form class="{% if not policy.active %}form-policy-invisible{% endif %}" action="" method="POST">
             <button type="submit">Delete</button>
         </form>
+        <a href="/all-polices">back</a>
     </div>
 </body>
 

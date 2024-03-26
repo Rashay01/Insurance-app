@@ -6,62 +6,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
   <style>
-    .fash-container {
-      /* -moz-animation: notification 0s ease-in 3s forwards; */
-      /* Firefox */
-      /* -webkit-animation: notification 0s ease-in 3s forwards; */
-      /* Safari and Chrome */
+    .flash-container {
+      font-family: sans-serif;
+      z-index: 1; /* set higher z-index value */
+      position: relative; /* position must be set for z-index to work */
+    }
+    .flashes{
+      display: flex;
+      justify-content: space-around;
+      background-color: orange;
+      max-width: 200px;
+      border-radius: 3%;
+      margin: 5px;
+      padding: 5px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       animation: notification 0s ease-in 3s forwards;
-      /* Opera */
-      /* animation: notification 0s ease-in 3s forwards; */
-      /* -webkit-animation-fill-mode: forwards; */
-      /* animation-fill-mode: forwards; */
+    }
+    .polices-container{
+      z-index: 0; /* set higher z-index value */
+      position: relative;
     }
 
     @keyframes notification {
       to {
+        display: none;
         width: 0;
         height: 0;
         overflow: hidden;
       }
     }
 
-    /* @-webkit-keyframes notification {
-    to {
-        width:0;
-        height:0;
-        visibility:hidden;
+
+    .policy-container{
+      background-color: grey;
     }
-} */
+
   </style>
 </head>
 
 <body>
-  <div class="fash-container">
+  <div class="flash-container">
     {% with messages = get_flashed_messages() %} {% if messages %}
-    <ul class="flashes">
-      {% for message in messages %}
-      <button class="ans">x</button>
-      <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
+    {% for message in messages %}
+    <div class="flashes">
+      <p>{{ message }}</p>
+      <p class="flask-x">x</p>
+    </div>
+    {% endfor %}
     {% endif %} {% endwith %}
   </div>
-
-  <h2>All Policies</h2>
-  {% for policy in polices %}
-  <div>
-    <h3>Policy No: {{policy.id}}</h3>
-    <p>Item/s:</p>
-    <ul>
-      {% for item in policy['items'] %}
-      <li>{{item.name}}</li>
-      {% endfor %}
-    </ul>
-    <p>Price: R{{policy.price}} p/m</p>
-    <a href="/all-polices/{{policy.id}}">View More</a>
+  <!-- Actual policy code -->
+  <div class="polices-container">
+    
+    <h2>All Policies</h2>
+    {% for policy in polices %}
+    <div class="{% if not policy.active %}policy-container{% endif %}">
+      <h3>Policy No: {{policy.id}}</h3>
+      <p>Item/s:</p>
+      <ul>
+        {% for item in policy['items'] %}
+        <li>{{item.name}}</li>
+        {% endfor %}
+      </ul>
+      <p>Price: R{{policy.price}} p/m</p>
+      <a href="/all-polices/{{policy.id}}">View More</a>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 </body>
 
 </html>

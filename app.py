@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, render_template, redirect, flash
+from datetime import date, timedelta
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -186,9 +187,8 @@ def all_policies():
     filtered_policies = [
         policy for policy in policies if policy["user_id"] == lg_user["id"]
     ]
-    return render_template(
-        "all-polices.html", curr_page="all polices", polices=filtered_policies
-    )
+    data = sorted(filtered_policies, key=lambda x: x["active"], reverse=True)
+    return render_template("all-polices.html", curr_page="all polices", polices=data)
 
 
 @app.route("/all-polices/<id>", methods=["POST", "GET"])
@@ -199,8 +199,9 @@ def specific_policies(id):
     if filtered_policy is None:
         return "<h2>404 Page not found</h2>"
     if request.method == "POST":
-        policies.remove(filtered_policy)
-        flash("Deleted successfully")
+        days_after = date.today() + timedelta(days=30)
+        filtered_policy.update({"active": False, "end_date": days_after})
+        flash("Policy Removed")
         return redirect("/all-polices")
     else:
 

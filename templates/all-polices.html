@@ -1,65 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        .fash-container {
-    /* -moz-animation: notification 0s ease-in 3s forwards; */
-    /* Firefox */
-    /* -webkit-animation: notification 0s ease-in 3s forwards; */
-    /* Safari and Chrome */
-    animation: notification 0s ease-in 3s forwards;
-    /* Opera */
-    /* animation: notification 0s ease-in 3s forwards; */
-    /* -webkit-animation-fill-mode: forwards; */
-    /* animation-fill-mode: forwards; */
-}
-@keyframes notification {
-    to {
-        width:0;
-        height:0;
-        overflow:hidden;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    .fash-container {
+      /* -moz-animation: notification 0s ease-in 3s forwards; */
+      /* Firefox */
+      /* -webkit-animation: notification 0s ease-in 3s forwards; */
+      /* Safari and Chrome */
+      animation: notification 0s ease-in 3s forwards;
+      /* Opera */
+      /* animation: notification 0s ease-in 3s forwards; */
+      /* -webkit-animation-fill-mode: forwards; */
+      /* animation-fill-mode: forwards; */
     }
-}
-/* @-webkit-keyframes notification {
+
+    @keyframes notification {
+      to {
+        width: 0;
+        height: 0;
+        overflow: hidden;
+      }
+    }
+
+    /* @-webkit-keyframes notification {
     to {
         width:0;
         height:0;
         visibility:hidden;
     }
 } */
-    </style>
+  </style>
 </head>
-<body>
-    <div class="fash-container">
-        {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-    <button class="ans">x</button>
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
 
-    </div>
-    
-    <h2>All Policies</h2>
-    {% for policy in polices %}
-    <div>
-        <h3>Policy No: {{policy.id}}</h3>
-        <p>Item/s:</p>
-        <ul>
-            {% for item in policy['items'] %}
-            <li>{{item.name}}</li>
-            {% endfor %}
-        </ul>
-        <p>Price: R{{policy.price}} p/m</p>
-        <a href="/all-polices/{{policy.id}}">View More</a>
-    </div>
-    {% endfor %}
+<body>
+  <div class="fash-container">
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+      <button class="ans">x</button>
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+  </div>
+
+  <h2>All Policies</h2>
+  {% for policy in polices %}
+  <div>
+    <h3>Policy No: {{policy.id}}</h3>
+    <p>Item/s:</p>
+    <ul>
+      {% for item in policy['items'] %}
+      <li>{{item.name}}</li>
+      {% endfor %}
+    </ul>
+    <p>Price: R{{policy.price}} p/m</p>
+    <a href="/all-polices/{{policy.id}}">View More</a>
+  </div>
+  {% endfor %}
 </body>
+
 </html>

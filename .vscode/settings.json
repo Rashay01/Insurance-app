@@ -1,3 +1,8 @@
 {
-  "cSpell.ignoreWords": ["jsonify"]
+  "cSpell.ignoreWords": [
+    "dotenv",
+    "jsonify",
+    "sqlalchemy",
+    "wtforms"
+  ]
 }

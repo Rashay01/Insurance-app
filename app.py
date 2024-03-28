@@ -15,10 +15,10 @@ load_dotenv()
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("MY_SECRET_KEY")
 
-connection_string = os.environ.get("AZURE_DATABASE_URL")
-app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
+# connection_string = os.environ.get("AZURE_DATABASE_URL")
+# app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
-db = SQLAlchemy(app)
+# db = SQLAlchemy(app)
 
 try:
     with app.app_context():
@@ -166,6 +166,26 @@ quotes = [
 lg_user = {}
 
 
+# class User(db.Model):
+#     __tablename__ = "users"
+#     id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
+#     username = db.Column(db.String(50), nullable=False, unique=True)  # should be 50
+#     password = db.Column(db.String(100), nullable=False)
+
+#     # JSON - Keys
+#     def to_dict(self):
+#         return {
+#             "id": self.id,
+#             "username": self.username,
+#             "password": self.password,
+#         }
+
+
+from users_bp import users_bp
+
+app.register_blueprint(users_bp, url_prefix="/users")
+
+
 @app.route("/")
 def home():
     return render_template("landing.html", curr_page="home")
@@ -243,7 +263,7 @@ def specific_policies(id):
 # -------------------------------------------------------Users-------------------------------------------
 
 
-# ------------------------------------------------------Policies-------------------------------------------
+# ------------------------------------------------------Policies-----------------------------------------
 
 
 @app.get("/policies")

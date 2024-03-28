@@ -1,15 +1,15 @@
 from flask import Blueprint, jsonify, request, current_app
 from app import users
 
-users_bp = Blueprint("movies", __name__)
+users_bp = Blueprint("users", __name__)
 
 
-@users_bp.get("/users")
+@users_bp.get("/")
 def get_users():
     return jsonify(users)
 
 
-@users_bp.get("/users/<id>")
+@users_bp.get("/<id>")
 def get_specific_user(id):
     user = next((user for user in users if user["id"] == id), None)
     if user is None:
@@ -17,7 +17,7 @@ def get_specific_user(id):
     return jsonify(user)
 
 
-@users_bp.put("/users/<id>")
+@users_bp.put("/<id>")
 def update_specific_user(id):
     user_update = request.json
     user = next((user for user in users if user["id"] == id), None)
@@ -27,17 +27,22 @@ def update_specific_user(id):
     return jsonify(user)
 
 
-@users_bp.delete("/users/<id>")
+@users_bp.delete("/<id>")
 def delete_specific_user(id):
     user = next((user for user in users if user["id"] == id), None)
     if user is None:
         return jsonify({"message": "User Not found"}), 404
-    users.update(user)
+    users.remove(user)
     return jsonify(user)
 
 
-@users_bp.post("/users")
+@users_bp.post("/")
 def add_user():
     new_user = request.json
+    found_user = next(
+        (user for user in users if user["id"] == new_user.get("id", None)), None
+    )
+    if found_user:
+        return jsonify({"message": "User ID already exists"}), 409
     users.append(new_user)
     return jsonify(new_user), 201

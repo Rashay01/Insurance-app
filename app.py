@@ -1,8 +1,32 @@
+import os
 from flask import Flask, jsonify, request, render_template, redirect, flash
 from datetime import date, timedelta
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import text
+from dotenv import load_dotenv
+import uuid
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, ValidationError
+from wtforms.validators import InputRequired, Length
+
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.config["SECRET_KEY"] = os.environ.get("MY_SECRET_KEY")
+
+connection_string = os.environ.get("AZURE_DATABASE_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
+
+db = SQLAlchemy(app)
+
+try:
+    with app.app_context():
+        # Use text() to explicitly declare your SQL command
+        result = db.session.execute(text("SELECT 1")).fetchall()
+        print("Connection successful:", result)
+except Exception as e:
+    print("Error connecting to the database:", e)
 
 users = [
     {
@@ -147,7 +171,7 @@ def home():
     return render_template("landing.html", curr_page="home")
 
 
-@app.route("/about")
+@app.route("/about/")
 def about():
     return render_template("about.html", curr_page="about")
 
@@ -217,45 +241,6 @@ def specific_policies(id):
 #     return render_template("all-polices.html", curr_page="all polices", polices=policies)
 
 # -------------------------------------------------------Users-------------------------------------------
-
-
-@app.get("/users")
-def get_users():
-    return jsonify(users)
-
-
-@app.get("/users/<id>")
-def get_specific_user(id):
-    user = next((user for user in users if user["id"] == id), None)
-    if user is None:
-        return jsonify({"message": "User Not found"}), 404
-    return jsonify(user)
-
-
-@app.put("/users/<id>")
-def update_specific_user(id):
-    user_update = request.json
-    user = next((user for user in users if user["id"] == id), None)
-    if user is None:
-        return jsonify({"message": "User Not found"}), 404
-    user.update(user_update)
-    return jsonify(user)
-
-
-@app.delete("/users/<id>")
-def delete_specific_user(id):
-    user = next((user for user in users if user["id"] == id), None)
-    if user is None:
-        return jsonify({"message": "User Not found"}), 404
-    users.update(user)
-    return jsonify(user)
-
-
-@app.post("/users")
-def add_user():
-    new_user = request.json
-    users.append(new_user)
-    return jsonify(new_user), 201
 
 
 # ------------------------------------------------------Policies-------------------------------------------

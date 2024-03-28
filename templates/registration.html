@@ -1,0 +1,15 @@
+{% extends 'base.html' %} 
+{% block body%}
+    <h1>Registration</h1>
+    <form action="" method="POST">
+        {% if form.id.errors %}
+        {% for error in form.id.errors %}
+        <div style="color:red">{{error}}</div>
+        {% endfor %}
+        {% endif %}
+      {{form.id.label}}: {{form.id(placeholder="username")}} <br />
+      {{form.password.label}}: {{form.password()}} <br />
+      {{form.submit}}<br />
+    </form>
+  
+{% endblock %}

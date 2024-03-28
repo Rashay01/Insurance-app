@@ -20,13 +20,13 @@ app.config["SECRET_KEY"] = os.environ.get("MY_SECRET_KEY")
 
 # db = SQLAlchemy(app)
 
-try:
-    with app.app_context():
-        # Use text() to explicitly declare your SQL command
-        result = db.session.execute(text("SELECT 1")).fetchall()
-        print("Connection successful:", result)
-except Exception as e:
-    print("Error connecting to the database:", e)
+# try:
+#     with app.app_context():
+#         # Use text() to explicitly declare your SQL command
+#         result = db.session.execute(text("SELECT 1")).fetchall()
+#         print("Connection successful:", result)
+# except Exception as e:
+#     print("Error connecting to the database:", e)
 
 users = [
     {
@@ -34,14 +34,14 @@ users = [
         "name": "Rashay",
         "surname": "Daya",
         "email": "rashay.jcdaya@gmail.com",
-        "password": "Pass01",
+        "password": "Password01",
     },
     {
         "id": "0101165410082",
         "name": "Rashay1",
         "surname": "Daya1",
         "email": "rashay.jcdaya@gmail.com1",
-        "password": "Pass011",
+        "password": "Password1!",
     },
 ]
 
@@ -201,27 +201,57 @@ def contact():
     return render_template("contact.html", curr_page="contact")
 
 
-# next two methods are for logging in
-@app.route("/login", methods=["GET"])
-def login():
-    return render_template("login.html", curr_page="login")
-
-
-@app.route("/dashboard", methods=["POST"])
-def dashboard():
-    id_num = request.form.get("id_num")
-    password = request.form.get("password")
-    filtered_user = next(
-        (
-            user
-            for user in users
-            if (user["id"] == id_num) and (user["password"] == password)
-        ),
-        None,
+class LoginForm(FlaskForm):
+    username = StringField("Username", validators=[InputRequired(), Length(min=6)])
+    password = PasswordField(
+        "Password", validators=[InputRequired(), Length(min=8, max=12)]
     )
-    if filtered_user is None:
-        return redirect("/login")
-    lg_user.update(filtered_user)
+    submit = SubmitField("Login")
+
+    def validate_username(self, field):
+        raise ValidationError("Username taken")
+
+    def validate_password(self, field):
+        raise ValidationError("Username taken")
+
+    # def validate_id(self, field):
+    #     print(field.value)
+    #     # found_user = next((user for user in users if user["id"] == field.data), None)
+    #     # if not found_user:
+    #     raise ValidationError("Invalid Credentials")
+
+    def validate_password(self, field):
+        print(field.value)
+        found_user = next(
+            (
+                user
+                for user in users
+                if (user["id"] == self.id.data) and (user["password"] == field.data)
+            ),
+            None,
+        )
+        if not found_user:
+            raise ValidationError("Invalid Credentials")
+
+
+# next two methods are for logging in
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit:
+        id_num = form.username.data
+        filtered_user = next(
+            (user for user in users if user["id"] == id_num),
+            None,
+        )
+        if filtered_user:
+            lg_user.update(filtered_user)
+            return redirect("/dashboard")
+    return render_template("login.html", curr_page="login", form=form)
+
+
+@app.route("/dashboard")
+def dashboard():
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
 
@@ -252,6 +282,31 @@ def specific_policies(id):
         return render_template(
             "policy.html", curr_page="all polices", policy=filtered_policy
         )
+
+
+class RegistrationForm(FlaskForm):
+    id = StringField("Username", validators=[InputRequired(), Length(min=6)])
+    password = PasswordField(
+        "Password", validators=[InputRequired(), Length(min=8, max=12)]
+    )
+    submit = SubmitField("Sign Up")
+
+    # def validate <field name>
+    def validate_id(self, field):
+        print(field.id)
+        user_found = next((user for user in users if user["id"] == field.data), None)
+        if user_found:
+            raise ValidationError("Username taken")
+
+
+@app.route("/registration", methods=["GET", "POST"])
+def registration_page():
+    form = RegistrationForm()
+
+    if form.validate_on_submit():
+        return "<h2>Success</h2>"
+
+    return render_template("registration.html", form=form)
 
 
 # @app.route("/all-polices", methods=["POST"])

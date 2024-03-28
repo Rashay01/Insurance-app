@@ -1,12 +1,35 @@
-{% extends 'base.html' %} {% block body%}
+<!-- {% extends 'base.html' %} 
+{% block body%} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    <h2>Login</h2>
+    <form action="" method="POST">
+      {% if form.username.errors %}
+          {% for error in form.username.errors %}
+          <div style="color:red">{{error}}</div>
+          {% endfor %}
+          {% endif %}
+  
+          {% if form.password.errors %}
+          {% for error in form.password.errors %}
+          <div style="color:red">{{error}}</div>
+          {% endfor %}
+          {% endif %}
+      {{form.username.label}}: {{form.username()}}
+      {{form.password.label}}: {{form.password()}}
+      {{form.submit}}
+    </form>
+  </div>
+  
+</body>
+</html>
 
-<div>
-  <h2>Login</h2>
-  <form action="{{url_for('dashboard')}}" method="POST">
-    <input type="text" name="id_num" placeholder="id_num" />
-    <input type="password" name="password" placeholder="password" />
-    <button type="submit">Login</button>
-  </form>
-</div>
 
-{% endblock %}
+<!-- {% endblock %} -->

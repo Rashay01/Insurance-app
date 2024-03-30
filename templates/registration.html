@@ -1,15 +1,22 @@
-{% extends 'base.html' %} 
-{% block body%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
     <h1>Registration</h1>
     <form action="" method="POST">
-        {% if form.id.errors %}
-        {% for error in form.id.errors %}
-        <div style="color:red">{{error}}</div>
-        {% endfor %}
-        {% endif %}
-      {{form.id.label}}: {{form.id(placeholder="username")}} <br />
+      <!-- hidden input field -->
+      {{form.hidden_tag()}} {% if form.user_id.errors %} {% for error in
+      form.user_id.errors %}
+      <div style="color: red">{{error}}</div>
+      {% endfor %} {% endif %} {{form.user_id.label}}:
+      {{form.user_id(placeholder="username")}} <br />
       {{form.password.label}}: {{form.password()}} <br />
       {{form.submit}}<br />
     </form>
-  
-{% endblock %}
+  </body>
+</html>

@@ -13,20 +13,19 @@ from wtforms.validators import InputRequired, Length
 load_dotenv()
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = os.environ.get("MY_SECRET_KEY")
+app.config["SECRET_KEY"] = os.environ.get("FORM_SECRET_KEY")
+connection_string = os.environ.get("DATABASE_STRING_TO_CONNECT")
+app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
-# connection_string = os.environ.get("AZURE_DATABASE_URL")
-# app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
+db = SQLAlchemy(app)
 
-# db = SQLAlchemy(app)
-
-# try:
-#     with app.app_context():
-#         # Use text() to explicitly declare your SQL command
-#         result = db.session.execute(text("SELECT 1")).fetchall()
-#         print("Connection successful:", result)
-# except Exception as e:
-#     print("Error connecting to the database:", e)
+try:
+    with app.app_context():
+        # Use text() to explicitly declare your SQL command
+        result = db.session.execute(text("SELECT 1")).fetchall()
+        print("Connection successful:", result)
+except Exception as e:
+    print("Error connecting to the database:", e)
 
 users = [
     {
@@ -166,19 +165,19 @@ quotes = [
 lg_user = {}
 
 
-# class User(db.Model):
-#     __tablename__ = "users"
-#     id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
-#     username = db.Column(db.String(50), nullable=False, unique=True)  # should be 50
-#     password = db.Column(db.String(100), nullable=False)
+class User(db.Model):
+    __tablename__ = "tbl_user"
+    id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
+    name = db.Column(db.String(50), nullable=False)  # should be 50
+    password = db.Column(db.String(100), nullable=False)
 
-#     # JSON - Keys
-#     def to_dict(self):
-#         return {
-#             "id": self.id,
-#             "username": self.username,
-#             "password": self.password,
-#         }
+    # JSON - Keys
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "password": self.password,
+        }
 
 
 from users_bp import users_bp
@@ -200,54 +199,6 @@ def about():
 def contact():
     return render_template("contact.html", curr_page="contact")
 
-
-class LoginForm(FlaskForm):
-    username = StringField("Username", validators=[InputRequired(), Length(min=6)])
-    password = PasswordField(
-        "Password", validators=[InputRequired(), Length(min=8, max=12)]
-    )
-    submit = SubmitField("Login")
-
-    def validate_username(self, field):
-        raise ValidationError("Username taken")
-
-    def validate_password(self, field):
-        raise ValidationError("Username taken")
-
-    # def validate_id(self, field):
-    #     print(field.value)
-    #     # found_user = next((user for user in users if user["id"] == field.data), None)
-    #     # if not found_user:
-    #     raise ValidationError("Invalid Credentials")
-
-    def validate_password(self, field):
-        print(field.value)
-        found_user = next(
-            (
-                user
-                for user in users
-                if (user["id"] == self.id.data) and (user["password"] == field.data)
-            ),
-            None,
-        )
-        if not found_user:
-            raise ValidationError("Invalid Credentials")
-
-
-# next two methods are for logging in
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit:
-        id_num = form.username.data
-        filtered_user = next(
-            (user for user in users if user["id"] == id_num),
-            None,
-        )
-        if filtered_user:
-            lg_user.update(filtered_user)
-            return redirect("/dashboard")
-    return render_template("login.html", curr_page="login", form=form)
 
 
 @app.route("/dashboard")
@@ -283,16 +234,15 @@ def specific_policies(id):
             "policy.html", curr_page="all polices", policy=filtered_policy
         )
 
-
+#----------------------------------------------------------------------------------User Registration
 class RegistrationForm(FlaskForm):
-    id = StringField("Username", validators=[InputRequired(), Length(min=6)])
+    user_id = StringField("ID Number", validators=[InputRequired(), Length(min=6)])
     password = PasswordField(
         "Password", validators=[InputRequired(), Length(min=8, max=12)]
     )
     submit = SubmitField("Sign Up")
 
-    # def validate <field name>
-    def validate_id(self, field):
+    def validate_user_id(self, field):
         print(field.id)
         user_found = next((user for user in users if user["id"] == field.data), None)
         if user_found:
@@ -304,11 +254,40 @@ def registration_page():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        return "<h2>Success</h2>"
+        return redirect("/login") #TODO CREATE a successful registered page that then takes to user 
 
     return render_template("registration.html", form=form)
 
+#------------------------------------------------------------------------------------------User Login
 
+class LoginForm(FlaskForm):
+    user_id = StringField("ID Number", validators=[InputRequired(), Length(min=6)])
+    password = PasswordField(
+        "Password", validators=[InputRequired(), Length(min=8, max=12)]
+    )
+    submit = SubmitField("Sign Up")
+
+    def validate_user_id(self, field):
+        print(field.data)
+        user_found = next((user for user in users if user["id"] == field.data), None)
+        if not user_found:
+            raise ValidationError("Invalid credentials")
+    
+    def validate_password(self, field):
+        user_found = next((user for user in users if (user["password"] == field.data) and (user["id"] == self.user_id.data)), None)
+        if not user_found:
+            raise ValidationError("Invalid credentials")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login_page():
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        return "<h2>Success</h2>"
+
+    return render_template("login.html", form=form)
+#-------------------------------------------------------------------------------------------------------
 # @app.route("/all-polices", methods=["POST"])
 # def remove_specific_policies(id):
 #     filtered_policy = next((policy for policy in policies if policy["id"] == int(id)), None)

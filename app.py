@@ -189,7 +189,7 @@ class User(db.Model):
 class Quote(db.Model):
     __tablename__ = "quote"
     quote_id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
-    quote_date = db.Column(db.String(50), nullable= False)
+    quote_date = db.Column(db.String(50), nullable= False, default= func.now())
     quoted_premium = db.Column(db.Float, nullable=False)
     quote_decision_date = db.Column(db.String(50))
     status = db.Column(db.String(30))
@@ -204,12 +204,36 @@ class Quote(db.Model):
             "status":self.status,
             "customer_id":self.customer_id,
         }
+    
+class Item(db.Model):
+    __tablename__ = "items"
+    item_id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
+    category_id= db.Column(db.Integer, nullable=False) #int NOT NULL FOREIGN KEY REFERENCES category(category_id),
+    item_name = db.Column(db.String(50), nullable =False)
+    item_desc = db.Column(db.String(500))
+    item_value = db.Column(db.Float, nullable=False)
+    policy_id = db.Column(db.String(50)) #FOREIGN KEY REFERENCES policy(policy_id),
+    quote_id = db.Column(db.String(50), nullable=False) # FOREIGN KEY REFERENCES quote(quote_id)
+
+    def to_dict(self):
+        return{
+            "item_id":self.item_id,
+            "category_id":self.category_id,
+            "item_name":self.item_name,
+            "item_desc":self.item_desc,
+            "item_value":self.item_value,
+            "policy_id":self.policy_id,
+            "quote_id":self.quote_id,
+        }
 
 from users_bp import users_bp
 from quotes_bp import quotes_bp
+from items_bp import items_bp
 
+#REST API's
 app.register_blueprint(users_bp, url_prefix="/users")
 app.register_blueprint(quotes_bp, url_prefix="/quotes")
+app.register_blueprint(items_bp, url_prefix="/items")
 
 
 @app.route("/")
@@ -234,12 +258,9 @@ def dashboard():
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
 # class QuoteForm(FlaskForm):
-#     quote_id = varchar(50) NOT NULL PRIMARY KEY,
-#     quote_date Date Not NUll,
-#     quoted_premium float Not Null,
-# 	quote_decision_date Date,
-# 	status varchar(30),
 # 	customer_id varchar(50) Not Null FOREIGN KEY REFERENCES users(ID)
+
+
 @app.route('/quote', methods=["GET","POST"])
 def new_claim():
     return render_template('new-quote.html')
@@ -348,8 +369,6 @@ def log_in_page():
 #     policies.remove(filtered_policy)
 #     return render_template("all-polices.html", curr_page="all polices", polices=policies)
 
-# -------------------------------------------------------Users-------------------------------------------
-
 
 # ------------------------------------------------------Policies-----------------------------------------
 
@@ -393,6 +412,5 @@ def add_policy():
     return jsonify(policy)
 
 
-# ------------------------------------------------------Quotes-------------------------------------------
 
 

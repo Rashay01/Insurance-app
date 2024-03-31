@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request
 from app import User,db
 
 users_bp = Blueprint("users", __name__)
@@ -6,7 +6,7 @@ users_bp = Blueprint("users", __name__)
 
 @users_bp.get("/")
 def get_users():
-    user_list = User.query.all()  # Select * from movies
+    user_list = User.query.all()
     data = [
         user.to_dict() for user in user_list
     ] 
@@ -32,7 +32,7 @@ def update_specific_user(id):
             if hasattr(user, key):
                 setattr(user, key, value)
         db.session.commit()
-        result = {"message": "updated successfully", "data": user.to_dict()}
+        result = {"message": "User updated successfully", "data": user.to_dict()}
         return jsonify(result)
     except Exception as e:
         db.session.rollback()
@@ -50,7 +50,7 @@ def delete_specific_user(id):
         db.session.commit()
         return jsonify(data)
     except Exception as e:
-        db.session.rollback()  # undo the commit
+        db.session.rollback()
         return {"message": str(e)}, 500
 
 

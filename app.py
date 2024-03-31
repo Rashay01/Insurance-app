@@ -2,12 +2,13 @@ import os
 from flask import Flask, jsonify, request, render_template, redirect, flash
 from datetime import date, timedelta
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import text
+from sqlalchemy.sql import text, func
 from dotenv import load_dotenv
 import uuid
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, ValidationError, EmailField
 from wtforms.validators import InputRequired, Length
+from datetime import datetime
 
 
 load_dotenv()
@@ -162,7 +163,7 @@ quotes = [
     },
 ]
 
-lg_user = {}
+lg_user = {'ID': '0101165410081', 'name': 'Rashay', 'surname': 'Daya', 'email': 'rashay.jcdaya@gmail.com', 'cell_no': '0836681148', 'password': 'password01'}
 
 
 class User(db.Model):
@@ -185,10 +186,30 @@ class User(db.Model):
             "password": self.password,
         }
 
+class Quote(db.Model):
+    __tablename__ = "quote"
+    quote_id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
+    quote_date = db.Column(db.String(50), nullable= False)
+    quoted_premium = db.Column(db.Float, nullable=False)
+    quote_decision_date = db.Column(db.String(50))
+    status = db.Column(db.String(30))
+    customer_id = db.Column(db.String(50), nullable = False) #varchar(50) Not Null FOREIGN KEY REFERENCES users(ID)
+
+    def to_dict(self):
+        return{
+            "quote_id":self.quote_id,
+            "quote_date":self.quote_date,
+            "quoted_premium":self.quoted_premium,
+            "quote_decision_date":self.quote_decision_date,
+            "status":self.status,
+            "customer_id":self.customer_id,
+        }
 
 from users_bp import users_bp
+from quotes_bp import quotes_bp
 
 app.register_blueprint(users_bp, url_prefix="/users")
+app.register_blueprint(quotes_bp, url_prefix="/quotes")
 
 
 @app.route("/")
@@ -209,14 +230,26 @@ def contact():
 
 @app.route("/dashboard")
 def dashboard():
+    print(lg_user)
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
+
+# class QuoteForm(FlaskForm):
+#     quote_id = varchar(50) NOT NULL PRIMARY KEY,
+#     quote_date Date Not NUll,
+#     quoted_premium float Not Null,
+# 	quote_decision_date Date,
+# 	status varchar(30),
+# 	customer_id varchar(50) Not Null FOREIGN KEY REFERENCES users(ID)
+@app.route('/quote', methods=["GET","POST"])
+def new_claim():
+    return render_template('new-quote.html')
 
 
 # all policies pages
 @app.route("/all-polices")
 def all_policies():
     filtered_policies = [
-        policy for policy in policies if policy["user_id"] == lg_user["id"]
+        policy for policy in policies if policy["user_id"] == lg_user["ID"]
     ]
     data = sorted(filtered_policies, key=lambda x: x["active"], reverse=True)
     return render_template("all-polices.html", curr_page="all polices", polices=data)
@@ -253,7 +286,7 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField("Sign Up")
 
     def validate_user_id(self, field):
-        user_found = User.query.get(self.user_id.data)
+        user_found = User.query.get(field.data)
         if user_found:
             raise ValidationError("Username taken")
 
@@ -282,33 +315,30 @@ def registration_page():
 
     return render_template("registration.html", form=form)
 
-#------------------------------------------------------------------------------------------User Login
+#-----------------------------------TODO------------------------------------------------------User Login
 
-class LoginForm(FlaskForm):
-    user_id = StringField("ID Number", validators=[InputRequired(), Length(min=6)])
-    password = PasswordField(
-        "Password", validators=[InputRequired(), Length(min=8, max=12)]
+class LogInForm(FlaskForm):
+    lg_user_id = StringField("ID Number", validators=[InputRequired(),Length(min=1)])
+    lg_password = PasswordField(
+        "Password", validators=[InputRequired(), Length(min=8)]
     )
-    submit = SubmitField("Sign Up")
+    loggin = SubmitField("Sign Up")
 
-    def validate_user_id(self, field):
-        print(field.data)
-        user_found = next((user for user in users if user["id"] == field.data), None)
-        if not user_found:
-            raise ValidationError("Invalid credentials")
-    
-    def validate_password(self, field):
-        user_found = next((user for user in users if (user["password"] == field.data) and (user["id"] == self.user_id.data)), None)
-        if not user_found:
-            raise ValidationError("Invalid credentials")
+
 
 
 @app.route("/login", methods=["GET", "POST"])
-def login_page():
-    form = LoginForm()
-
-    if form.validate_on_submit():
-        return "<h2>Success</h2>"
+def log_in_page():
+    form = LogInForm()
+    if request.method =="POST":
+         logged_in_user = User.query.get("0101165410081").to_dict()
+         lg_user.update(logged_in_user)
+         
+         return redirect('/dashboard')
+         print(form.validate_on_submit())
+         if form.validate_on_submit():
+            return redirect("/")
+   
 
     return render_template("login.html", form=form)
 #-------------------------------------------------------------------------------------------------------
@@ -366,40 +396,3 @@ def add_policy():
 # ------------------------------------------------------Quotes-------------------------------------------
 
 
-@app.get("/quotes")
-def get_quote():
-    return jsonify(quotes)
-
-
-@app.get("/quotes/<id>")
-def get_specific_quote(id):
-    quote = next((quote for quote in quotes if quote["id"] == id), None)
-    if quote is None:
-        return jsonify({"message": "quotes Not found"}), 404
-    return jsonify(quote)
-
-
-@app.put("/quotes/<id>")
-def update_specific_quote(id):
-    policy_update = request.json()
-    quote = next((quotes for quote in quotes if quote["id"] == id), None)
-    if quote is None:
-        return jsonify({"message": "quotes Not found"}), 404
-    quote.update(policy_update)
-    return jsonify(quote)
-
-
-@app.delete("/quotes/<id>")
-def delete_specific_quote(id):
-    quote = next((quote for quote in quotes if quote["id"] == id), None)
-    if quote is None:
-        return jsonify({"message": "quote Not found"}), 404
-    users.update(quote)
-    return jsonify(quote)
-
-
-@app.post("/quotes")
-def add_quote():
-    quote = request.json()
-    users.append(quote)
-    return jsonify(quote)

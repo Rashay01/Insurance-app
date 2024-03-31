@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, current_app
-from app import User,db,users
+from app import User,db
 
 users_bp = Blueprint("users", __name__)
 
@@ -26,7 +26,7 @@ def update_specific_user(id):
     user_update = request.json
     user = User.query.get(id)
     if user is None:
-        return jsonify({"message": "Movie Not found"}), 404
+        return jsonify({"message": "User Not found"}), 404
     try:
         for key, value in user_update.items():
             if hasattr(user, key):
@@ -43,7 +43,7 @@ def update_specific_user(id):
 def delete_specific_user(id):
     user = User.query.get(id)
     if user is None:
-        return jsonify({"message": "Movie Not found"}), 404
+        return jsonify({"message": "User Not found"}), 404
     try:
         data = user.to_dict()
         db.session.delete(user)
@@ -57,13 +57,11 @@ def delete_specific_user(id):
 @users_bp.post("/")
 def add_user():
     data = request.json
-    print(data)
     new_user= User(**data)
-    print(new_user)
     try:
         db.session.add(new_user)
         db.session.commit()
-        result = {"message": "added successfully", "data": new_user.to_dict()}
+        result = {"message": "User added successfully", "data": new_user.to_dict()}
         return jsonify(result), 201
     except Exception as e:
         return jsonify({"message": str(e)}), 500

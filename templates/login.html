@@ -9,15 +9,15 @@
   <body>
     <h1>Login</h1>
     <form action="" method="POST">
-      {% if form.user_id.errors %} {% for error in form.user_id.errors %}
+      {% if form.lg_user_id.errors %} {% for error in form.lg_user_id.errors %}
       <div style="color: red">{{error}}</div>
-      {% endfor %} {% endif %} {% if form.password.errors %} {% for error in
-      form.password.errors %}
+      {% endfor %} {% endif %} {% if form.lg_password.errors %} {% for error in
+      form.lg_password.errors %}
       <div style="color: red">{{error}}</div>
-      {% endfor %} {% endif %} {{form.user_id.label}}:
-      {{form.user_id(placeholder="username")}} <br />
-      {{form.password.label}}: {{form.password()}} <br />
-      {{form.submit}}<br />
+      {% endfor %} {% endif %} {{form.lg_user_id.label}}:
+      {{form.lg_user_id(placeholder="username")}} <br />
+      {{form.lg_password.label}}: {{form.lg_password()}} <br />
+      {{form.loggin}}<br />
     </form>
   </body>
 </html>

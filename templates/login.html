@@ -9,7 +9,8 @@
   <body>
     <h1>Login</h1>
     <form action="" method="POST">
-      {% if form.lg_user_id.errors %} {% for error in form.lg_user_id.errors %}
+      {{ form.hidden_tag() }} {% if form.lg_user_id.errors %} {% for error in
+      form.lg_user_id.errors %}
       <div style="color: red">{{error}}</div>
       {% endfor %} {% endif %} {% if form.lg_password.errors %} {% for error in
       form.lg_password.errors %}

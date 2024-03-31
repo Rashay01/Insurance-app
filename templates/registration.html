@@ -13,8 +13,12 @@
       {{form.hidden_tag()}} {% if form.user_id.errors %} {% for error in
       form.user_id.errors %}
       <div style="color: red">{{error}}</div>
-      {% endfor %} {% endif %} {{form.user_id.label}}:
-      {{form.user_id(placeholder="username")}} <br />
+      {% endfor %} {% endif %} <br />
+      {{form.user_id.label}}: {{form.user_id(placeholder="username")}} <br />
+      {{form.name.label}}: {{form.name(placeholder="username")}} <br />
+      {{form.surname.label}}: {{form.surname(placeholder="username")}} <br />
+      {{form.email.label}}: {{form.email(placeholder="username")}} <br />
+      {{form.cell_no.label}}: {{form.cell_no(placeholder="username")}} <br />
       {{form.password.label}}: {{form.password()}} <br />
       {{form.submit}}<br />
     </form>

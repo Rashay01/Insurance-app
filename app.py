@@ -6,7 +6,7 @@ from sqlalchemy.sql import text
 from dotenv import load_dotenv
 import uuid
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, ValidationError
+from wtforms import StringField, PasswordField, SubmitField, ValidationError, EmailField
 from wtforms.validators import InputRequired, Length
 
 
@@ -167,7 +167,7 @@ lg_user = {}
 
 class User(db.Model):
     __tablename__ = "users"
-    ID = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
+    ID = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(50), nullable=False)  # should be 50
     surname = db.Column(db.String(50), nullable=False)  # should be 50
     email = db.Column(db.String(50), nullable=False)  # should be 50
@@ -242,15 +242,18 @@ def specific_policies(id):
 
 #----------------------------------------------------------------------------------User Registration
 class RegistrationForm(FlaskForm):
-    user_id = StringField("ID Number", validators=[InputRequired(), Length(min=6)])
+    user_id = StringField("ID Number", validators=[InputRequired(), Length(min=13, max=13)])
+    name = StringField("Name", validators=[InputRequired(),Length(min=1)])
+    surname = StringField("Surname", validators=[InputRequired(),Length(min=1)])
+    email = EmailField("Email", validators=[InputRequired(),Length(min=8)])
+    cell_no = StringField("Phone Number", validators=[InputRequired(),Length(min=8)])
     password = PasswordField(
         "Password", validators=[InputRequired(), Length(min=8, max=12)]
     )
     submit = SubmitField("Sign Up")
 
     def validate_user_id(self, field):
-        print(field.id)
-        user_found = next((user for user in users if user["id"] == field.data), None)
+        user_found = User.query.get(self.user_id.data)
         if user_found:
             raise ValidationError("Username taken")
 
@@ -260,7 +263,22 @@ def registration_page():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        return redirect("/login") #TODO CREATE a successful registered page that then takes to user 
+        data = {
+            'ID': form.user_id.data,
+            'name': form.name.data,
+            'surname': form.surname.data,
+            'email': form.email.data,
+            'cell_no': form.cell_no.data,
+            'password': form.password.data,
+        }
+        try:
+            new_user = User(**data)
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect("/login")
+        except Exception as e:
+            db.session.rollback()
+            return f"<h2>Error Occurred {e}</h2>" 
 
     return render_template("registration.html", form=form)
 

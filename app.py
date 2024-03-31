@@ -166,16 +166,22 @@ lg_user = {}
 
 
 class User(db.Model):
-    __tablename__ = "tbl_user"
-    id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
+    __tablename__ = "users"
+    ID = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
     name = db.Column(db.String(50), nullable=False)  # should be 50
+    surname = db.Column(db.String(50), nullable=False)  # should be 50
+    email = db.Column(db.String(50), nullable=False)  # should be 50
+    cell_no = db.Column(db.String(50), nullable=False)  # should be 50
     password = db.Column(db.String(100), nullable=False)
 
     # JSON - Keys
     def to_dict(self):
         return {
-            "id": self.id,
+            "ID": self.ID,
             "name": self.name,
+            "surname": self.surname,
+            "email": self.email,
+            "cell_no":self.cell_no,
             "password": self.password,
         }
 

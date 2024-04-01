@@ -165,7 +165,42 @@ quotes = [
 
 lg_user = {'ID': '0101165410081', 'name': 'Rashay', 'surname': 'Daya', 'email': 'rashay.jcdaya@gmail.com', 'cell_no': '0836681148', 'password': 'password01'}
 
+class Category(db.Model):
+    __tablename__ = "category"
+    category_id = db.Column(db.Integer, primary_key=True)
+    category_name = db.Column(db.String(50), nullable=False)
+    category_desc = db.Column(db.String(500))
+    premium_percentage = db.Column(db.Float, nullable= False)
 
+    def to_dict(self):
+        return{
+            "category_id":self.category_id,
+            "category_name":self.category_name,
+            "category_desc":self.category_desc,
+            "premium_percentage":self.premium_percentage,
+        }
+
+class Item(db.Model):
+    __tablename__ = "items"
+    item_id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
+    category_id= db.Column(db.Integer, nullable=False) #int NOT NULL FOREIGN KEY REFERENCES category(category_id),
+    item_name = db.Column(db.String(50), nullable =False)
+    item_desc = db.Column(db.String(500))
+    item_value = db.Column(db.Float, nullable=False)
+    policy_id = db.Column(db.String(50)) #FOREIGN KEY REFERENCES policy(policy_id),
+    quote_id = db.Column(db.String(50), nullable=False) # FOREIGN KEY REFERENCES quote(quote_id)
+
+    def to_dict(self):
+        return{
+            "item_id":self.item_id,
+            "category_id":self.category_id,
+            "item_name":self.item_name,
+            "item_desc":self.item_desc,
+            "item_value":self.item_value,
+            "policy_id":self.policy_id,
+            "quote_id":self.quote_id,
+        }
+      
 class User(db.Model):
     __tablename__ = "users"
     ID = db.Column(db.String(50), primary_key=True)
@@ -205,40 +240,8 @@ class Quote(db.Model):
             "customer_id":self.customer_id,
         }
     
-class Item(db.Model):
-    __tablename__ = "items"
-    item_id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
-    category_id= db.Column(db.Integer, nullable=False) #int NOT NULL FOREIGN KEY REFERENCES category(category_id),
-    item_name = db.Column(db.String(50), nullable =False)
-    item_desc = db.Column(db.String(500))
-    item_value = db.Column(db.Float, nullable=False)
-    policy_id = db.Column(db.String(50)) #FOREIGN KEY REFERENCES policy(policy_id),
-    quote_id = db.Column(db.String(50), nullable=False) # FOREIGN KEY REFERENCES quote(quote_id)
 
-    def to_dict(self):
-        return{
-            "item_id":self.item_id,
-            "category_id":self.category_id,
-            "item_name":self.item_name,
-            "item_desc":self.item_desc,
-            "item_value":self.item_value,
-            "policy_id":self.policy_id,
-            "quote_id":self.quote_id,
-        }
-class Category(db.Model):
-    __tablename__ = "category"
-    category_id = db.Column(db.Integer, primary_key=True)
-    category_name = db.Column(db.String(50), nullable=False)
-    category_desc = db.Column(db.String(500))
-    premium_percentage = db.Column(db.Float, nullable= False)
 
-    def to_dict(self):
-        return{
-            "category_id":self.category_id,
-            "category_name":self.category_name,
-            "category_desc":self.category_desc,
-            "premium_percentage":self.premium_percentage,
-        }
 
 from users_bp import users_bp
 from quotes_bp import quotes_bp

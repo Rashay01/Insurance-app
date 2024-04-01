@@ -28,22 +28,6 @@ try:
 except Exception as e:
     print("Error connecting to the database:", e)
 
-users = [
-    {
-        "id": "0101165410081",
-        "name": "Rashay",
-        "surname": "Daya",
-        "email": "rashay.jcdaya@gmail.com",
-        "password": "Password01",
-    },
-    {
-        "id": "0101165410082",
-        "name": "Rashay1",
-        "surname": "Daya1",
-        "email": "rashay.jcdaya@gmail.com1",
-        "password": "Password1!",
-    },
-]
 
 policies = [
     {
@@ -96,72 +80,6 @@ policies = [
     },
 ]
 
-quotes = [
-    {
-        "id": 1,
-        "user_id": "0101165410081",
-        "date": "2023-01-3",
-        "price": 1798,
-        "num_years": 5,
-        "status": "accepted",
-        "items": [
-            {
-                "id": 1,
-                "name": "watch",
-                "item_price": 30009,
-                "description": "a vintage watch",
-            }
-        ],
-    },
-    {
-        "id": 2,
-        "user_id": "0101165410081",
-        "date": "2023-01-4",
-        "price": 2000,
-        "num_years": 5,
-        "status": "waiting",
-        "items": [
-            {
-                "id": 1,
-                "name": "Car",
-                "item_price": 30009,
-                "description": "a vintage watch",
-            }
-        ],
-    },
-    {
-        "id": 3,
-        "user_id": "0101165410082",
-        "date": "2023-01-3",
-        "price": 1798,
-        "num_years": 5,
-        "status": "declined",
-        "items": [
-            {
-                "id": 1,
-                "name": "watch",
-                "item_price": 30009,
-                "description": "a vintage watch",
-            }
-        ],
-    },
-    {
-        "id": 4,
-        "user_id": "0101165410081",
-        "date": "2023-01-3",
-        "price": 1798,
-        "num_years": 5,
-        "status": "declined",
-        "items": [
-            {
-                "id": 1,
-                "name": "watch",
-                "item_price": 30009,
-                "description": "a vintage watch",
-            }
-        ],
-    },
-]
 
 lg_user = {'ID': '0101165410081', 'name': 'Rashay', 'surname': 'Daya', 'email': 'rashay.jcdaya@gmail.com', 'cell_no': '0836681148', 'password': 'password01'}
 
@@ -297,6 +215,7 @@ def dashboard():
     print(lg_user)
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
+# -----------------------------------------------------------------------------------Quotes
 class QuoteForm(FlaskForm):
     item_name = StringField("Item Name",validators=[InputRequired(),Length(min=1)])
     item_description = StringField("Item Description")
@@ -346,7 +265,7 @@ def get_new_quote():
     return render_template('new-quote.html', form=forms, cat_choice=category_tup)
 
 
-# all policies pages
+# -----------------------------------------------------------------------------------------all policies pages
 @app.route("/all-polices")
 def all_policies():
     filtered_policies = [
@@ -453,6 +372,8 @@ def log_in_page():
 
 @app.get("/testing")
 def testing_app():
+    #TODO JOin 
+    new_data = Quote.query.join()
     data = [
         (category.to_dict()['category_id'], category.to_dict()['category_name']) for category in Category.query.all()
     ]

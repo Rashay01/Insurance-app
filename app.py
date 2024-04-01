@@ -276,6 +276,7 @@ from quotes_bp import quotes_bp
 from items_bp import items_bp
 from category_bp import category_bp
 from policies_bp import policies_bp
+from common_bp import common_bp
 
 #REST API's
 app.register_blueprint(users_bp, url_prefix="/users")
@@ -284,20 +285,10 @@ app.register_blueprint(items_bp, url_prefix="/items")
 app.register_blueprint(category_bp, url_prefix="/category")
 app.register_blueprint(policies_bp, url_prefix="/policies")
 
-
-@app.route("/")
-def home():
-    return render_template("landing.html", curr_page="home")
+# Html DIsplays
+app.register_blueprint(common_bp)
 
 
-@app.route("/about/")
-def about():
-    return render_template("about.html", curr_page="about")
-
-
-@app.route("/contact")
-def contact():
-    return render_template("contact.html", curr_page="contact")
 
 
 

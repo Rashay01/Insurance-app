@@ -7,5 +7,16 @@
   </head>
   <body>
     <h1>Quote</h1>
+    <form action="" method="POST">
+      {{ form.hidden_tag() }}
+      <select name="category">
+        {% for category in cat_choice %}
+        <option value="{{category[0]}}">{{category[1]}}</option>
+        {% endfor %}
+      </select>
+      {{form.item_name.label}} {{form.item_name()}}
+      {{form.item_description.label}} {{form.item_description()}}
+      {{form.item_value.label}} {{form.item_value()}} {{form.new_item()}}
+    </form>
   </body>
 </html>

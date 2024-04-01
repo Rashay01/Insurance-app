@@ -6,8 +6,8 @@ from sqlalchemy.sql import text, func
 from dotenv import load_dotenv
 import uuid
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, ValidationError, EmailField
-from wtforms.validators import InputRequired, Length
+from wtforms import StringField, PasswordField, SubmitField, ValidationError, EmailField, SelectField, FloatField
+from wtforms.validators import InputRequired, Length 
 from datetime import datetime
 
 
@@ -257,9 +257,20 @@ class Policy(db.Model):
             "policy_end_date":self.policy_end_date,
             "active":self.active,
             "customer_id":self.customer_id,
-        } 
+        }
+
+category_tup =[] 
+   
+def populate_categories_tuple():
+    global category_tup
+    category_tup = [
+        (category.to_dict()['category_id'], category.to_dict()['category_name']) for category in Category.query.all()
+    ]
+    
+        
 
 
+# Blue Prints imports
 from users_bp import users_bp
 from quotes_bp import quotes_bp
 from items_bp import items_bp
@@ -295,13 +306,53 @@ def dashboard():
     print(lg_user)
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
-# class QuoteForm(FlaskForm):
-# 	customer_id varchar(50) Not Null FOREIGN KEY REFERENCES users(ID)
+class QuoteForm(FlaskForm):
+    item_name = StringField("Item Name",validators=[InputRequired(),Length(min=1)])
+    item_description = StringField("Item Description")
+    item_value = FloatField("Item Value")
+    new_item = SubmitField("Get Quote")
+    
+    def validate_item_value(self, field):
+        if field.data <= 0:
+            ValidationError("Amount should be grater than zero")
 
 
 @app.route('/quote', methods=["GET","POST"])
-def new_claim():
-    return render_template('new-quote.html')
+def get_new_quote():
+    populate_categories_tuple()
+    forms = QuoteForm()
+    if request.method == "POST" and forms.validate_on_submit():
+        try:
+            category_selected = request.form.get("category")
+            category = Category.query.get(category_selected).to_dict()
+
+            item_value = forms.item_value.data
+            quote_premium = item_value*category['premium_percentage']
+            quote_id = str(uuid.uuid4())
+            quote = {
+                "quote_id" : quote_id,
+                "quoted_premium" : quote_premium,
+                "status" : "Deciding",
+                "customer_id": lg_user["ID"],
+            }
+            item = {
+                "category_id":category_selected,
+                "item_name":forms.item_name.data,
+                "item_desc":forms.item_description.data,
+                "item_value":item_value,
+                "quote_id":quote_id,
+            }
+            new_quote = Quote(**quote)
+            new_item = Item(**item)
+            db.session.add(new_quote)
+            db.session.commit()
+            db.session.add(new_item)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            return f"<h2>Error</h2><p>{str(e)}</p>"
+        return f"<h1>Success {category_selected} {quote_premium}</h1>"
+    return render_template('new-quote.html', form=forms, cat_choice=category_tup)
 
 
 # all policies pages
@@ -409,3 +460,12 @@ def log_in_page():
 
 
 
+@app.get("/testing")
+def testing_app():
+    data = [
+        (category.to_dict()['category_id'], category.to_dict()['category_name']) for category in Category.query.all()
+    ]
+    print(data)
+    populate_categories_tuple()
+    print(category_tup)
+    return jsonify(data) 

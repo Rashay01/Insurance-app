@@ -240,19 +240,38 @@ class Quote(db.Model):
             "customer_id":self.customer_id,
         }
     
+class Policy(db.Model):
+    __tablename__ = "policy"
+    policy_id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
+    policy_date = db.Column(db.DateTime, nullable=False)
+    monthly_premium = db.Column(db.Float, nullable=False)
+    policy_end_date = db.Column(db.DateTime)
+    active = db.Column(db.Boolean, default =True)
+    customer_id = db.Column(db.String(50), nullable=False)#FOREIGN KEY REFERENCES users(ID)
 
+    def to_dict(self):
+        return{
+            "policy_id":self.policy_id,
+            "policy_date":self.policy_date,
+            "monthly_premium":self.monthly_premium,
+            "policy_end_date":self.policy_end_date,
+            "active":self.active,
+            "customer_id":self.customer_id,
+        } 
 
 
 from users_bp import users_bp
 from quotes_bp import quotes_bp
 from items_bp import items_bp
 from category_bp import category_bp
+from policies_bp import policies_bp
 
 #REST API's
 app.register_blueprint(users_bp, url_prefix="/users")
 app.register_blueprint(quotes_bp, url_prefix="/quotes")
 app.register_blueprint(items_bp, url_prefix="/items")
 app.register_blueprint(category_bp, url_prefix="/category")
+app.register_blueprint(policies_bp, url_prefix="/policies")
 
 
 @app.route("/")
@@ -387,49 +406,6 @@ def log_in_page():
 #     filtered_policy = next((policy for policy in policies if policy["id"] == int(id)), None)
 #     policies.remove(filtered_policy)
 #     return render_template("all-polices.html", curr_page="all polices", polices=policies)
-
-
-# ------------------------------------------------------Policies-----------------------------------------
-
-
-@app.get("/policies")
-def get_policies():
-    return jsonify(policies)
-
-
-@app.get("/policies/<id>")
-def get_specific_policy(id):
-    policy = next((policy for policy in policies if policy["id"] == id), None)
-    if policy is None:
-        return jsonify({"message": "policy Not found"}), 404
-    return jsonify(policy)
-
-
-@app.put("/policies/<id>")
-def update_specific_policy(id):
-    policy_update = request.json
-    user = next((policy for policy in policies if policy["id"] == id), None)
-    if user is None:
-        return jsonify({"message": "policy Not found"}), 404
-    user.update(policy_update)
-    return jsonify(user)
-
-
-@app.delete("/policies/<id>")
-def delete_specific_policy(id):
-    policy = next((policy for policy in policies if policy["id"] == id), None)
-    if policy is None:
-        return jsonify({"message": "policy Not found"}), 404
-    users.update(policy)
-    return jsonify(policy)
-
-
-@app.post("/policies")
-def add_policy():
-    policy = request.json
-    users.append(policy)
-    return jsonify(policy)
-
 
 
 

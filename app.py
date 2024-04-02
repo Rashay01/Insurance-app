@@ -2,7 +2,7 @@ import os
 from flask import Flask, jsonify, request, render_template, redirect, flash
 from datetime import date, timedelta
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.sql import text, func
+from sqlalchemy.sql import text, func, Select
 from dotenv import load_dotenv
 import uuid
 from flask_wtf import FlaskForm
@@ -264,6 +264,20 @@ def get_new_quote():
         return f"<h1>Success {category_selected} {quote_premium}</h1>"
     return render_template('new-quote.html', form=forms, cat_choice=category_tup)
 
+@app.route('/all-quotes')
+def get_all_user_policies():
+    new_data = Select(Quote).join(Item,Quote.quote_id==Item.quote_id).distinct().where(Quote.customer_id =="0101165410081").order_by(Quote.quote_id)
+    result = db.session.execute(new_data).fetchall()
+    if len(result)==0:
+        return jsonify({"Message":"No Quotes found"})
+    
+    quotes_data = []
+    for quote in result:
+        data = Item.query.filter_by(quote_id=quote[0].quote_id)
+        ans = [(item.to_dict()['item_id'], item.to_dict()['item_name']) for item in data ]
+        quotes_data.append([quote[0], ans])
+    return render_template('all-quotes.html',quotes_data= quotes_data)
+
 
 # -----------------------------------------------------------------------------------------all policies pages
 @app.route("/all-polices")
@@ -373,11 +387,17 @@ def log_in_page():
 @app.get("/testing")
 def testing_app():
     #TODO JOin 
-    new_data = Quote.query.join()
-    data = [
-        (category.to_dict()['category_id'], category.to_dict()['category_name']) for category in Category.query.all()
-    ]
-    print(data)
-    populate_categories_tuple()
-    print(category_tup)
-    return jsonify(data) 
+    new_data = Select(Quote).join(Item,Quote.quote_id==Item.quote_id).distinct().where(Quote.customer_id =="0101165410081").order_by(Quote.quote_id)
+    result = db.session.execute(new_data).fetchall()
+    if len(result)==0:
+        return jsonify({"Message":"No Quotes found"})
+
+    
+    quotes_data = []
+    for quote in result:
+        data = Item.query.filter_by(quote_id=quote[0].quote_id)
+        ans = [(item.to_dict()['item_id'], item.to_dict()['item_name']) for item in data ]
+        quotes_data.append([quote[0], ans])
+
+    print(quotes_data)
+    return jsonify({"yes":"yes"}) 

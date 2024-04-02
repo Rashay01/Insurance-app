@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <h1>All Quotes</h1>
+    {% for quote, items in quotes_data %}
+    <h2>No: {{quote.quote_id}}</h2>
+    <p>Items</p>
+    {% for item in items %}
+    <p>{{item[1]}}</p>
+    {% endfor %}
+    <p>{{"R{:,.2f}".format(quote.quoted_premium).replace(',',' ')}}</p>
+    {% endfor %}
+  </body>
+</html>

@@ -356,7 +356,7 @@ class LogInForm(FlaskForm):
     lg_password = PasswordField(
         "Password", validators=[InputRequired(), Length(min=8)]
     )
-    loggin = SubmitField("Sign Up")
+    loggin = SubmitField("Login")
 
 
 

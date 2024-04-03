@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, request, current_app
-from app import Quote,db
+from flask import Blueprint, jsonify, request
+from models.quote import Quote
+from extensions import db
 
 quotes_bp = Blueprint("quotes", __name__)
 
@@ -30,10 +31,10 @@ def delete_specific_quote(id):
         data = quote.to_dict()
         db.session.delete(quote)
         db.session.commit()
-        return jsonify(data)
+        return jsonify({"message":"Quote successfully deleted","data":data})
     except Exception as e:
-        db.session.rollback()  # undo the commit
-        return {"message": str(e)}, 500
+        db.session.rollback()  
+        return {"message": "Error occurred","Error": str(e)}, 500
 
 @quotes_bp.post("/")
 def update_the_quote():
@@ -45,7 +46,7 @@ def update_the_quote():
         result = {"message": "User added successfully", "data": new_quote.to_dict()}
         return jsonify(result), 201
     except Exception as e:
-        return jsonify({"message": str(e)}), 500
+        return {"message": "Error occurred","Error": str(e)}, 500
 
 @quotes_bp.put("/<id>")
 def update_specific_quote(id):
@@ -62,4 +63,4 @@ def update_specific_quote(id):
         return jsonify(result)
     except Exception as e:
         db.session.rollback()
-        return {"message": str(e)}, 500
+        return {"message": "Error occurred","Error": str(e)}, 500

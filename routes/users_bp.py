@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
-from app import User,db
+from models.users import User
+from extensions import db
 
 users_bp = Blueprint("users", __name__)
 
@@ -36,7 +37,7 @@ def update_specific_user(id):
         return jsonify(result)
     except Exception as e:
         db.session.rollback()
-        return {"message": str(e)}, 500
+        return {"message": "Error occurred","Error": str(e)}, 500
 
 
 @users_bp.delete("/<id>")
@@ -48,10 +49,10 @@ def delete_specific_user(id):
         data = user.to_dict()
         db.session.delete(user)
         db.session.commit()
-        return jsonify(data)
+        return jsonify({"message":"User successfully deleted","data":data})
     except Exception as e:
         db.session.rollback()
-        return {"message": str(e)}, 500
+        return {"message": "Error occurred","Error": str(e)}, 500
 
 
 @users_bp.post("/")
@@ -64,4 +65,4 @@ def add_user():
         result = {"message": "User added successfully", "data": new_user.to_dict()}
         return jsonify(result), 201
     except Exception as e:
-        return jsonify({"message": str(e)}), 500
+        return {"message": "Error occurred","Error": str(e)}, 500

@@ -57,3 +57,28 @@ CReate Table car_quote(
 vehicle_id varchar(50) NOT NULL Foreign KEY REFERENCES classic_cars(vehicle_id),
 quote_id varchar(50) NOT NULL Foreign KEY REFERENCES quote(quote_id)
 )
+
+
+Insert into users values('0101165410081','Rashay','Daya','rashay.jcdaya@gmail.com','0836681148','12345678','121 Rondebosch')
+
+
+insert into category values('classic cars','antique/colletors cars more than 25 years old and in good condition',0.25)
+
+
+insert into classic_cars(vehicle_id,vehicle_make, model, year_model, vin, license_plate_number, odometer_reading, fuel_type, color, customer_id,current_value,year_purchased)
+values ('as1234-12asd12','Alfa Romeo','Giulietta Spider', '1957','ZARBB32N0M6004488', 'JCD007GP', 246879,'Diesel', 'white', '0101165410081',8000000,'1997-06-16')
+
+insert into classic_cars(vehicle_id,vehicle_make, model, year_model, vin, license_plate_number, odometer_reading, fuel_type, color, customer_id,current_value,year_purchased)
+values ('as1234-12asd13','Mercedes Benz','M Class', '1999','4JGAB54E1XA094195', 'JCD008GP', 246890,'Petrol', 'black', '0101165410081',4500000,'2000-06-17')
+
+Select * from quote;
+insert into quote(quote_id,quote_date,quoted_premium,quote_decision_date,status,category_id) values('qt-001','2024-03-01',18000,'2024-03-05','Accepted',1)
+,('qt-002','2024-04-02',11250,NULL,'Deciding',1)
+
+
+insert into car_quote values('as1234-12asd12','qt-001'),('as1234-12asd13','qt-002')
+
+
+insert into policy(policy_number,policy_date,monthly_premium,category_id) values('pol-001','2024-03-05',18000,1)
+
+update classic_cars set policy_number = 'pol-001' where vehicle_id ='as1234-12asd12'

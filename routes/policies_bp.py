@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
-from app import Policy,db
+from models.policy import Policy
+from extensions import db
 
 policies_bp = Blueprint("policies", __name__)
 
@@ -33,7 +34,7 @@ def update_specific_policies(id):
         return jsonify(result)
     except Exception as e:
         db.session.rollback()
-        return {"message": str(e)}, 500
+        return {"message": "Error occurred","Error": str(e)}, 500
     
 @policies_bp.delete("/<id>")
 def delete_specific_policies(id):
@@ -44,10 +45,10 @@ def delete_specific_policies(id):
         data = policy.to_dict()
         db.session.delete(policy)
         db.session.commit()
-        return jsonify(data)
+        return jsonify({"message":"Category successfully deleted","data":data})
     except Exception as e:
         db.session.rollback()
-        return {"message": str(e)}, 500
+        return {"message": "Error occurred","Error": str(e)}, 500
     
 @policies_bp.post("/")
 def add_policies():
@@ -59,4 +60,4 @@ def add_policies():
         result = {"message": "Policy added successfully", "data": new_policy.to_dict()}
         return jsonify(result), 201
     except Exception as e:
-        return jsonify({"message": str(e)}), 500
+        return {"message": "Error occurred","Error": str(e)}, 500

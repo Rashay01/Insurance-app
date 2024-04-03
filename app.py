@@ -102,7 +102,7 @@ from routes.users_bp import users_bp
 # from items_bp import items_bp
 # from category_bp import category_bp
 # from policies_bp import policies_bp
-# from common_bp import common_bp
+from routes.main_bp import main_bp
 
 #REST API's
 app.register_blueprint(users_bp, url_prefix="/users")
@@ -112,7 +112,7 @@ app.register_blueprint(users_bp, url_prefix="/users")
 # app.register_blueprint(policies_bp, url_prefix="/policies")
 
 # # Html DIsplays jinja Templates
-# app.register_blueprint(common_bp)
+app.register_blueprint(main_bp)
 
 
 

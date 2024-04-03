@@ -1,12 +1,12 @@
 from extensions import db
 import uuid 
 
-class Quote(db.Model):
+class ClassicCars(db.Model):
     __tablename__ = "classic_cars"
     vehicle_id = db.Column(db.String(50), primary_key=True, default=lambda: str(uuid.uuid4()))
     vehicle_make = db.Column(db.String(20),nullable=False)
     model = db.Column(db.String(20),nullable=False)
-    year_model= db.Column(db.DateTime, nullable=False)
+    year_model= db.Column(db.String(4), nullable=False)
     vin = db.Column(db.String(20),nullable=False)
     license_plate_number = db.Column(db.String(10),nullable=False)
     odometer_reading = db.Column(db.Integer, nullable=False)
@@ -14,6 +14,8 @@ class Quote(db.Model):
     color = db.Column(db.String(20))
     policy_number = db.Column(db.String(50))
     customer_id = db.Column(db.String(50))
+    current_value = db.Column(db.Float,nullable=False)
+    year_purchased = db.Column(db.DateTime, nullable=False)
 
     def to_dict(self):
         return{

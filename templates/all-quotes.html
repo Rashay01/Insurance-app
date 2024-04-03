@@ -15,6 +15,7 @@
     <p>{{item[1]}}</p>
     {% endfor %}
     <p>{{"R{:,.2f}".format(quote.quoted_premium).replace(',',' ')}}</p>
+    <a href="/all-quotes/{{quote.quote_id}}">View more</a>
     {% endfor %}
   </body>
 </html>

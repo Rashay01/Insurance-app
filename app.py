@@ -265,7 +265,7 @@ def get_new_quote():
     return render_template('new-quote.html', form=forms, cat_choice=category_tup)
 
 @app.route('/all-quotes')
-def get_all_user_policies():
+def get_all_user_quotes():
     new_data = Select(Quote).join(Item,Quote.quote_id==Item.quote_id).distinct().where(Quote.customer_id =="0101165410081").order_by(Quote.quote_id)
     result = db.session.execute(new_data).fetchall()
     if len(result)==0:
@@ -278,6 +278,18 @@ def get_all_user_policies():
         quotes_data.append([quote[0], ans])
     return render_template('all-quotes.html',quotes_data= quotes_data)
 
+@app.route('/all-quotes/<id>')
+def get_single_user_quote(id):
+    data = Quote.query.get(id)
+    if data is None:
+        return "<h2>Quote not found </h2>"
+    quote = data.to_dict()
+    it_data = Item.query.filter_by(quote_id=id)
+    print(it_data)
+    items = [item.to_dict() for item in it_data]
+    if len(items)==0:
+        return "<h2>Query has no items</h2>"
+    return render_template('quote.html',quote= quote, items=items)
 
 # -----------------------------------------------------------------------------------------all policies pages
 @app.route("/all-polices")

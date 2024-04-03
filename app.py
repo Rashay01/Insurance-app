@@ -99,7 +99,7 @@ lg_user = {'ID': '0101165410081', 'name': 'Rashay', 'surname': 'Daya', 'email': 
 # Blue Prints imports
 from routes.users_bp import users_bp
 from routes.quotes_bp import quotes_bp
-# from items_bp import items_bp
+from routes.classic_car import classic_car_bp
 from routes.category_bp import category_bp
 from routes.policies_bp import policies_bp
 from routes.main_bp import main_bp
@@ -107,7 +107,7 @@ from routes.main_bp import main_bp
 #REST API's
 app.register_blueprint(users_bp, url_prefix="/users")
 app.register_blueprint(quotes_bp, url_prefix="/quotes")
-# app.register_blueprint(items_bp, url_prefix="/items")
+app.register_blueprint(classic_car_bp, url_prefix="/classic-car")
 app.register_blueprint(category_bp, url_prefix="/category")
 app.register_blueprint(policies_bp, url_prefix="/policies")
 

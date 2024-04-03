@@ -19,13 +19,17 @@ class ClassicCars(db.Model):
 
     def to_dict(self):
         return{
+            "vehicle_id": self.vehicle_id,
             "vehicle_make":self.vehicle_make,
             "model":self.model,
             "year_model":self.year_model,
             "vin":self.vin,
             "license_plate_number":self.license_plate_number,
             "odometer_reading":self.odometer_reading,
+            "fuel_type":self.fuel_type,
             "color":self.color,
             "policy_number":self.policy_number,
             "customer_id":self.customer_id,
+            "current_value":self.current_value,
+            "year_purchased":self.year_purchased,
         }

@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
-from app import Category,db
+from models.category import Category
+from extensions import db
 
 category_bp = Blueprint("category", __name__)
 
@@ -33,7 +34,7 @@ def update_specific_category(id):
         return jsonify(result)
     except Exception as e:
         db.session.rollback()
-        return {"message": str(e)}, 500
+        return {"message": "Error occurred","Error": str(e)}, 500
     
 @category_bp.delete("/<id>")
 def delete_specific_category(id):
@@ -44,10 +45,10 @@ def delete_specific_category(id):
         data = category.to_dict()
         db.session.delete(category)
         db.session.commit()
-        return jsonify(data)
+        return jsonify({"message":"Category successfully deleted","data":data})
     except Exception as e:
         db.session.rollback()
-        return {"message": str(e)}, 500
+        return {"message": "Error occurred","Error": str(e)}, 500
     
 @category_bp.post("/")
 def add_category():
@@ -59,4 +60,4 @@ def add_category():
         result = {"message": "Category added successfully", "data": new_category.to_dict()}
         return jsonify(result), 201
     except Exception as e:
-        return jsonify({"message": str(e)}), 500
+        return {"message": "Error occurred","Error": str(e)}, 500

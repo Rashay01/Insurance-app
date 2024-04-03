@@ -102,6 +102,7 @@ from routes.quotes_bp import quotes_bp
 from routes.classic_car import classic_car_bp
 from routes.category_bp import category_bp
 from routes.policies_bp import policies_bp
+from routes.cars_quote_bp import cars_quote_bp
 from routes.main_bp import main_bp
 
 #REST API's
@@ -110,6 +111,7 @@ app.register_blueprint(quotes_bp, url_prefix="/quotes")
 app.register_blueprint(classic_car_bp, url_prefix="/classic-car")
 app.register_blueprint(category_bp, url_prefix="/category")
 app.register_blueprint(policies_bp, url_prefix="/policies")
+app.register_blueprint(cars_quote_bp, url_prefix="/cars-quote")
 
 # # Html DIsplays jinja Templates
 app.register_blueprint(main_bp)
@@ -321,3 +323,11 @@ app.register_blueprint(main_bp)
 
 #     print(quotes_data)
 #     return jsonify({"yes":"yes"}) 
+
+from models.cars_quote import CarQuote
+@app.get("/testing")
+def testing_app():
+    cars_quote = CarQuote.query.get({'vehicle_id':'as1234-12asd12','quote_id':'qt-001'})
+    if cars_quote is None:
+        return jsonify({"message": "Cars Quote link Not found"}), 404
+    return jsonify(cars_quote.to_dict())

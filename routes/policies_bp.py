@@ -45,7 +45,7 @@ def delete_specific_policies(id):
         data = policy.to_dict()
         db.session.delete(policy)
         db.session.commit()
-        return jsonify({"message":"Category successfully deleted","data":data})
+        return jsonify({"message":"Policy successfully deleted","data":data})
     except Exception as e:
         db.session.rollback()
         return {"message": "Error occurred","Error": str(e)}, 500

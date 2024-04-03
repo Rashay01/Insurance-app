@@ -4,8 +4,8 @@ import uuid
 
 class CarQuote(db.Model):
     __tablename__ = "car_quote"
-    vehicle_id = db.Column(db.String(50))
-    quote_id = db.Column(db.String(50))
+    vehicle_id = db.Column(db.String(50), primary_key=True)
+    quote_id = db.Column(db.String(50),primary_key=True)
 
     def to_dict(self):
         return{

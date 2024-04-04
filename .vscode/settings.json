@@ -3,6 +3,7 @@
     "dotenv",
     "jsonify",
     "sqlalchemy",
+    "werkzeug",
     "wtforms"
   ]
 }

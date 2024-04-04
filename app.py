@@ -6,7 +6,7 @@ from sqlalchemy.sql import text, func, Select
 from dotenv import load_dotenv
 import uuid
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, ValidationError, EmailField, SelectField, FloatField
+from wtforms import StringField, PasswordField, SubmitField, ValidationError, EmailField, SelectField, FloatField, IntegerField, DateField
 from wtforms.validators import InputRequired, Length 
 from extensions import db
 
@@ -20,70 +20,13 @@ app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
 db.init_app(app)
 
-try:
-    with app.app_context():
-        # Use text() to explicitly declare your SQL command
-        result = db.session.execute(text("SELECT 1")).fetchall()
-        print("Connection successful:", result)
-except Exception as e:
-    print("Error connecting to the database:", e)
 
 
-policies = [
-    {
-        "id": 1,
-        "user_id": "0101165410081",
-        "date": "2023-01-3",
-        "price": 1798,
-        "num_years": 5,
-        "active": True,
-        "items": [
-            {
-                "id": 1,
-                "name": "watch",
-                "item_price": 30009,
-                "description": "a vintage watch",
-            }
-        ],
-    },
-    {
-        "id": 2,
-        "user_id": "0101165410081",
-        "date": "2023-01-4",
-        "price": 2000,
-        "num_years": 5,
-        "active": True,
-        "items": [
-            {
-                "id": 1,
-                "name": "Car",
-                "item_price": 30009,
-                "description": "a vintage watch",
-            }
-        ],
-    },
-    {
-        "id": 3,
-        "user_id": "0101165410082",
-        "date": "2023-01-3",
-        "price": 1798,
-        "num_years": 5,
-        "active": True,
-        "items": [
-            {
-                "id": 1,
-                "name": "watch",
-                "item_price": 30009,
-                "description": "a vintage watch",
-            }
-        ],
-    },
-]
 
 
-# lg_user = {'ID': '0101165410081', 'name': 'Rashay', 'surname': 'Daya', 'email': 'rashay.jcdaya@gmail.com', 'cell_no': '0836681148', 'password': 'password01'}
+lg_user = {'ID': '0101165410081', 'name': 'Rashay', 'surname': 'Daya', 'email': 'rashay.jcdaya@gmail.com', 'cell_no': '0836681148', 'password': 'password01'}
 
-lg_user={}
+# lg_user={}
 
 
 
@@ -120,8 +63,77 @@ app.register_blueprint(cars_quote_bp, url_prefix="/cars-quote")
 app.register_blueprint(main_bp)
 app.register_blueprint(user_bp)
 
-
-
+from models.cars_quote import CarQuote
+from models.category import Category
+from models.classic_cars import ClassicCars
+from models.quote import Quote
+class ClassicCarsForm(FlaskForm):
+    vehicle_make = StringField("vehicle make",validators=[InputRequired(),Length(min=1)])
+    model = StringField("model",validators=[InputRequired()])
+    year_model = IntegerField("year model",validators=[InputRequired()])
+    vin = StringField("vin",validators=[InputRequired()])
+    license_plate_number = StringField("license_plate_number",validators=[InputRequired()])
+    odometer_reading = IntegerField("odometer_reading",validators=[InputRequired()])
+    fuel_type = StringField("fuel_type",validators=[InputRequired()])
+    color = StringField("color",validators=[InputRequired()])
+    current_value = FloatField("current_value",validators=[InputRequired()])
+    year_purchased = DateField("year_purchased",format="%Y-%m-%d",validators=[InputRequired()])
+    new_item = SubmitField("Get Quote")
+    
+    def validate_item_value(self, field):
+        if field.data <= 0:
+            ValidationError("Amount should be grater than zero")
+            
+@app.route('/quote/classic-cars', methods=["GET","POST"])
+def get_new_quote():
+    form = ClassicCarsForm()
+    if form.validate_on_submit():
+        category_data = Category.query.filter_by(category_name ="classic cars").first()
+        category = category_data.to_dict()
+        vehicle_id = str(uuid.uuid4())
+        quote_id = str(uuid.uuid4())
+        current_value = form.current_value.data
+        cal_value = current_value*category['premium_percentage']
+        data = {
+            "vehicle_id": vehicle_id,
+            "vehicle_make": form.vehicle_make.data,
+            "model": form.model.data,
+            "year_model":str(form.year_model.data),
+            "vin":form.vin.data,
+            "license_plate_number":form.license_plate_number.data,
+            "odometer_reading":form.odometer_reading.data,
+            "fuel_type":form.fuel_type.data,
+            "color":form.color.data,
+            "customer_id":lg_user['ID'],
+            "current_value":current_value,
+            "year_purchased":form.year_purchased.data.strftime('%Y-%m-%d' )
+        }
+        print(data)
+        quote_data = {
+            "quote_id":quote_id,
+            "quoted_premium":cal_value,
+            "status": "Deciding",
+            "category_id":category["category_id"],
+        }
+        car_quote_data = {
+            "vehicle_id": vehicle_id,
+            "quote_id":quote_id
+        } 
+        try:
+            new_classic_car = ClassicCars(**data)
+            new_quote = Quote(**quote_data)
+            new_cars_quote = CarQuote(**car_quote_data)
+            db.session.add(new_classic_car)
+            db.session.commit()
+            db.session.add(new_quote)
+            db.session.commit()
+            db.session.add(new_cars_quote)
+            db.session.commit()
+            return redirect('/dashboard')
+        except Exception as e:
+            db.session.rollback()
+            return f"<h2>Error {e}</h2>"
+    return render_template('new-classic-cars-quote.html', form=form)
 
 
 @app.route("/dashboard")
@@ -130,15 +142,7 @@ def dashboard():
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
 # -----------------------------------------------------------------------------------Quotes
-# class QuoteForm(FlaskForm):
-#     item_name = StringField("Item Name",validators=[InputRequired(),Length(min=1)])
-#     item_description = StringField("Item Description")
-#     item_value = FloatField("Item Value")
-#     new_item = SubmitField("Get Quote")
-    
-#     def validate_item_value(self, field):
-#         if field.data <= 0:
-#             ValidationError("Amount should be grater than zero")
+
 
 
 # @app.route('/quote', methods=["GET","POST"])
@@ -233,36 +237,7 @@ def dashboard():
 #             "policy.html", curr_page="all polices", policy=filtered_policy
 #         )
 
-#----------------------------------------------------------------------------------User Registration
 
-
-#-----------------------------------TODO------------------------------------------------------User Login
-
-# class LogInForm(FlaskForm):
-#     lg_user_id = StringField("ID Number", validators=[InputRequired(),Length(min=1)])
-#     lg_password = PasswordField(
-#         "Password", validators=[InputRequired(), Length(min=8)]
-#     )
-#     loggin = SubmitField("Login")
-
-
-
-
-# @app.route("/login", methods=["GET", "POST"])
-# def log_in_page():
-#     form = LogInForm()
-#     if request.method =="POST":
-#          logged_in_user = User.query.get("0101165410081").to_dict()
-#          lg_user.update(logged_in_user)
-         
-#          return redirect('/dashboard')
-#          print(form.validate_on_submit())
-#          if form.validate_on_submit():
-#             return redirect("/")
-   
-
-#     return render_template("login.html", form=form)
-#-------------------------------------------------------------------------------------------------------
 # @app.route("/all-polices", methods=["POST"])
 # def remove_specific_policies(id):
 #     filtered_policy = next((policy for policy in policies if policy["id"] == int(id)), None)
@@ -289,10 +264,20 @@ def dashboard():
 #     print(quotes_data)
 #     return jsonify({"yes":"yes"}) 
 
-from models.cars_quote import CarQuote
-@app.get("/testing")
-def testing_app():
-    cars_quote = CarQuote.query.get({'vehicle_id':'as1234-12asd12','quote_id':'qt-001'})
-    if cars_quote is None:
-        return jsonify({"message": "Cars Quote link Not found"}), 404
-    return jsonify(cars_quote.to_dict())
+# from models.cars_quote import CarQuote
+# @app.get("/testing")
+# def testing_app():
+#     cars_quote = CarQuote.query.get({'vehicle_id':'as1234-12asd12','quote_id':'qt-001'})
+#     if cars_quote is None:
+#         return jsonify({"message": "Cars Quote link Not found"}), 404
+#     return jsonify(cars_quote.to_dict())
+
+
+
+try:
+    with app.app_context():
+        # Use text() to explicitly declare your SQL command
+        result = db.session.execute(text("SELECT 1")).fetchall()
+        print("Connection successful:", result)
+except Exception as e:
+    print("Error connecting to the database:", e)

@@ -81,7 +81,9 @@ policies = [
 ]
 
 
-lg_user = {'ID': '0101165410081', 'name': 'Rashay', 'surname': 'Daya', 'email': 'rashay.jcdaya@gmail.com', 'cell_no': '0836681148', 'password': 'password01'}
+# lg_user = {'ID': '0101165410081', 'name': 'Rashay', 'surname': 'Daya', 'email': 'rashay.jcdaya@gmail.com', 'cell_no': '0836681148', 'password': 'password01'}
+
+lg_user={}
 
 
 
@@ -104,6 +106,7 @@ from routes.category_bp import category_bp
 from routes.policies_bp import policies_bp
 from routes.cars_quote_bp import cars_quote_bp
 from routes.main_bp import main_bp
+from routes.user_bp import user_bp
 
 #REST API's
 app.register_blueprint(users_bp, url_prefix="/users")
@@ -115,15 +118,16 @@ app.register_blueprint(cars_quote_bp, url_prefix="/cars-quote")
 
 # # Html DIsplays jinja Templates
 app.register_blueprint(main_bp)
+app.register_blueprint(user_bp)
 
 
 
 
 
-# @app.route("/dashboard")
-# def dashboard():
-#     print(lg_user)
-#     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
+@app.route("/dashboard")
+def dashboard():
+    print(lg_user)
+    return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
 # -----------------------------------------------------------------------------------Quotes
 # class QuoteForm(FlaskForm):
@@ -230,46 +234,7 @@ app.register_blueprint(main_bp)
 #         )
 
 #----------------------------------------------------------------------------------User Registration
-# class RegistrationForm(FlaskForm):
-#     user_id = StringField("ID Number", validators=[InputRequired(), Length(min=13, max=13)])
-#     name = StringField("Name", validators=[InputRequired(),Length(min=1)])
-#     surname = StringField("Surname", validators=[InputRequired(),Length(min=1)])
-#     email = EmailField("Email", validators=[InputRequired(),Length(min=8)])
-#     cell_no = StringField("Phone Number", validators=[InputRequired(),Length(min=8)])
-#     password = PasswordField(
-#         "Password", validators=[InputRequired(), Length(min=8, max=12)]
-#     )
-#     submit = SubmitField("Sign Up")
 
-#     def validate_user_id(self, field):
-#         user_found = User.query.get(field.data)
-#         if user_found:
-#             raise ValidationError("Username taken")
-
-
-# @app.route("/registration", methods=["GET", "POST"])
-# def registration_page():
-#     form = RegistrationForm()
-
-#     if form.validate_on_submit():
-#         data = {
-#             'ID': form.user_id.data,
-#             'name': form.name.data,
-#             'surname': form.surname.data,
-#             'email': form.email.data,
-#             'cell_no': form.cell_no.data,
-#             'password': form.password.data,
-#         }
-#         try:
-#             new_user = User(**data)
-#             db.session.add(new_user)
-#             db.session.commit()
-#             return redirect("/login")
-#         except Exception as e:
-#             db.session.rollback()
-#             return f"<h2>Error Occurred {e}</h2>" 
-
-#     return render_template("registration.html", form=form)
 
 #-----------------------------------TODO------------------------------------------------------User Login
 

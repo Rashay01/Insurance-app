@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Quote</h1>
+    <form action="" method="POST">
+      {{ form.hidden_tag() }} {{form.vehicle_make.label}}
+      {{form.vehicle_make()}} {{form.model.label}} {{form.model()}}
+      {{form.year_model.label}} {{form.year_model()}} {{form.vin.label}}
+      {{form.vin()}} {{form.license_plate_number.label}}
+      {{form.license_plate_number()}} {{form.odometer_reading.label}}
+      {{form.odometer_reading()}} {{form.fuel_type.label}} {{form.fuel_type()}}
+      {{form.color.label}} {{form.color()}} {{form.current_value.label}}
+      {{form.current_value()}} {{form.year_purchased.label}}
+      {{form.year_purchased()}} {{form.new_item()}}
+    </form>
+  </body>
+</html>

@@ -1,12 +1,24 @@
-{% extends 'base.html' %} {% block body%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
 
-<div>
-  <h2>Login</h2>
-  <form action="{{url_for('dashboard')}}" method="POST">
-    <input type="text" name="id_num" placeholder="id_num" />
-    <input type="password" name="password" placeholder="password" />
-    <button type="submit">Login</button>
-  </form>
-</div>
-
-{% endblock %}
+  <body>
+    <h1>Login</h1>
+    <form action="" method="POST">
+      {{ form.hidden_tag() }} {% if form.ID.errors %} {% for error in
+      form.ID.errors %}
+      <div style="color: red">{{error}}</div>
+      {% endfor %} {% endif %} {% if form.password.errors %} {% for error in
+      form.password.errors %}
+      <div style="color: red">{{error}}</div>
+      {% endfor %} {% endif %} {{form.ID.label}}:
+      {{form.ID(placeholder="username")}} <br />
+      {{form.password.label}}: {{form.password()}} <br />
+      {{form.submit}}<br />
+    </form>
+  </body>
+</html>

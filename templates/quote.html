@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>{{quote.quote_id}}</h2>
+    <h2>{{quote.quote_date}}</h2>
+    <h2>{{quote.status}}</h2>
+    {% for item in items%}
+    <h2>{{item.item_name}}</h2>
+    {% endfor %}
+
+    <button>Accept</button>
+    <button>Decline</button>
+  </body>
+</html>

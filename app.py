@@ -75,72 +75,18 @@ def dashboard():
     print(lg_user)
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
-#-----------------------------------------------------------------------------------------all policies pages
-# @app.route("/all-polices")
-# def all_policies():
-#     filtered_policies = [
-#         policy for policy in policies if policy["user_id"] == lg_user["ID"]
-#     ]
-#     data = sorted(filtered_policies, key=lambda x: x["active"], reverse=True)
-#     return render_template("all-polices.html", curr_page="all polices", polices=data)
-
-
-# @app.route("/all-polices/<id>", methods=["POST", "GET"])
-# def specific_policies(id):
-#     filtered_policy = next(
-#         (policy for policy in policies if policy["id"] == int(id)), None
-#     )
-#     if filtered_policy is None:
-#         return "<h2>404 Page not found</h2>"
-#     if request.method == "POST":
-#         days_after = date.today() + timedelta(days=30)
-#         filtered_policy.update({"active": False, "end_date": days_after})
-#         flash("Policy Removed")
-#         return redirect("/all-polices")
-#     else:
-
-#         return render_template(
-#             "policy.html", curr_page="all polices", policy=filtered_policy
-#         )
-
-
-# @app.route("/all-polices", methods=["POST"])
-# def remove_specific_policies(id):
-#     filtered_policy = next((policy for policy in policies if policy["id"] == int(id)), None)
-#     policies.remove(filtered_policy)
-#     return render_template("all-polices.html", curr_page="all polices", polices=policies)
-
-
-
-# @app.get("/testing")
-# def testing_app():
-#     #TODO JOin 
-#     new_data = Select(Quote).join(Item,Quote.quote_id==Item.quote_id).distinct().where(Quote.customer_id =="0101165410081").order_by(Quote.quote_id)
-#     result = db.session.execute(new_data).fetchall()
-#     if len(result)==0:
-#         return jsonify({"Message":"No Quotes found"})
-
-    
-#     quotes_data = []
-#     for quote in result:
-#         data = Item.query.filter_by(quote_id=quote[0].quote_id)
-#         ans = [(item.to_dict()['item_id'], item.to_dict()['item_name']) for item in data ]
-#         quotes_data.append([quote[0], ans])
-
-#     print(quotes_data)
-#     return jsonify({"yes":"yes"}) 
 
 # from models.cars_quote import CarQuote
-@app.get("/testing")
-def testing_app():
-    cars_quote = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).order_by(Policy.policy_date.desc())
-    result = db.session.execute(cars_quote).fetchall()
-    print(result)
-    # category = Category.query.get(result[1].category_id)
-    # if category is None:
-    #     return "<h2>Category is not found</h2>"
-    # print(category.to_dict())
-    return jsonify({"hi":"hi"})
+# @app.get("/testing")
+# def testing_app():
+#     cars_quote = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).order_by(Policy.policy_date.desc())
+#     result = db.session.execute(cars_quote).fetchall()
+#     print(result)
+#     # category = Category.query.get(result[1].category_id)
+#     # if category is None:
+#     #     return "<h2>Category is not found</h2>"
+#     # print(category.to_dict())
+#     return jsonify({"hi":"hi"})
 
 
 

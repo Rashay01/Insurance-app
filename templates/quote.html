@@ -6,12 +6,22 @@
     <title>Document</title>
   </head>
   <body>
-    <h2>{{quote.quote_id}}</h2>
-    <h2>{{quote.quote_date}}</h2>
-    <h2>{{quote.status}}</h2>
-    {% for item in items%}
-    <h2>{{item.item_name}}</h2>
-    {% endfor %}
+    <h1>Quote</h1>
+    <h2>No: {{quote.quote_id}}</h2>
+    <p>Date: {{quote.quote_date}}</p>
+    <p>Category: {{category.category_name}}</p>
+    <p>Classic car:</p>
+    <p>Make: {{item.vehicle_make}}</p>
+    <p>Model: {{item.model}}</p>
+    <p>Model Year: {{item.year_model}}</p>
+    <p>Vin: {{item.vin}}</p>
+    <p>license_plate_number: {{item.license_plate_number}}</p>
+    <p>Odometer Reading: {{item.odometer_reading}}</p>
+    <p>fuel type: {{item.fuel_type}}</p>
+    <p>Color: {{item.color}}</p>
+    <p>Vehicle value: {{item.current_value}}</p>
+    <p>Year purchased: {{item.year_purchased}}</p>
+    <p>{{"R{:,.2f}".format(quote.quoted_premium).replace(',',' ')}} p/Month</p>
 
     <button>Accept</button>
     <button>Decline</button>

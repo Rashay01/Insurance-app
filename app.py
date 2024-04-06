@@ -149,6 +149,17 @@ def dashboard():
     print(lg_user)
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
+@app.route('/all-quotes/<id>')
+def get_single_user_quote(id):
+    data = Select(CarQuote,Quote,ClassicCars).join(Quote,CarQuote.quote_id==Quote.quote_id).join(ClassicCars,CarQuote.vehicle_id==ClassicCars.vehicle_id).filter_by(customer_id=lg_user["ID"]).filter(Quote.quote_id==id)
+    result = db.session.execute(data).first()
+    if len(result) == 0:
+        return "<h2>Quote not found</h2>"
+    category = Category.query.get(result[1].category_id)
+    if category is None:
+        return "<h2>Category is not found</h2>"
+    return render_template('quote.html',quote= result[1], item = result[2],category= category.to_dict())
+
 # -----------------------------------------------------------------------------------Quotes
 
 
@@ -275,9 +286,13 @@ def dashboard():
 # from models.cars_quote import CarQuote
 @app.get("/testing")
 def testing_app():
-    cars_quote = Select(CarQuote,Quote,ClassicCars).join(Quote,CarQuote.quote_id==Quote.quote_id).join(ClassicCars,CarQuote.vehicle_id==ClassicCars.vehicle_id).filter_by(customer_id=lg_user["ID"]).filter(Quote.status=="Deciding").order_by(Quote.quote_date.desc())
-    result = db.session.execute(cars_quote).fetchall()
-    print(result)
+    cars_quote = Select(CarQuote,Quote,ClassicCars).join(Quote,CarQuote.quote_id==Quote.quote_id).join(ClassicCars,CarQuote.vehicle_id==ClassicCars.vehicle_id).filter_by(customer_id=lg_user["ID"]).filter(Quote.quote_id=='qt-002')
+    result = db.session.execute(cars_quote).first()
+    print(result[0])
+    category = Category.query.get(result[1].category_id)
+    if category is None:
+        return "<h2>Category is not found</h2>"
+    print(category.to_dict())
     return jsonify({"hi":"hi"})
 
 

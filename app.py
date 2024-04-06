@@ -72,75 +72,7 @@ def dashboard():
     print(lg_user)
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
-# -----------------------------------------------------------------------------------Quotes
-
-
-
-# @app.route('/quote', methods=["GET","POST"])
-# def get_new_quote():
-#     populate_categories_tuple()
-#     forms = QuoteForm()
-#     if request.method == "POST" and forms.validate_on_submit():
-#         try:
-#             category_selected = request.form.get("category")
-#             category = Category.query.get(category_selected).to_dict()
-
-#             item_value = forms.item_value.data
-#             quote_premium = item_value*category['premium_percentage']
-#             quote_id = str(uuid.uuid4())
-#             quote = {
-#                 "quote_id" : quote_id,
-#                 "quoted_premium" : quote_premium,
-#                 "status" : "Deciding",
-#                 "customer_id": lg_user["ID"],
-#             }
-#             item = {
-#                 "category_id":category_selected,
-#                 "item_name":forms.item_name.data,
-#                 "item_desc":forms.item_description.data,
-#                 "item_value":item_value,
-#                 "quote_id":quote_id,
-#             }
-#             new_quote = Quote(**quote)
-#             new_item = Item(**item)
-#             db.session.add(new_quote)
-#             db.session.commit()
-#             db.session.add(new_item)
-#             db.session.commit()
-#         except Exception as e:
-#             db.session.rollback()
-#             return f"<h2>Error</h2><p>{str(e)}</p>"
-#         return f"<h1>Success {category_selected} {quote_premium}</h1>"
-#     return render_template('new-quote.html', form=forms, cat_choice=category_tup)
-
-# @app.route('/all-quotes')
-# def get_all_user_quotes():
-#     new_data = Select(Quote).join(Item,Quote.quote_id==Item.quote_id).distinct().where(Quote.customer_id =="0101165410081").order_by(Quote.quote_id)
-#     result = db.session.execute(new_data).fetchall()
-#     if len(result)==0:
-#         return jsonify({"Message":"No Quotes found"})
-    
-#     quotes_data = []
-#     for quote in result:
-#         data = Item.query.filter_by(quote_id=quote[0].quote_id)
-#         ans = [(item.to_dict()['item_id'], item.to_dict()['item_name']) for item in data ]
-#         quotes_data.append([quote[0], ans])
-#     return render_template('all-quotes.html',quotes_data= quotes_data)
-
-# @app.route('/all-quotes/<id>')
-# def get_single_user_quote(id):
-#     data = Quote.query.get(id)
-#     if data is None:
-#         return "<h2>Quote not found </h2>"
-#     quote = data.to_dict()
-#     it_data = Item.query.filter_by(quote_id=id)
-#     print(it_data)
-#     items = [item.to_dict() for item in it_data]
-#     if len(items)==0:
-#         return "<h2>Query has no items</h2>"
-#     return render_template('quote.html',quote= quote, items=items)
-
-# -----------------------------------------------------------------------------------------all policies pages
+#-----------------------------------------------------------------------------------------all policies pages
 # @app.route("/all-polices")
 # def all_policies():
 #     filtered_policies = [

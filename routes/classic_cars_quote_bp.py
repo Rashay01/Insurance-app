@@ -40,7 +40,7 @@ def get_new_quote():
         vehicle_id = str(uuid.uuid4())
         quote_id = str(uuid.uuid4())
         current_value = form.current_value.data
-        cal_value = current_value*category['premium_percentage']
+        cal_value = round(current_value*category['premium_percentage'],2)
         data = {
             "vehicle_id": vehicle_id,
             "vehicle_make": form.vehicle_make.data,

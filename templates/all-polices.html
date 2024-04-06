@@ -54,17 +54,15 @@
     <!-- Actual policy code -->
     <div class="polices-container">
       <h2>All Policies</h2>
-      {% for policy in polices %}
+      <h3>Classic Car</h3>
+      {% for policy,classic_car in all_policies_data.classic_car %}
       <div class="{% if not policy.active %}policy-container{% endif %}">
-        <h3>Policy No: {{policy.id}}</h3>
-        <p>Item/s:</p>
-        <ul>
-          {% for item in policy['items'] %}
-          <li>{{item.name}}</li>
-          {% endfor %}
-        </ul>
-        <p>Price: R{{policy.price}} p/m</p>
-        <a href="/all-polices/{{policy.id}}">View More</a>
+        <h3>Policy No: {{policy.policy_number}}</h3>
+        <p>Vehicle:</p>
+        <p>Make: {{classic_car.vehicle_make}}</p>
+        <p>Model: {{classic_car.model}}</p>
+        <p>Premium: R{{policy.monthly_premium}} p/m</p>
+        <a href="/all-polices/{{policy.policy_number}}">View More</a>
       </div>
       {% endfor %}
     </div>

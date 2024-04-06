@@ -65,6 +65,20 @@ app.register_blueprint(main_bp)
 app.register_blueprint(user_bp)
 app.register_blueprint(classic_cars_quote_bp,url_prefix="/quote")
 
+from models.classic_cars import ClassicCars
+from models.policy import Policy
+
+@app.route("/all-polices")
+def all_policies():
+    data = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).order_by(Policy.policy_date.desc())
+    filtered_policies = db.session.execute(data).fetchall()
+    if(len(filtered_policies)==0):
+        return "<h2>You have no policies</h2>"
+    all_policies_data = {
+        "classic_car": filtered_policies
+    } 
+    return render_template("all-polices.html", curr_page="all polices", all_policies_data=all_policies_data)
+
 
 
 @app.route("/dashboard")
@@ -128,16 +142,16 @@ def dashboard():
 #     return jsonify({"yes":"yes"}) 
 
 # from models.cars_quote import CarQuote
-# @app.get("/testing")
-# def testing_app():
-#     cars_quote = Select(CarQuote,Quote,ClassicCars).join(Quote,CarQuote.quote_id==Quote.quote_id).join(ClassicCars,CarQuote.vehicle_id==ClassicCars.vehicle_id).filter_by(customer_id=lg_user["ID"]).filter(Quote.quote_id=='qt-002')
-#     result = db.session.execute(cars_quote).first()
-#     print(result[0])
-#     category = Category.query.get(result[1].category_id)
-#     if category is None:
-#         return "<h2>Category is not found</h2>"
-#     print(category.to_dict())
-#     return jsonify({"hi":"hi"})
+@app.get("/testing")
+def testing_app():
+    cars_quote = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).order_by(Policy.policy_date.desc())
+    result = db.session.execute(cars_quote).fetchall()
+    print(result)
+    # category = Category.query.get(result[1].category_id)
+    # if category is None:
+    #     return "<h2>Category is not found</h2>"
+    # print(category.to_dict())
+    return jsonify({"hi":"hi"})
 
 
 

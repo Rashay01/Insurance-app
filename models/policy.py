@@ -9,7 +9,7 @@ class Policy(db.Model):
     monthly_premium = db.Column(db.Float, nullable=False)
     policy_end_date = db.Column(db.DateTime)
     active = db.Column(db.Boolean, nullable=False, default =True)
-    category_id = db.Column(db.Integer)
+    category_id = db.Column(db.Integer, nullable=False)
 
     def to_dict(self):
         return{

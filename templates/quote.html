@@ -23,10 +23,12 @@
     <p>Year purchased: {{item.year_purchased}}</p>
     <p>{{"R{:,.2f}".format(quote.quoted_premium).replace(',',' ')}} p/Month</p>
 
-    <form action="" method="POST">
+    <form action="{{url_for('accept_classic_car_quote_user')}}" method="POST">
+      <input type="text" name="quote_id" value="{{quote.quote_id}}" hidden />
+      <input type="text" name="vehicle_id" value="{{item.vehicle_id}}" hidden />
       <button>Accept</button>
     </form>
-    <form action="/quote/delete" method="POST">
+    <form action="{{url_for('delete_classic_car_quote_user')}}" method="POST">
       <input type="text" name="quote_id" value="{{quote.quote_id}}" hidden />
       <button type="submit">Decline</button>
     </form>

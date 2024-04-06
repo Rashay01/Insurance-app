@@ -67,6 +67,7 @@ from models.cars_quote import CarQuote
 from models.category import Category
 from models.classic_cars import ClassicCars
 from models.quote import Quote
+from models.policy import Policy
 class ClassicCarsForm(FlaskForm):
     vehicle_make = StringField("vehicle make",validators=[InputRequired(),Length(min=1)])
     model = StringField("model",validators=[InputRequired()])
@@ -159,12 +160,45 @@ def get_single_user_quote(id):
 @app.route('/quote/delete',methods=["POST"])
 def delete_classic_car_quote_user():
     quote_id = request.form.get("quote_id")
-    quote = Quote.query.get(quote_id)
-    quote.status ="Declined"
-    quote.quote_decision_date = func.now()
-    db.session.commit()
-    return redirect('/all-quotes')
+    try:
+        quote = Quote.query.get(quote_id)
+        quote.status ="Declined"
+        quote.quote_decision_date = func.now()
+        db.session.commit()
+        return redirect('/all-quotes')
+    except Exception as e:
+        db.session.rollback()
+        return "<h2>500 Server Error</h2>"
     
+    
+@app.route('/quote/accept',methods=["POST"])
+def accept_classic_car_quote_user():
+    quote_id = request.form.get("quote_id")
+    vehicle_id = request.form.get("vehicle_id")
+    policy_id = str(uuid.uuid4())
+    try:
+        
+        quote = Quote.query.get(quote_id)
+        
+        quote.status ="Accepted"
+        quote.quote_decision_date = func.now()
+        data ={
+            "policy_number":policy_id,
+            "monthly_premium":quote.quoted_premium,
+            "category_id":quote.category_id,
+        }
+        policy = Policy(**data)
+        db.session.add(policy)
+        db.session.commit()
+        classic_car = ClassicCars.query.get(vehicle_id)
+        classic_car.policy_number = policy_id
+        db.session.commit()
+        print(data)
+        return redirect('/all-quotes')
+    except Exception as e:
+        db.session.rollback()
+        return "<h2>500 Server Error</h2>"
+    return f"<h2>{quote_id} | {vehicle_id}</h2>"
 
 @app.route("/dashboard")
 def dashboard():

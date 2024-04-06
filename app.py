@@ -143,45 +143,6 @@ def dashboard():
 
 # -----------------------------------------------------------------------------------Quotes
 
-
-
-# @app.route('/quote', methods=["GET","POST"])
-# def get_new_quote():
-#     populate_categories_tuple()
-#     forms = QuoteForm()
-#     if request.method == "POST" and forms.validate_on_submit():
-#         try:
-#             category_selected = request.form.get("category")
-#             category = Category.query.get(category_selected).to_dict()
-
-#             item_value = forms.item_value.data
-#             quote_premium = item_value*category['premium_percentage']
-#             quote_id = str(uuid.uuid4())
-#             quote = {
-#                 "quote_id" : quote_id,
-#                 "quoted_premium" : quote_premium,
-#                 "status" : "Deciding",
-#                 "customer_id": lg_user["ID"],
-#             }
-#             item = {
-#                 "category_id":category_selected,
-#                 "item_name":forms.item_name.data,
-#                 "item_desc":forms.item_description.data,
-#                 "item_value":item_value,
-#                 "quote_id":quote_id,
-#             }
-#             new_quote = Quote(**quote)
-#             new_item = Item(**item)
-#             db.session.add(new_quote)
-#             db.session.commit()
-#             db.session.add(new_item)
-#             db.session.commit()
-#         except Exception as e:
-#             db.session.rollback()
-#             return f"<h2>Error</h2><p>{str(e)}</p>"
-#         return f"<h1>Success {category_selected} {quote_premium}</h1>"
-#     return render_template('new-quote.html', form=forms, cat_choice=category_tup)
-
 # @app.route('/all-quotes')
 # def get_all_user_quotes():
 #     new_data = Select(Quote).join(Item,Quote.quote_id==Item.quote_id).distinct().where(Quote.customer_id =="0101165410081").order_by(Quote.quote_id)

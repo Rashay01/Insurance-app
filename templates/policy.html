@@ -36,7 +36,7 @@
       </p>
       <form
         class="{% if not policy.active %}form-policy-invisible{% endif %}"
-        action="{{url_for('delete_user_specific_policies')}}"
+        action="{{url_for('classic_cars_policy.delete_user_specific_policies')}}"
         method="POST"
       >
         <input

@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-        .form-policy-invisible{
-            display: none;
-            pointer-events: none;
-        }
+      .form-policy-invisible {
+        display: none;
+        pointer-events: none;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div>
-        <h3>Policy No: {{policy.id}}</h3>
-        <p>Date {{policy.date}}</p>
-        <p>Years policy taken out for: {{policy.num_years}} years</p>
-        <p>Price: R{{policy.price}} p/m</p>
-        <p>Item/s:</p>
-        <div>
-            {% for item in policy['items'] %}
-            <p>{{item.name}}</p>
-            <p>{{item.description}}</p>
-            <p>R{{item.item_price}}</p>
-            {% endfor %}
-        </div>
-        <form class="{% if not policy.active %}form-policy-invisible{% endif %}" action="" method="POST">
-            <button type="submit">Delete</button>
-        </form>
-        <a href="/all-polices">back</a>
+      <h1>Policy</h1>
+      <h2>Policy No: {{policy.policy_number}}</h2>
+      <p>Date: {{policy.policy_date}}</p>
+      <p>Classic car:</p>
+      <p>Make: {{item.vehicle_make}}</p>
+      <p>Model: {{item.model}}</p>
+      <p>Model Year: {{item.year_model}}</p>
+      <p>Vin: {{item.vin}}</p>
+      <p>License plate number: {{item.license_plate_number}}</p>
+      <p>Odometer Reading: {{item.odometer_reading}}</p>
+      <p>Fuel type: {{item.fuel_type}}</p>
+      <p>Color: {{item.color}}</p>
+      <p>Vehicle value: {{item.current_value}}</p>
+      <p>Year purchased: {{item.year_purchased}}</p>
+      <p>
+        {{"R{:,.2f}".format(policy.monthly_premium).replace(',',' ')}} p/Month
+      </p>
+      <form
+        class="{% if not policy.active %}form-policy-invisible{% endif %}"
+        action=""
+        method="POST"
+      >
+        <input type="text" value="{{policy.policy_number}}" hidden />
+        <button type="submit">End Policy</button>
+      </form>
+      <a href="/all-polices">back</a>
     </div>
-</body>
-
+  </body>
 </html>

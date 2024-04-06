@@ -70,7 +70,7 @@ from models.policy import Policy
 
 @app.route("/all-polices")
 def all_policies():
-    data = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).order_by(Policy.policy_date.desc())
+    data = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).order_by(Policy.policy_date.desc())
     filtered_policies = db.session.execute(data).fetchall()
     if(len(filtered_policies)==0):
         return "<h2>You have no policies</h2>"
@@ -79,6 +79,16 @@ def all_policies():
     } 
     return render_template("all-polices.html", curr_page="all polices", all_policies_data=all_policies_data)
 
+@app.route("/all-polices/<id>")
+def specific_policies(id):
+    data = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).filter(Policy.policy_number==id).order_by(Policy.policy_date.desc())
+    filtered_policies = db.session.execute(data).first()
+    if filtered_policies is None:
+        return "<h2>404 Policy not found</h2>"
+
+    return render_template(
+            "policy.html", curr_page="all polices", policy=filtered_policies[0], item=filtered_policies[1]
+        )
 
 
 @app.route("/dashboard")

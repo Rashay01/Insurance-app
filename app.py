@@ -70,7 +70,7 @@ from models.policy import Policy
 
 @app.route("/all-polices")
 def all_policies():
-    data = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).order_by(Policy.policy_date.desc())
+    data = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).order_by(Policy.active.desc(), Policy.policy_date.desc())
     filtered_policies = db.session.execute(data).fetchall()
     if(len(filtered_policies)==0):
         return "<h2>You have no policies</h2>"

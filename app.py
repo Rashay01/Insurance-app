@@ -140,14 +140,10 @@ def get_all_user_quotes():
     cars_quote = Select(CarQuote,Quote,ClassicCars).join(Quote,CarQuote.quote_id==Quote.quote_id).join(ClassicCars,CarQuote.vehicle_id==ClassicCars.vehicle_id).filter_by(customer_id=lg_user["ID"]).filter(Quote.status=="Deciding").order_by(Quote.quote_date.desc())
     result = db.session.execute(cars_quote).fetchall()
     if len(result)==0:
-        return "<h2You have no existing quotes</h2>"
+        return "<h2>You have no existing quotes</h2>"
     return render_template('all-quotes.html',quotes_data= result)
 
 
-@app.route("/dashboard")
-def dashboard():
-    print(lg_user)
-    return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
 @app.route('/all-quotes/<id>')
 def get_single_user_quote(id):
@@ -159,6 +155,21 @@ def get_single_user_quote(id):
     if category is None:
         return "<h2>Category is not found</h2>"
     return render_template('quote.html',quote= result[1], item = result[2],category= category.to_dict())
+
+@app.route('/quote/delete',methods=["POST"])
+def delete_classic_car_quote_user():
+    quote_id = request.form.get("quote_id")
+    quote = Quote.query.get(quote_id)
+    quote.status ="Declined"
+    quote.quote_decision_date = func.now()
+    db.session.commit()
+    return redirect('/all-quotes')
+    
+
+@app.route("/dashboard")
+def dashboard():
+    print(lg_user)
+    return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
 # -----------------------------------------------------------------------------------Quotes
 

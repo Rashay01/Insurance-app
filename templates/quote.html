@@ -23,7 +23,12 @@
     <p>Year purchased: {{item.year_purchased}}</p>
     <p>{{"R{:,.2f}".format(quote.quoted_premium).replace(',',' ')}} p/Month</p>
 
-    <button>Accept</button>
-    <button>Decline</button>
+    <form action="" method="POST">
+      <button>Accept</button>
+    </form>
+    <form action="/quote/delete" method="POST">
+      <input type="text" name="quote_id" value="{{quote.quote_id}}" hidden />
+      <button type="submit">Decline</button>
+    </form>
   </body>
 </html>

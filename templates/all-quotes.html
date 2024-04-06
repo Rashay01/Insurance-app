@@ -8,13 +8,12 @@
 
   <body>
     <h1>All Quotes</h1>
-    {% for quote, items in quotes_data %}
+    {% for car_quote, quote, classic_car in quotes_data %}
     <h2>No: {{quote.quote_id}}</h2>
-    <p>Items</p>
-    {% for item in items %}
-    <p>{{item[1]}}</p>
-    {% endfor %}
-    <p>{{"R{:,.2f}".format(quote.quoted_premium).replace(',',' ')}}</p>
+    <p>Item</p>
+    <p>{{classic_car.vehicle_make}}</p>
+    <p>{{classic_car.model}}</p>
+    <p>{{"R{:,.2f}".format(quote.quoted_premium).replace(',',' ')}} p/Month</p>
     <a href="/all-quotes/{{quote.quote_id}}">View more</a>
     {% endfor %}
   </body>

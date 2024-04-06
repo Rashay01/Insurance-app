@@ -15,7 +15,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("FORM_SECRET_KEY")
-connection_string = os.environ.get("AZURE_CONNECTION_URL")
+connection_string = os.environ.get("DATABASE_STRING_TO_CONNECT1")
 app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
 db.init_app(app)
@@ -134,6 +134,14 @@ def get_new_quote():
             db.session.rollback()
             return f"<h2>Error {e}</h2>"
     return render_template('new-classic-cars-quote.html', form=form)
+
+@app.route('/all-quotes')
+def get_all_user_quotes():
+    cars_quote = Select(CarQuote,Quote,ClassicCars).join(Quote,CarQuote.quote_id==Quote.quote_id).join(ClassicCars,CarQuote.vehicle_id==ClassicCars.vehicle_id).filter_by(customer_id=lg_user["ID"]).filter(Quote.status=="Deciding").order_by(Quote.quote_date.desc())
+    result = db.session.execute(cars_quote).fetchall()
+    if len(result)==0:
+        return "<h2You have no existing quotes</h2>"
+    return render_template('all-quotes.html',quotes_data= result)
 
 
 @app.route("/dashboard")
@@ -265,12 +273,12 @@ def dashboard():
 #     return jsonify({"yes":"yes"}) 
 
 # from models.cars_quote import CarQuote
-# @app.get("/testing")
-# def testing_app():
-#     cars_quote = CarQuote.query.get({'vehicle_id':'as1234-12asd12','quote_id':'qt-001'})
-#     if cars_quote is None:
-#         return jsonify({"message": "Cars Quote link Not found"}), 404
-#     return jsonify(cars_quote.to_dict())
+@app.get("/testing")
+def testing_app():
+    cars_quote = Select(CarQuote,Quote,ClassicCars).join(Quote,CarQuote.quote_id==Quote.quote_id).join(ClassicCars,CarQuote.vehicle_id==ClassicCars.vehicle_id).filter_by(customer_id=lg_user["ID"]).filter(Quote.status=="Deciding").order_by(Quote.quote_date.desc())
+    result = db.session.execute(cars_quote).fetchall()
+    print(result)
+    return jsonify({"hi":"hi"})
 
 
 

@@ -91,6 +91,22 @@ def specific_policies(id):
         )
 
 
+@app.route("/all-polices/delete", methods=["POST"])
+def delete_user_specific_policies():
+    policy_number = request.form.get('policy_number')
+    try:
+        policy = Policy.query.get(policy_number)
+        if policy is None:
+            return "<h2>404 Policy not found</h2>"
+        policy.policy_end_date = func.now()
+        policy.active = False
+        db.session.commit()
+        return redirect('/all-polices')
+    except Exception as e:
+        db.session.rollback()
+        return "<h2>500 Server Error</h2>"
+
+
 @app.route("/dashboard")
 def dashboard():
     print(lg_user)

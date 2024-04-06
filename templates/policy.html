@@ -17,6 +17,9 @@
       <h1>Policy</h1>
       <h2>Policy No: {{policy.policy_number}}</h2>
       <p>Date: {{policy.policy_date}}</p>
+      {% if not policy.active %}
+      <p>End Date:{{policy.policy_end_date}}</p>
+      {% endif %}
       <p>Classic car:</p>
       <p>Make: {{item.vehicle_make}}</p>
       <p>Model: {{item.model}}</p>
@@ -33,10 +36,15 @@
       </p>
       <form
         class="{% if not policy.active %}form-policy-invisible{% endif %}"
-        action=""
+        action="{{url_for('delete_user_specific_policies')}}"
         method="POST"
       >
-        <input type="text" value="{{policy.policy_number}}" hidden />
+        <input
+          type="text"
+          name="policy_number"
+          value="{{policy.policy_number}}"
+          hidden
+        />
         <button type="submit">End Policy</button>
       </form>
       <a href="/all-polices">back</a>

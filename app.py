@@ -48,6 +48,8 @@ from routes.classic_car import classic_car_bp
 from routes.category_bp import category_bp
 from routes.policies_bp import policies_bp
 from routes.cars_quote_bp import cars_quote_bp
+from routes.claims_bp import claims_bp
+
 from routes.main_bp import main_bp
 from routes.user_bp import user_bp
 from routes.classic_cars_quote_bp import classic_cars_quote_bp
@@ -61,6 +63,7 @@ app.register_blueprint(classic_car_bp, url_prefix="/classic-car")
 app.register_blueprint(category_bp, url_prefix="/category")
 app.register_blueprint(policies_bp, url_prefix="/policies")
 app.register_blueprint(cars_quote_bp, url_prefix="/cars-quote")
+app.register_blueprint(claims_bp, url_prefix="/claims")
 
 # # Html DIsplays jinja Templates
 app.register_blueprint(main_bp)

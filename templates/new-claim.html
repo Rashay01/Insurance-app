@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>New Claim</h1>
+    <form action="" method="POST">
+        <div>
+            <p>Select Policy number:</p>
+            <select name="policy_number">
+              {% for policy, classic_cars in polices%}
+              <option value="{{policy.policy_number}}">
+                {{policy.policy_number}} | {{classic_cars.vehicle_make}}
+              </option>
+              {% endfor %}
+              </select>
+        </div>
+        {{ form.hidden_tag() }}
+        {{form.date_incident_occurred.label}} {{form.date_incident_occurred()}}
+        {{form.claim_description.label}} {{form.claim_description()}}
+        {{form.police_claim_number.label}} {{form.police_claim_number()}}
+        {{form.submit()}}
+      </select>
+    </form>
+  </body>
+</html>

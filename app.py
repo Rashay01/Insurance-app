@@ -6,7 +6,7 @@ from sqlalchemy.sql import text, func, Select
 from dotenv import load_dotenv
 import uuid
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, ValidationError, EmailField, SelectField, FloatField, IntegerField, DateField
+from wtforms import StringField, PasswordField, SubmitField, ValidationError, EmailField, SelectField, FloatField, IntegerField, DateField,TextAreaField
 from wtforms.validators import InputRequired, Length 
 from extensions import db
 
@@ -81,8 +81,48 @@ def dashboard():
     print(lg_user)
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
+from models.policy import Policy
+from models.classic_cars import ClassicCars
+from models.claim import Claim
+from models.claim_status import ClaimStatus
+class ClaimForm(FlaskForm):
+    date_incident_occurred = DateField("Date incident occurred", validators=[InputRequired()]) 
+    claim_description = TextAreaField("Description of what happened?", validators=[InputRequired()]) 
+    police_claim_number = StringField("Police claim number", validators=[InputRequired()]) 
+    submit = SubmitField("Submit new claim")   
 
-
+@app.route("/new-claim", methods=["POST", "GET"])
+def new_claim():
+    form = ClaimForm()
+    polices_sql = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).order_by(Policy.policy_number)
+    polices = db.session.execute(polices_sql).fetchall()
+    if form.validate_on_submit():
+        claim_number = str(uuid.uuid4())
+        policy_number = request.form.get('policy_number')    
+        data = {
+            "claim_number":claim_number,
+            "date_incident_occurred":form.date_incident_occurred.data.strftime('%Y-%m-%d' ),
+            "claim_description":form.claim_description.data,
+            "police_claim_number":form.police_claim_number.data,
+            "policy_number":policy_number
+        }
+        status_data = {
+            "status_name":"Received",
+            "claim_number":claim_number
+        }
+        try:
+            claim = Claim(**data)
+            status = ClaimStatus(**status_data)
+            db.session.add(claim)
+            db.session.commit()
+            db.session.add(status)
+            db.session.commit()
+            return redirect('/dashboard')
+        except Exception as e:
+            db.session.rollback()
+            return f"<h2>Error {e}</h2>"
+            
+    return render_template("new-claim.html",polices=polices, form=form)
 
 # from models.cars_quote import CarQuote
 # @app.get("/testing")

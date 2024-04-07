@@ -23,7 +23,9 @@
     <button class="btn" data-bs-toggle="modal" data-bs-target="#ContactModal">
       Update Contact Number
     </button>
-    <button>Update password</button>
+    <button class="btn" data-bs-toggle="modal" data-bs-target="#PasswordModal">
+      Update password
+    </button>
 
     <!-- Email Model -->
     <div
@@ -57,7 +59,7 @@
       </div>
     </div>
 
-    <!-- COntact Model -->
+    <!-- Contact Model -->
     <div
       class="modal fade"
       id="ContactModal"
@@ -86,6 +88,46 @@
             </div>
 
             <div class="modal-footer">{{contact_form.submit()}}</div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password Model -->
+    <div
+      class="modal fade"
+      id="PasswordModal"
+      tabindex="-1"
+      aria-labelledby="PasswordModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="PasswordModalLabel">
+              Change Password
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <form action="" method="POST">
+            <div class="modal-body">
+              {% if password_form.password.errors %} {% for error in
+              password_form.password.errors %}
+              <div style="color: red">{{error}}</div>
+              {% endfor %} {% endif %}<br />
+              {{ password_form.hidden_tag() }} {{password_form.password.label}}
+              {{password_form.password()}}<br />
+              {{password_form.new_password.label}}
+              {{password_form.new_password()}}
+            </div>
+
+            <div class="modal-footer">{{password_form.submit()}}</div>
           </form>
         </div>
       </div>

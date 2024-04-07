@@ -41,7 +41,7 @@ lg_user = {'ID': '0101165410081', 'name': 'Rashay', 'surname': 'Daya', 'email': 
         
 
 
-# Blue Prints imports
+# BluePrints imports
 from routes.users_bp import users_bp
 from routes.quotes_bp import quotes_bp
 from routes.classic_car import classic_car_bp
@@ -52,6 +52,7 @@ from routes.main_bp import main_bp
 from routes.user_bp import user_bp
 from routes.classic_cars_quote_bp import classic_cars_quote_bp
 from routes.classic_cars_policy_bp import classic_cars_policy_bp
+from routes.account_bp import account_bp
 
 #REST API's
 app.register_blueprint(users_bp, url_prefix="/users")
@@ -66,6 +67,7 @@ app.register_blueprint(main_bp)
 app.register_blueprint(user_bp)
 app.register_blueprint(classic_cars_quote_bp,url_prefix="/quote")
 app.register_blueprint(classic_cars_policy_bp,url_prefix="/all-policies")
+app.register_blueprint(account_bp)
 
 
 
@@ -76,72 +78,6 @@ def dashboard():
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
 
-from models.users import User
-from werkzeug.security import generate_password_hash, check_password_hash
-class EmailForm(FlaskForm):
-    email = EmailField("New Email", validators=[InputRequired()]) 
-    submit = SubmitField("Save Changes")   
-
-class ContactForm(FlaskForm):
-    cont_num = StringField("New Contact number", validators=[InputRequired()]) 
-    submit = SubmitField("Save Changes") 
-    
-class PasswordForm(FlaskForm):
-    user_id =""
-    password = StringField("Old password", validators=[InputRequired()]) 
-    new_password = StringField("New password", validators=[InputRequired()]) 
-    submit = SubmitField("Save Changes") 
-    
-    def validate_password(self,field):
-        print(field.data)
-        user = User.query.get(self.user_id)
-        if user is None:
-            ValidationError('Server Error')
-        if not check_password_hash(user.password, field.data):
-                raise ValidationError("Invalid old password")
-        
-    
-    def update_user_id(self, user):
-        self.user_id = user
-        
-      
-@app.route("/account", methods=["POST","GET"])
-def user_account_page():
-    email_form = EmailForm()
-    contact_form = ContactForm()
-    password_form = PasswordForm()
-    
-    user = User.query.get(lg_user['ID'])
-    password_form.update_user_id(lg_user['ID'])
-    
-    if email_form.validate_on_submit():
-        try:
-            user.email = email_form.email.data
-            db.session.commit()
-            return redirect("/account")
-        except Exception as e:
-            db.session.rollback()
-            return "<h2>500 Server Error</h2>"
-    
-    if contact_form.validate_on_submit():
-        try:
-            user.cell_no = contact_form.cont_num.data
-            db.session.commit()
-            return redirect("/account")
-        except Exception as e:
-            db.session.rollback()
-            return "<h2>500 Server Error</h2>"
-        
-    if password_form.validate_on_submit():
-        try:
-            hash_password= generate_password_hash(password_form.new_password.data)
-            user.password = hash_password
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            return "<h2>500 Server Error</h2>"
-    
-    return render_template("account.html", user=user, email_form = email_form, contact_form=contact_form, password_form=password_form)
 
 
 # from models.cars_quote import CarQuote

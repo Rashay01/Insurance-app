@@ -58,6 +58,25 @@ vehicle_id varchar(50) NOT NULL Foreign KEY REFERENCES classic_cars(vehicle_id),
 quote_id varchar(50) NOT NULL Foreign KEY REFERENCES quote(quote_id)
 )
 
+Create Table claim(
+	claim_number varchar(50) Primary key,
+	claim_date Date NOT NULL,
+	date_incident_occurred Date NOT NULL,
+	claim_description varchar(500) NOT NULL,
+	police_claim_number varchar(15),
+	claim_amount float,
+	policy_number varchar(50) Not NULL Foreign KEY REFERENCES policy(policy_number)
+
+)
+
+Create Table claim_status(
+	status_id varchar(50) Primary Key,
+	status_name varchar (20) Not NULL,
+	status_date Date Not NULL,
+	claim_number varchar(50) Not NUll FOreign KEY REFERENCES claim(claim_number),
+)
+Investigation
+
 
 Insert into users values('0101165410081','Rashay','Daya','rashay.jcdaya@gmail.com','0836681148','12345678','121 Rondebosch')
 
@@ -82,3 +101,9 @@ insert into car_quote values('as1234-12asd12','qt-001'),('as1234-12asd13','qt-00
 insert into policy(policy_number,policy_date,monthly_premium,category_id) values('pol-001','2024-03-05',18000,1)
 
 update classic_cars set policy_number = 'pol-001' where vehicle_id ='as1234-12asd12'
+
+
+Insert into claim(claim_number, claim_date, date_incident_occurred, claim_description, police_claim_number, policy_number) 
+Values('claim-001','2024-03-20','2024-03-19','There was theft of my car that was kept in the garage. It was stolen at 4 AM in the morning', 'CAS060435-01','pol-001')
+
+Insert into claim_status values('csts-001','Received','2024-03-20','claim-001'), ('csts-002','Investigation','2024-03-21','claim-001'), ('csts-003','Declined','2024-03-28','claim-001')

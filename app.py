@@ -124,12 +124,32 @@ def new_claim():
             
     return render_template("new-claim.html",polices=polices, form=form)
 
+@app.route("/all-claims")
+def all_claims_page():
+    claims_sql = Select(Claim,Policy,ClassicCars).join(Policy,Claim.policy_number==Policy.policy_number).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).order_by(Claim.claim_date.desc())
+    claims_Data = db.session.execute(claims_sql).fetchall()
+    return render_template('all-claims.html',claims_data=claims_Data )
+
+@app.route("/all-claims/<id>")
+def specific_claims_page(id):
+    claims_sql = Select(Claim,Policy,ClassicCars).join(Policy,Claim.policy_number==Policy.policy_number).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).filter(Claim.claim_number==id).order_by(Claim.claim_date.desc())
+    claims_Data = db.session.execute(claims_sql).first()
+    if claims_Data is None:
+        return "<h2>404 Claim not found</h2>"
+    status = ClaimStatus.query.filter_by(claim_number="claim-001").order_by(ClaimStatus.status_date).all()
+    
+    return render_template('claim.html',claim=claims_Data[0],quote=claims_Data[1], classic_car=claims_Data[2], statuses = status)
+    
 # from models.cars_quote import CarQuote
 # @app.get("/testing")
 # def testing_app():
-#     cars_quote = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).order_by(Policy.policy_date.desc())
-#     result = db.session.execute(cars_quote).fetchall()
-#     print(result)
+#     claims_sql = Select(Claim,Policy,ClassicCars).join(Policy,Claim.policy_number==Policy.policy_number).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).filter(Claim.claim_number=="claim-001").order_by(Claim.claim_date.desc())
+#     claims_Data = db.session.execute(claims_sql).first()
+#     print(claims_Data)
+#     status_sql = Select(ClaimStatus).filter_by(claim_number="claim-001")
+#     status = db.session.execute(status_sql).fetchall()
+#     print(status)
+#     print(ClaimStatus.query.filter_by(claim_number="claim-001").order_by(ClaimStatus.status_date).all())
 #     # category = Category.query.get(result[1].category_id)
 #     # if category is None:
 #     #     return "<h2>Category is not found</h2>"

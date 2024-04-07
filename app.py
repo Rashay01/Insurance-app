@@ -94,7 +94,7 @@ class ClaimForm(FlaskForm):
 @app.route("/new-claim", methods=["POST", "GET"])
 def new_claim():
     form = ClaimForm()
-    polices_sql = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).order_by(Policy.policy_number)
+    polices_sql = Select(Policy,ClassicCars).join(ClassicCars,Policy.policy_number ==ClassicCars.policy_number).filter_by(customer_id=lg_user["ID"]).filter(Policy.active==True).order_by(Policy.policy_number)
     polices = db.session.execute(polices_sql).fetchall()
     if form.validate_on_submit():
         claim_number = str(uuid.uuid4())

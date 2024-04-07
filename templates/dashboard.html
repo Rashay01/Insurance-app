@@ -18,51 +18,137 @@
       crossorigin="anonymous"
     />
     <style>
+      .nav-tag {
+        color: #ffffff;
+      }
+      .nav-tag:hover {
+        color: #111820;
+      }
+
+      .nav {
+        background-color: #0076be;
+      }
+      .nav-account {
+        color: #ffffff;
+        width: 20px;
+      }
+      .nav-account:hover {
+        color: #111820;
+      }
       .body {
         background-color: #ffffff;
       }
-      .card {
-        background-color: #333e48;
+      .dashboard-heading {
+        color: #111820;
       }
-      .heading {
-        color: #ffffff;
+      .dashboard-card {
+        margin-top: 30px;
+        max-width: 1000px;
+        padding: 10px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .dashboard-buttons-group {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
       }
       .dashboard-button {
-        max-width: fit-content;
-        background-color: #ffffff;
+        width: 100px;
+        height: 80px;
+        background-color: #333e48;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 7%;
+        margin: 5px;
+      }
+      .dashboard-button:hover {
+        background-color: #0076be;
+      }
+      .dashboard-button-item {
+        text-decoration: none;
+        text-align: center;
+        color: #ffffff;
+        margin: 2px;
+      }
+      .dashboard-button-text {
+        margin: 0px;
       }
     </style>
   </head>
   <body>
-    <div class="card">
-      <h2 class="heading">Welcome {{user.name}} {{user.surname}}</h2>
-      <div class="card-body">
-        <div class="dashboard-button">
-          <a href="/all-policies/">
-            <i class="fa-regular fa-folder-open"></i>
-            <p>All Policies</p>
+    <nav class="navbar navbar-expand-lg nav">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Platinum Plus</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link nav-tag" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-tag" href="/dashboard">Dashboard</a>
+            </li>
+          </ul>
+
+          <a class="nav-account" href="/account">
+            <i class="fa-solid fa-circle-user fa-xl"></i>
           </a>
         </div>
-        <a href="/quote/classic-cars">
-          <i class="fa-solid fa-file-signature"></i>
-          <p>Classic Cars Quote</p>
-        </a>
-        <a href="/quote/all-quotes">
-          <i class="fa-solid fa-file-contract"></i>
-          <p>All Quotes</p>
-        </a>
-        <a href="/new-claim">
-          <i class="fa-solid fa-file-contract"></i>
-          <p>New Claim</p>
-        </a>
-        <a href="/all-claims">
-          <i class="fa-solid fa-file-contract"></i>
-          <p>All Claims</p>
-        </a>
-        <a href="/account">
-          <i class="fa-solid fa-circle-user"></i>
-          <p>Account</p>
-        </a>
+      </div>
+    </nav>
+
+    <!-- Body  -->
+    <div class="card dashboard-card">
+      <h2 class="dashboard-heading">Welcome {{user.name}} {{user.surname}}</h2>
+
+      <div class="card-body dashboard-buttons-group">
+        <div class="dashboard-button">
+          <a class="dashboard-button-item" href="/all-policies/">
+            <i class="fa-regular fa-folder-open"></i>
+            <p class="dashboard-button-text">All Policies</p>
+          </a>
+        </div>
+        <div class="dashboard-button">
+          <a class="dashboard-button-item" href="/quote/classic-cars">
+            <i class="fa-solid fa-file-signature"></i>
+            <p class="dashboard-button-text">Classic Cars Quote</p>
+          </a>
+        </div>
+        <div class="dashboard-button">
+          <a class="dashboard-button-item" href="/quote/all-quotes">
+            <i class="fa-solid fa-file-contract"></i>
+            <p class="dashboard-button-text">All Quotes</p>
+          </a>
+        </div>
+        <div class="dashboard-button">
+          <a class="dashboard-button-item" href="/new-claim">
+            <i class="fa-solid fa-file-contract"></i>
+            <p class="dashboard-button-text">New Claim</p>
+          </a>
+        </div>
+        <div class="dashboard-button">
+          <a class="dashboard-button-item" href="/all-claims">
+            <i class="fa-solid fa-file-contract"></i>
+            <p class="dashboard-button-text">All Claims</p>
+          </a>
+        </div>
+        <!-- <a href="/account"> -->
+        <!-- <i class="fa-solid fa-circle-user"></i> -->
+        <!-- <p>Account</p> -->
+        <!-- </a> -->
       </div>
     </div>
     <script

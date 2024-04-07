@@ -76,6 +76,42 @@ def dashboard():
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
 
+from models.users import User
+class EmailForm(FlaskForm):
+    email = EmailField("New Email", validators=[InputRequired()]) 
+    submit = SubmitField("Save Changes")   
+
+class ContactForm(FlaskForm):
+    cont_num = StringField("New Contact number", validators=[InputRequired()]) 
+    submit = SubmitField("Save Changes") 
+      
+@app.route("/account", methods=["POST","GET"])
+def user_account_page():
+    email_form = EmailForm()
+    contact_form = ContactForm()
+    user = User.query.get(lg_user['ID'])
+    
+    if email_form.validate_on_submit():
+        try:
+            user.email = email_form.email.data
+            db.session.commit()
+            return redirect("/account")
+        except Exception as e:
+            db.session.rollback()
+            return "<h2>500 Server Error</h2>"
+    
+    if contact_form.validate_on_submit():
+        try:
+            user.cell_no = contact_form.cont_num.data
+            db.session.commit()
+            return redirect("/account")
+        except Exception as e:
+            db.session.rollback()
+            return "<h2>500 Server Error</h2>"
+    
+    return render_template("account.html", user=user, email_form = email_form, contact_form=contact_form)
+
+
 # from models.cars_quote import CarQuote
 # @app.get("/testing")
 # def testing_app():

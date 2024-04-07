@@ -10,6 +10,17 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    <style>
+      .button {
+        margin: 10px;
+        background: #333e48;
+        color: #ffffff;
+      }
+      .button:hover {
+        background-color: #0076be;
+        color: #ffffff;
+      }
+    </style>
   </head>
   <body>
     <h1>Account</h1>
@@ -17,13 +28,25 @@
     <p>Full name: {{user.name}} {{user.surname}}</p>
     <p>Email: {{user.email}}</p>
     <p>Cell Number: {{user.cell_no}}</p>
-    <button class="btn" data-bs-toggle="modal" data-bs-target="#EmailModal">
+    <button
+      class="btn button"
+      data-bs-toggle="modal"
+      data-bs-target="#EmailModal"
+    >
       Update Email
     </button>
-    <button class="btn" data-bs-toggle="modal" data-bs-target="#ContactModal">
+    <button
+      class="btn button"
+      data-bs-toggle="modal"
+      data-bs-target="#ContactModal"
+    >
       Update Contact Number
     </button>
-    <button class="btn" data-bs-toggle="modal" data-bs-target="#PasswordModal">
+    <button
+      class="btn button"
+      data-bs-toggle="modal"
+      data-bs-target="#PasswordModal"
+    >
       Update password
     </button>
 

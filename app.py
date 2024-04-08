@@ -91,7 +91,7 @@ app.register_blueprint(all_claims_bp)
 @app.route("/dashboard")
 def dashboard():
     print(lg_user)
-    return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
+    return render_template("dashboard.html", curr_page="dashboard", user=lg_user, lg_user=lg_user)
 
 
 # from models.cars_quote import CarQuote

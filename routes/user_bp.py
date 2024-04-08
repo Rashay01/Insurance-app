@@ -67,7 +67,7 @@ def registration_page():
             db.session.rollback()
             return f"<h2>Error Occurred {e}</h2>" 
 
-    return render_template("registration.html", form=form)
+    return render_template("registration.html", form=form,lg_user=lg_user)
 
 
 
@@ -80,4 +80,4 @@ def login_page():
         lg_user.update(user.to_dict())
         flash("Logged in successfully")
         return redirect('/dashboard')
-    return render_template("login.html", form=form)
+    return render_template("login.html", form=form,lg_user=lg_user)

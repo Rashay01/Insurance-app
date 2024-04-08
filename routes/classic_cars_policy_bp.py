@@ -16,7 +16,7 @@ def all_policies():
     all_policies_data = {
         "classic_car": filtered_policies
     } 
-    return render_template("all-polices.html", curr_page="all policies", all_policies_data=all_policies_data)
+    return render_template("all-polices.html", curr_page="all policies", all_policies_data=all_policies_data,lg_user=lg_user)
 
 @classic_cars_policy_bp.route("/<id>")
 def specific_policies(id):
@@ -26,7 +26,7 @@ def specific_policies(id):
         return "<h2>404 Policy not found</h2>"
 
     return render_template(
-            "policy.html", curr_page="all polices", policy=filtered_policies[0], item=filtered_policies[1]
+            "policy.html", curr_page="all polices", policy=filtered_policies[0], item=filtered_policies[1],lg_user=lg_user
         )
 
 

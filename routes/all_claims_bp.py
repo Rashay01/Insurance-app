@@ -65,7 +65,7 @@ def new_claim():
             db.session.rollback()
             return f"<h2>Error {e}</h2>"
 
-    return render_template("new-claim.html", polices=polices, form=form)
+    return render_template("new-claim.html", polices=polices, form=form,lg_user=lg_user)
 
 
 @all_claims_bp.route("/all-claims")
@@ -80,7 +80,7 @@ def all_claims_page():
     claims_Data = db.session.execute(claims_sql).fetchall()
     if len(claims_Data) == 0:
         return "<h2>No claims have been made</h2>"
-    return render_template("all-claims.html", claims_data=claims_Data)
+    return render_template("all-claims.html", claims_data=claims_Data,lg_user=lg_user)
 
 
 @all_claims_bp.route("/all-claims/<id>")
@@ -107,5 +107,5 @@ def specific_claims_page(id):
         claim=claims_Data[0],
         quote=claims_Data[1],
         classic_car=claims_Data[2],
-        statuses=status,
+        statuses=status,lg_user=lg_user
     )

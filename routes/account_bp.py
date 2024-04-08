@@ -72,4 +72,4 @@ def user_account_page():
             db.session.rollback()
             return "<h2>500 Server Error</h2>"
     
-    return render_template("account.html", user=user, email_form = email_form, contact_form=contact_form, password_form=password_form)
+    return render_template("account.html", user=user, email_form = email_form, contact_form=contact_form, password_form=password_form,lg_user=lg_user)

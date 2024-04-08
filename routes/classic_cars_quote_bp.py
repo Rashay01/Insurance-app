@@ -80,7 +80,7 @@ def get_new_quote():
         except Exception as e:
             db.session.rollback()
             return f"<h2>Error {e}</h2>"
-    return render_template('new-classic-cars-quote.html', form=form)
+    return render_template('new-classic-cars-quote.html', form=form,lg_user=lg_user)
 
 @classic_cars_quote_bp.route('/all-quotes')
 def get_all_user_quotes():
@@ -88,7 +88,7 @@ def get_all_user_quotes():
     result = db.session.execute(cars_quote).fetchall()
     if len(result)==0:
         return "<h2>You have no existing quotes</h2>"
-    return render_template('all-quotes.html',quotes_data= result)
+    return render_template('all-quotes.html',quotes_data= result,lg_user=lg_user)
 
 
 
@@ -101,7 +101,7 @@ def get_single_user_quote(id):
     category = Category.query.get(result[1].category_id)
     if category is None:
         return "<h2>Category is not found</h2>"
-    return render_template('quote.html',quote= result[1], item = result[2],category= category.to_dict())
+    return render_template('quote.html',quote= result[1], item = result[2],category= category.to_dict(),lg_user=lg_user)
 
 @classic_cars_quote_bp.route('/quote/delete',methods=["POST"])
 def delete_classic_car_quote_user():

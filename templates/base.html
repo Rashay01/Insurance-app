@@ -45,6 +45,32 @@
       .nav-account:hover {
         color: #111820;
       }
+
+      .flash-container {
+        font-family: sans-serif;
+        z-index: 1; /* set higher z-index value */
+        position: relative; /* position must be set for z-index to work */
+      }
+      .flashes {
+        display: flex;
+        justify-content: space-around;
+        background-color: orange;
+        max-width: 200px;
+        border-radius: 3%;
+        margin: 5px;
+        padding: 5px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        animation: notification 0s ease-in 3s forwards;
+      }
+
+      @keyframes notification {
+        to {
+          display: none;
+          width: 0;
+          height: 0;
+          overflow: hidden;
+        }
+      }
     </style>
     {% block style %} {% endblock %}
   </head>
@@ -138,6 +164,17 @@
         </div>
       </div>
     </nav>
+
+    <div class="flash-container">
+      {% with messages = get_flashed_messages() %} {% if messages %} {% for
+      message in messages %}
+      <div class="flashes">
+        <p>{{ message }}</p>
+        <p class="flask-x">x</p>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+    </div>
+
     {% block body %} {% endblock %}
 
     <script

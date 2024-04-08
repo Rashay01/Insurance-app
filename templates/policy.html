@@ -1,53 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      .form-policy-invisible {
-        display: none;
-        pointer-events: none;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div>
-      <h1>Policy</h1>
-      <h2>Policy No: {{policy.policy_number}}</h2>
-      <p>Date: {{policy.policy_date}}</p>
-      {% if not policy.active %}
-      <p>End Date:{{policy.policy_end_date}}</p>
-      {% endif %}
-      <p>Classic car:</p>
-      <p>Make: {{item.vehicle_make}}</p>
-      <p>Model: {{item.model}}</p>
-      <p>Model Year: {{item.year_model}}</p>
-      <p>Vin: {{item.vin}}</p>
-      <p>License plate number: {{item.license_plate_number}}</p>
-      <p>Odometer Reading: {{item.odometer_reading}}</p>
-      <p>Fuel type: {{item.fuel_type}}</p>
-      <p>Color: {{item.color}}</p>
-      <p>Vehicle value: {{item.current_value}}</p>
-      <p>Year purchased: {{item.year_purchased}}</p>
-      <p>
-        {{"R{:,.2f}".format(policy.monthly_premium).replace(',',' ')}} p/Month
-      </p>
-      <form
-        class="{% if not policy.active %}form-policy-invisible{% endif %}"
-        action="{{url_for('classic_cars_policy.delete_user_specific_policies')}}"
-        method="POST"
-      >
-        <input
-          type="text"
-          name="policy_number"
-          value="{{policy.policy_number}}"
-          hidden
-        />
-        <button type="submit">End Policy</button>
-      </form>
-      <a href="/all-polices">back</a>
-    </div>
-  </body>
-</html>
+{% extends 'base.html' %} {% block style %}
+<style>
+  .form-policy-invisible {
+    display: none;
+    pointer-events: none;
+  }
+</style>
+{% endblock %} {% block body%}
+<div>
+  <h1>Policy</h1>
+  <h2>Policy No: {{policy.policy_number}}</h2>
+  <p>Date: {{policy.policy_date}}</p>
+  {% if not policy.active %}
+  <p>End Date:{{policy.policy_end_date}}</p>
+  {% endif %}
+  <p>Classic car:</p>
+  <p>Make: {{item.vehicle_make}}</p>
+  <p>Model: {{item.model}}</p>
+  <p>Model Year: {{item.year_model}}</p>
+  <p>Vin: {{item.vin}}</p>
+  <p>License plate number: {{item.license_plate_number}}</p>
+  <p>Odometer Reading: {{item.odometer_reading}}</p>
+  <p>Fuel type: {{item.fuel_type}}</p>
+  <p>Color: {{item.color}}</p>
+  <p>Vehicle value: {{item.current_value}}</p>
+  <p>Year purchased: {{item.year_purchased}}</p>
+  <p>{{"R{:,.2f}".format(policy.monthly_premium).replace(',',' ')}} p/Month</p>
+  <form
+    class="{% if not policy.active %}form-policy-invisible{% endif %}"
+    action="{{url_for('classic_cars_policy.delete_user_specific_policies')}}"
+    method="POST"
+  >
+    <input
+      type="text"
+      name="policy_number"
+      value="{{policy.policy_number}}"
+      hidden
+    />
+    <button type="submit">End Policy</button>
+  </form>
+  <a href="/all-polices">back</a>
+</div>
+{% endblock %}

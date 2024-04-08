@@ -1,26 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>Claim</h1>
-    <h2>Claim No: {{claim.claim_number}}</h2>
-    <p>claim date: {{claim.claim_date}}</p>
-    <p>Policy Number: {{claim.policy_number}}</p>
-    <p>Classic Car</p>
-    <p>Make: {{classic_car.vehicle_make}}</p>
-    <p>Model: {{classic_car.model}}</p>
-    <p>Model: {{classic_car.license_plate_number}}</p>
-    <p>Incident date: {{claim.date_incident_occurred}}</p>
-    <p>Police claim number: {{claim.police_claim_number}}</p>
-    <p>Incident description:</p>
-    <p>{{claim.claim_description}}</p>
-    <h3>Status</h3>
-    {% for status in statuses %}
-    <p>{{status.status_name}} <span>{{status.status_date}}</span></p>
-    {% endfor %}
-  </body>
-</html>
+{% extends 'base.html' %} {% block style %} {% endblock %} {% block body%}
+<h1>Claim</h1>
+<h2>Claim No: {{claim.claim_number}}</h2>
+<p>claim date: {{claim.claim_date}}</p>
+<p>Policy Number: {{claim.policy_number}}</p>
+<p>Classic Car</p>
+<p>Make: {{classic_car.vehicle_make}}</p>
+<p>Model: {{classic_car.model}}</p>
+<p>Model: {{classic_car.license_plate_number}}</p>
+<p>Incident date: {{claim.date_incident_occurred}}</p>
+<p>Police claim number: {{claim.police_claim_number}}</p>
+<p>Incident description:</p>
+<p>{{claim.claim_description}}</p>
+<h3>Status</h3>
+{% for status in statuses %}
+<p>{{status.status_name}} <span>{{status.status_date}}</span></p>
+{% endfor %} {% endblock %}

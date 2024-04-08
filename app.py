@@ -26,7 +26,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("FORM_SECRET_KEY")
-connection_string = os.environ.get("DATABASE_STRING_TO_CONNECT")
+connection_string = os.environ.get("DATABASE_STRING_TO_CONNECT1")
 app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
 db.init_app(app)

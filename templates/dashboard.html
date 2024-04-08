@@ -43,17 +43,20 @@
       }
       .dashboard-card {
         margin-top: 30px;
-        max-width: 1000px;
         padding: 10px;
         display: block;
+        width: 90%;
+        min-width: 300px;
+        max-width: 1100px;
         margin-left: auto;
         margin-right: auto;
         box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
       }
       .dashboard-buttons-group {
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         justify-content: space-around;
-        flex-wrap: wrap;
+        justify-items: center;
       }
       .dashboard-button {
         width: 100px;
@@ -77,6 +80,17 @@
       }
       .dashboard-button-text {
         margin: 0px;
+      }
+
+      @media (min-width: 768px) {
+        .dashboard-card {
+          width: 80%;
+        }
+        .dashboard-buttons-group {
+          display: flex;
+          justify-content: space-around;
+          flex-wrap: wrap;
+        }
       }
     </style>
   </head>

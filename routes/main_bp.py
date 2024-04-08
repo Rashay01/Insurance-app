@@ -17,3 +17,8 @@ def about():
 def contact():
     return render_template("contact.html", curr_page="contact", lg_user=lg_user)
 
+
+@main_bp.route("/dashboard")
+def dashboard():
+    print(lg_user)
+    return render_template("dashboard.html", curr_page="dashboard", user=lg_user, lg_user=lg_user)

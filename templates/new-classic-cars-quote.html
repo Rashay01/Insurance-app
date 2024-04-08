@@ -41,14 +41,25 @@
         margin-left: 15px;
         margin-top: 20px;
       }
+      .quote-form-container {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+      }
       .form-input-items {
         max-width: 1000px;
+        margin: auto;
+        width: 80%;
+        padding: 10px;
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        column-gap: 20px;
+        grid-template-columns: 1fr;
         justify-items: center;
       }
       .form-container {
         margin: 20px;
+        max-width: 1000px;
       }
       .form-button {
         margin: 10px;
@@ -57,12 +68,34 @@
         display: block;
         margin-left: auto;
         margin-right: auto;
-        width: 40%;
+
+        width: 300px;
       }
       .form-button:hover {
         background-color: #0076be;
         color: #ffffff;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      }
+      @media (min-width: 768px) {
+        .quote-form-container {
+          width: 92%;
+        }
+        .form-input-items {
+          max-width: 1000px;
+          margin: auto;
+          width: 90%;
+          padding: 10px;
+          display: grid;
+          gap: 10px;
+          column-gap: 20px;
+          grid-template-columns: 1fr 1fr;
+          justify-items: center;
+        }
+      }
+      @media (min-width: 768px) {
+        .quote-form-container {
+          width: 60%;
+        }
       }
     </style>
   </head>
@@ -98,49 +131,51 @@
       </div>
     </nav>
 
-    <h1 class="all-heading">Quote</h1>
-    <form class="card form-container" action="" method="POST">
-      {{ form.hidden_tag() }}
-      <div class="form-input-items">
-        <div class="form-group">
-          {{form.vehicle_make.label}}<br />
-          {{form.vehicle_make()}}
+    <div class="quote-form-container">
+      <h1 class="all-heading">Quote</h1>
+      <form class="card form-container" action="" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-input-items">
+          <div class="form-group">
+            {{form.vehicle_make.label}}<br />
+            {{form.vehicle_make()}}
+          </div>
+          <div class="form-group">
+            {{form.model.label}} <br />{{form.model()}}
+          </div>
+          <div class="form-group">
+            {{form.year_model.label}} <br />
+            {{form.year_model()}}
+          </div>
+          <div class="form-group">{{form.vin.label}} <br />{{form.vin()}}</div>
+          <div class="form-group">
+            {{form.license_plate_number.label}} <br />
+            {{form.license_plate_number()}}
+          </div>
+          <div class="form-group">
+            {{form.odometer_reading.label}} <br />
+            {{form.odometer_reading()}}
+          </div>
+          <div class="form-group">
+            {{form.fuel_type.label}} <br />
+            {{form.fuel_type()}}
+          </div>
+          <div class="form-group">
+            {{form.color.label}} <br />
+            {{form.color()}}
+          </div>
+          <div class="form-group">
+            {{form.current_value.label}} <br />
+            {{form.current_value()}}
+          </div>
+          <div class="form-group">
+            {{form.year_purchased.label}} <br />
+            {{form.year_purchased()}}
+          </div>
         </div>
-        <div class="form-group">
-          {{form.model.label}} <br />{{form.model()}}
-        </div>
-        <div class="form-group">
-          {{form.year_model.label}} <br />
-          {{form.year_model()}}
-        </div>
-        <div class="form-group">{{form.vin.label}} <br />{{form.vin()}}</div>
-        <div class="form-group">
-          {{form.license_plate_number.label}} <br />
-          {{form.license_plate_number()}}
-        </div>
-        <div class="form-group">
-          {{form.odometer_reading.label}} <br />
-          {{form.odometer_reading()}}
-        </div>
-        <div class="form-group">
-          {{form.fuel_type.label}} <br />
-          {{form.fuel_type()}}
-        </div>
-        <div class="form-group">
-          {{form.color.label}} <br />
-          {{form.color()}}
-        </div>
-        <div class="form-group">
-          {{form.current_value.label}} <br />
-          {{form.current_value()}}
-        </div>
-        <div class="form-group">
-          {{form.year_purchased.label}} <br />
-          {{form.year_purchased()}}
-        </div>
-      </div>
-      {{form.new_item(class='btn form-button')}}
-    </form>
+        {{form.new_item(class='btn form-button')}}
+      </form>
+    </div>
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

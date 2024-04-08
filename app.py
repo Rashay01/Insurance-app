@@ -6,8 +6,19 @@ from sqlalchemy.sql import text, func, Select
 from dotenv import load_dotenv
 import uuid
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, ValidationError, EmailField, SelectField, FloatField, IntegerField, DateField,TextAreaField
-from wtforms.validators import InputRequired, Length 
+from wtforms import (
+    StringField,
+    PasswordField,
+    SubmitField,
+    ValidationError,
+    EmailField,
+    SelectField,
+    FloatField,
+    IntegerField,
+    DateField,
+    TextAreaField,
+)
+from wtforms.validators import InputRequired, Length
 from extensions import db
 
 
@@ -15,30 +26,31 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("FORM_SECRET_KEY")
-connection_string = os.environ.get("DATABASE_STRING_TO_CONNECT1")
+connection_string = os.environ.get("DATABASE_STRING_TO_CONNECT")
 app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
 db.init_app(app)
 
 
-
-
-
-lg_user = {'ID': '0101165410081', 'name': 'Rashay', 'surname': 'Daya', 'email': 'rashay.jcdaya@gmail.com', 'cell_no': '0836681148', 'password': 'password01'}
+lg_user = {
+    "ID": "0101165410081",
+    "name": "Rashay",
+    "surname": "Daya",
+    "email": "rashay.jcdaya@gmail.com",
+    "cell_no": "0836681148",
+    "password": "password01",
+}
 
 # lg_user={}
 
 
+# category_tup =[]
 
-# category_tup =[] 
-   
 # def populate_categories_tuple():
 #     global category_tup
 #     category_tup = [
 #         (category.to_dict()['category_id'], category.to_dict()['category_name']) for category in Category.query.all()
 #     ]
-    
-        
 
 
 # BluePrints imports
@@ -57,7 +69,7 @@ from routes.classic_cars_policy_bp import classic_cars_policy_bp
 from routes.account_bp import account_bp
 from routes.all_claims_bp import all_claims_bp
 
-#REST API's
+# REST API's
 app.register_blueprint(users_bp, url_prefix="/users")
 app.register_blueprint(quotes_bp, url_prefix="/quotes")
 app.register_blueprint(classic_car_bp, url_prefix="/classic-car")
@@ -70,12 +82,10 @@ app.register_blueprint(claim_status_bp, url_prefix="/claims-status")
 # # Html DIsplays jinja Templates
 app.register_blueprint(main_bp)
 app.register_blueprint(user_bp)
-app.register_blueprint(classic_cars_quote_bp,url_prefix="/quote")
-app.register_blueprint(classic_cars_policy_bp,url_prefix="/all-policies")
+app.register_blueprint(classic_cars_quote_bp, url_prefix="/quote")
+app.register_blueprint(classic_cars_policy_bp, url_prefix="/all-policies")
 app.register_blueprint(account_bp)
 app.register_blueprint(all_claims_bp)
-
-
 
 
 @app.route("/dashboard")
@@ -84,8 +94,6 @@ def dashboard():
     return render_template("dashboard.html", curr_page="dashboard", user=lg_user)
 
 
-
-    
 # from models.cars_quote import CarQuote
 # @app.get("/testing")
 # def testing_app():
@@ -103,11 +111,12 @@ def dashboard():
 #     return jsonify({"hi":"hi"})
 
 
-
 try:
     with app.app_context():
         # Use text() to explicitly declare your SQL command
         result = db.session.execute(text("SELECT 1")).fetchall()
+        # db.drop_all()
+        # db.create_all()
         print("Connection successful:", result)
 except Exception as e:
     print("Error connecting to the database:", e)

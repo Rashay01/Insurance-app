@@ -1,12 +1,13 @@
 from flask import Blueprint, render_template, redirect, flash, request
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, DateField, TextAreaField
-from wtforms.validators import InputRequired, Length
+from wtforms import StringField, SubmitField, DateField, TextAreaField, ValidationError
+from wtforms.validators import InputRequired, Length, Regexp
 from sqlalchemy.sql import Select
 from models.policy import Policy
 from models.classic_cars import ClassicCars
 from models.claim import Claim
 from models.claim_status import ClaimStatus
+from datetime import datetime, timedelta
 from extensions import db
 from app import lg_user
 import uuid
@@ -19,12 +20,23 @@ class ClaimForm(FlaskForm):
         "Date incident occurred", validators=[InputRequired()]
     )
     claim_description = TextAreaField(
-        "Description of what happened?", validators=[InputRequired()]
+        "Description of what happened?", validators=[InputRequired(), Length(max=500)]
     )
     police_claim_number = StringField(
-        "Police claim number", validators=[InputRequired()]
+        "Police claim number",
+        validators=[
+            InputRequired(),
+            Length(max=15),
+            Regexp("^[A-Za-z0-9_-]+$", message="Enter a valid police number"),
+        ],
     )
     submit = SubmitField("Submit new claim")
+
+    def validate_date_incident_occurred(self, field):
+        curr_date = datetime.now().date()
+        incident_date = field.data
+        if incident_date > curr_date or curr_date - incident_date > timedelta(days=2):
+            raise ValidationError("Claim must happen within two days of incident")
 
 
 @all_claims_bp.route("/new-claim", methods=["POST", "GET"])
@@ -100,7 +112,7 @@ def specific_claims_page(id):
     if claims_Data is None:
         return "<h2>404 Claim not found</h2>"
     status = (
-        ClaimStatus.query.filter_by(claim_number="claim-001")
+        ClaimStatus.query.filter_by(claim_number=id)
         .order_by(ClaimStatus.status_date)
         .all()
     )

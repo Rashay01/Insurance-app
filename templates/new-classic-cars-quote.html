@@ -1,5 +1,13 @@
 {% extends 'base.html' %} {% block style %}
 <style>
+  .error-color{
+    color: red;
+  }
+  .quote-error-message {  
+    word-wrap: break-word; 
+    max-width: 200px;
+    font-size: small;
+  } 
   .all-heading {
     margin-left: 15px;
     margin-top: 20px;
@@ -19,6 +27,10 @@
     column-gap: 20px;
     grid-template-columns: 1fr;
     justify-items: center;
+  }
+  .quote-input-width {
+    width: 200px;
+    height: 30px;
   }
   .form-container {
     margin: 20px;
@@ -63,43 +75,111 @@
 </style>
 {% endblock %} {% block body%}
 <div class="quote-form-container">
-  <h1 class="all-heading">Quote</h1>
+  <h1 class="all-heading">Quote: Classic Car</h1>
   <form class="card form-container" action="" method="POST">
     {{ form.hidden_tag() }}
     <div class="form-input-items">
       <div class="form-group">
         {{form.vehicle_make.label}}<br />
         {{form.vehicle_make()}}
+        <br />
+        {% if form.vehicle_make.errors %} 
+        {% for error in form.vehicle_make.errors %}
+          <div class="quote-error-message error-color">{{error}}</div>
+        {% endfor %} 
+        {% endif %} 
       </div>
-      <div class="form-group">{{form.model.label}} <br />{{form.model()}}</div>
+      <div class="form-group">
+        {{form.model.label}} 
+        <br />
+        {{form.model()}}
+        <br />
+        {% if form.model.errors %} 
+        {% for error in form.model.errors %}
+          <div class="quote-error-message error-color">{{error}}</div>
+        {% endfor %} 
+        {% endif %} 
+      </div>
       <div class="form-group">
         {{form.year_model.label}} <br />
         {{form.year_model()}}
+        <br />
+        {% if form.year_model.errors %} 
+        {% for error in form.year_model.errors %}
+          <div class="quote-error-message error-color">{{error}}</div>
+        {% endfor %} 
+        {% endif %} 
       </div>
-      <div class="form-group">{{form.vin.label}} <br />{{form.vin()}}</div>
+      <div class="form-group">
+        {{form.vin.label}} 
+        <br />
+        {{form.vin()}}
+        <br />
+        {% if form.vin.errors %} 
+        {% for error in form.vin.errors %}
+          <div class="quote-error-message error-color">{{error}}</div>
+        {% endfor %} 
+        {% endif %} 
+      </div>
       <div class="form-group">
         {{form.license_plate_number.label}} <br />
         {{form.license_plate_number()}}
+        <br />
+        {% if form.license_plate_number.errors %} 
+        {% for error in form.license_plate_number.errors %}
+          <div class="quote-error-message error-color">{{error}}</div>
+        {% endfor %} 
+        {% endif %} 
       </div>
       <div class="form-group">
         {{form.odometer_reading.label}} <br />
         {{form.odometer_reading()}}
+        <br />
+        {% if form.odometer_reading.errors %} 
+        {% for error in form.odometer_reading.errors %}
+          <div class="quote-error-message error-color">{{error}}</div>
+        {% endfor %} 
+        {% endif %} 
       </div>
       <div class="form-group">
         {{form.fuel_type.label}} <br />
-        {{form.fuel_type()}}
+        {{form.fuel_type(class='quote-input-width ')}}
+        <br />
+        {% if form.fuel_type.errors %} 
+        {% for error in form.fuel_type.errors %}
+          <div class="quote-error-message error-color">{{error}}</div>
+        {% endfor %} 
+        {% endif %} 
       </div>
       <div class="form-group">
         {{form.color.label}} <br />
         {{form.color()}}
+        <br />
+        {% if form.color.errors %} 
+        {% for error in form.color.errors %}
+          <div class="quote-error-message error-color">{{error}}</div>
+        {% endfor %} 
+        {% endif %} 
       </div>
       <div class="form-group">
         {{form.current_value.label}} <br />
         {{form.current_value()}}
+        <br />
+        {% if form.current_value.errors %} 
+        {% for error in form.current_value.errors %}
+          <div class="quote-error-message error-color">{{error}}</div>
+        {% endfor %} 
+        {% endif %} 
       </div>
       <div class="form-group">
         {{form.year_purchased.label}} <br />
-        {{form.year_purchased()}}
+        {{form.year_purchased(class='quote-input-width')}}
+        <br />
+        {% if form.year_purchased.errors %} 
+        {% for error in form.year_purchased.errors %}
+          <div class="quote-error-message error-color">{{error}}</div>
+        {% endfor %} 
+        {% endif %} 
       </div>
     </div>
     {{form.new_item(class='btn form-button')}}

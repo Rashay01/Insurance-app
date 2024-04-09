@@ -8,8 +8,9 @@ from wtforms import (
     FloatField,
     IntegerField,
     DateField,
+    SelectField,
 )
-from wtforms.validators import InputRequired, Length
+from wtforms.validators import InputRequired, Length, Regexp
 from models.cars_quote import CarQuote
 from models.category import Category
 from models.classic_cars import ClassicCars
@@ -18,8 +19,11 @@ from models.policy import Policy
 import uuid
 from extensions import db
 from app import lg_user
+from datetime import datetime
 
 classic_cars_quote_bp = Blueprint("classic_cars_quote", __name__)
+
+fuel_types_list = [("Petrol", "Petrol"), ("Diesel", "Diesel")]
 
 
 class ClassicCarsForm(FlaskForm):
@@ -27,13 +31,33 @@ class ClassicCarsForm(FlaskForm):
         "vehicle make", validators=[InputRequired(), Length(min=1)]
     )
     model = StringField("model", validators=[InputRequired()])
-    year_model = IntegerField("year model", validators=[InputRequired()])
-    vin = StringField("vin", validators=[InputRequired()])
+    year_model = StringField(
+        "year model",
+        validators=[InputRequired(), Regexp("^\d{4}$", message="Enter a valid year")],
+    )
+    vin = StringField(
+        "vin",
+        validators=[
+            InputRequired(),
+            Length(min=17, max=17),
+            Regexp("^[0-9A-HJ-NPR-Za-hj-npr-z]+$", message="Invalid VIN"),
+        ],
+    )
     license_plate_number = StringField(
-        "license_plate_number", validators=[InputRequired()]
+        "License Plate Number",
+        validators=[
+            InputRequired(),
+            Length(max=7),
+            Regexp(
+                "^[A-Za-z0-9]+$",
+                message="Enter Valid License Plate Number with A-Z 0-9",
+            ),
+        ],
     )
     odometer_reading = IntegerField("odometer_reading", validators=[InputRequired()])
-    fuel_type = StringField("fuel_type", validators=[InputRequired()])
+    fuel_type = SelectField(
+        "fuel_type", validators=[InputRequired()], choices=fuel_types_list
+    )
     color = StringField("color", validators=[InputRequired()])
     current_value = FloatField("current_value", validators=[InputRequired()])
     year_purchased = DateField(
@@ -41,9 +65,26 @@ class ClassicCarsForm(FlaskForm):
     )
     new_item = SubmitField("Get Quote")
 
-    def validate_item_value(self, field):
-        if field.data <= 0:
-            ValidationError("Amount should be grater than zero")
+    def validate_current_value(self, field):
+        if float(field.data) <= 0:
+            raise ValidationError("Amount should be grater than zero")
+
+    def validate_odometer_reading(self, field):
+        if int(field.data) <= 0:
+            raise ValidationError("Amount should be grater than zero")
+
+    def validate_year_purchased(self, field):
+        curr_date = datetime.now().date()
+        if curr_date < field.data:
+            raise ValidationError("Date must be before or equal to current date")
+
+    def validate_year_model(self, field):
+        curr_date = datetime.now().year
+        date = int(field.data)
+        if date <= 0:
+            raise ValidationError("enter a positive year")
+        if date > (curr_date - 25):
+            raise ValidationError("We cover classic cars from 25 years ago")
 
 
 @classic_cars_quote_bp.route("/classic-cars", methods=["GET", "POST"])
@@ -60,9 +101,9 @@ def get_new_quote():
             "vehicle_id": vehicle_id,
             "vehicle_make": form.vehicle_make.data,
             "model": form.model.data,
-            "year_model": str(form.year_model.data),
-            "vin": form.vin.data,
-            "license_plate_number": form.license_plate_number.data,
+            "year_model": form.year_model.data,
+            "vin": form.vin.data.upper(),
+            "license_plate_number": form.license_plate_number.data.upper(),
             "odometer_reading": form.odometer_reading.data,
             "fuel_type": form.fuel_type.data,
             "color": form.color.data,

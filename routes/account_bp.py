@@ -51,6 +51,7 @@ def user_account_page():
         try:
             user.email = email_form.email.data
             db.session.commit()
+            flash("Email changed successfully")
             return redirect("/account")
         except Exception as e:
             db.session.rollback()
@@ -60,6 +61,7 @@ def user_account_page():
         try:
             user.cell_no = contact_form.cont_num.data
             db.session.commit()
+            flash("Cell Number changed successfully")
             return redirect("/account")
         except Exception as e:
             db.session.rollback()
@@ -70,6 +72,8 @@ def user_account_page():
             hash_password = generate_password_hash(password_form.new_password.data)
             user.password = hash_password
             db.session.commit()
+            flash("Password changed successfully")
+            # return redirect("/account")
         except Exception as e:
             db.session.rollback()
             return "<h2>500 Server Error</h2>"

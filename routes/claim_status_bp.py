@@ -4,12 +4,11 @@ from extensions import db
 
 claim_status_bp = Blueprint("claims_status", __name__)
 
+
 @claim_status_bp.get("/")
 def get_claim_status():
     claim_status_list = ClaimStatus.query.all()
-    data = [
-        claim_status.to_dict() for claim_status in claim_status_list
-    ] 
+    data = [claim_status.to_dict() for claim_status in claim_status_list]
     return jsonify(data)
 
 
@@ -32,11 +31,14 @@ def update_specific_claim_status(id):
             if hasattr(claim_status, key):
                 setattr(claim_status, key, value)
         db.session.commit()
-        result = {"message": "Claim Status updated successfully", "data": claim_status.to_dict()}
+        result = {
+            "message": "Claim Status updated successfully",
+            "data": claim_status.to_dict(),
+        }
         return jsonify(result)
     except Exception as e:
         db.session.rollback()
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500
 
 
 @claim_status_bp.delete("/<id>")
@@ -48,20 +50,23 @@ def delete_specific_claim_status(id):
         data = claim_status.to_dict()
         db.session.delete(claim_status)
         db.session.commit()
-        return jsonify({"message":"Claim Status successfully deleted","data":data})
+        return jsonify({"message": "Claim Status successfully deleted", "data": data})
     except Exception as e:
         db.session.rollback()
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500
 
 
 @claim_status_bp.post("/")
 def add_claim_status():
     data = request.json
-    new_claim_status= ClaimStatus(**data)
+    new_claim_status = ClaimStatus(**data)
     try:
         db.session.add(new_claim_status)
         db.session.commit()
-        result = {"message": "Claim Status added successfully", "data": new_claim_status.to_dict()}
+        result = {
+            "message": "Claim Status added successfully",
+            "data": new_claim_status.to_dict(),
+        }
         return jsonify(result), 201
     except Exception as e:
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500

@@ -101,6 +101,7 @@ def registration_page():
             new_user = User(**data)
             db.session.add(new_user)
             db.session.commit()
+            flash("Registered successfully")
             return redirect("/login")
         except Exception as e:
             db.session.rollback()

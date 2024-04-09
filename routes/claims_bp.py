@@ -4,12 +4,11 @@ from extensions import db
 
 claims_bp = Blueprint("claims", __name__)
 
+
 @claims_bp.get("/")
 def get_claims():
     claim_list = Claim.query.all()
-    data = [
-        claim.to_dict() for claim in claim_list
-    ] 
+    data = [claim.to_dict() for claim in claim_list]
     return jsonify(data)
 
 
@@ -36,7 +35,7 @@ def update_specific_claim(id):
         return jsonify(result)
     except Exception as e:
         db.session.rollback()
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500
 
 
 @claims_bp.delete("/<id>")
@@ -48,20 +47,20 @@ def delete_specific_claim(id):
         data = claim.to_dict()
         db.session.delete(claim)
         db.session.commit()
-        return jsonify({"message":"Claim successfully deleted","data":data})
+        return jsonify({"message": "Claim successfully deleted", "data": data})
     except Exception as e:
         db.session.rollback()
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500
 
 
 @claims_bp.post("/")
 def add_claim():
     data = request.json
-    new_claim= Claim(**data)
+    new_claim = Claim(**data)
     try:
         db.session.add(new_claim)
         db.session.commit()
         result = {"message": "Claim added successfully", "data": new_claim.to_dict()}
         return jsonify(result), 201
     except Exception as e:
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500

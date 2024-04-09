@@ -4,12 +4,11 @@ from extensions import db
 
 classic_car_bp = Blueprint("classic_car", __name__)
 
+
 @classic_car_bp.get("/")
 def get_classic_car():
     ClassicCars_list = ClassicCars.query.all()
-    data = [
-        car.to_dict() for car in ClassicCars_list
-    ] 
+    data = [car.to_dict() for car in ClassicCars_list]
     return jsonify(data)
 
 
@@ -32,11 +31,14 @@ def update_specific_classic_car(id):
             if hasattr(selected_car, key):
                 setattr(selected_car, key, value)
         db.session.commit()
-        result = {"message": "Classic Cars updated successfully", "data": selected_car.to_dict()}
+        result = {
+            "message": "Classic Cars updated successfully",
+            "data": selected_car.to_dict(),
+        }
         return jsonify(result)
     except Exception as e:
         db.session.rollback()
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500
 
 
 @classic_car_bp.delete("/<id>")
@@ -51,17 +53,20 @@ def delete_specific_classic_car(id):
         return jsonify({"message": "Classic Cars deleted successfully", "data": data})
     except Exception as e:
         db.session.rollback()
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500
 
 
 @classic_car_bp.post("/")
 def add_classic_car():
     data = request.json
-    new_car= ClassicCars(**data)
+    new_car = ClassicCars(**data)
     try:
         db.session.add(new_car)
         db.session.commit()
-        result = {"message": "Classic Car added successfully", "data": new_car.to_dict()}
+        result = {
+            "message": "Classic Car added successfully",
+            "data": new_car.to_dict(),
+        }
         return jsonify(result), 201
     except Exception as e:
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500

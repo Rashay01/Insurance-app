@@ -38,80 +38,102 @@
     color: #ffffff;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   }
+  .input-form-group{
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .quote-form-container {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media (min-width: 768px) {
+    .quote-form-container {
+      width: 92%;
+    }
+  }
+  @media (min-width: 768px) {
+    .quote-form-container {
+      width: 60%;
+    }
+  }
 </style>
 {% endblock %} 
 {% block body%}
-<h1 class="all-heading">Registration</h1>
-<form class="form-container" action="" method="POST">
-  <!-- hidden input field -->
-  {{form.hidden_tag()}} 
-  <!-- actual register -->
-  <div class="form-group">
-    {% if form.user_id.errors %}{{form.user_id.label(class='error-color')}} {% else %} {{form.user_id.label}}{% endif %}:<br />
-    {{form.user_id(class='input-width', placeholder="")}} 
-    <br />
-    {% if form.user_id.errors %} 
-    {% for error in form.user_id.errors %}
-      <div class="error-message error-color">{{error}}</div>
-    {% endfor %} 
-    {% endif %} 
-  </div>
-  <div class="form-group">
-    {% if form.name.errors %}{{form.name.label(class='error-color')}} {% else %} {{form.name.label}}{% endif %}:
-    <br />
-    {{form.name(class='input-width', placeholder="")}} 
-    <br />
-    {% if form.name.errors %} 
-    {% for error in form.name.errors %}
-      <div class="error-message error-color">{{error}}</div>
-    {% endfor %} 
-    {% endif %} 
-  </div>
-  <div class="form-group">
-    {% if form.surname.errors %}{{form.surname.label(class='error-color')}} {% else %} {{form.surname.label}}{% endif %}: 
-    <br />
-    {{form.surname(class='input-width', placeholder="")}} 
-    <br />
-    {% if form.surname.errors %} 
-    {% for error in form.surname.errors %}
-      <div class="error-message error-color">{{error}}</div>
-    {% endfor %} 
-    {% endif %} 
+<div class="quote-form-container">
 
-  </div>
-  <div class="form-group">
-    {% if form.email.errors %}{{form.email.label(class='error-color')}} {% else %} {{form.email.label}}{% endif %}:  
-    <br />
-    {{form.email(class='input-width', placeholder="")}} 
-    <br />
-    {% if form.email.errors %} 
-    {% for error in form.email.errors %}
-      <div class="error-message error-color">{{error}}</div>
-    {% endfor %} 
-    {% endif %} 
-  </div>
-  <div class="form-group">
-    {% if form.cell_no.errors %}{{form.cell_no.label(class='error-color')}} {% else %} {{form.cell_no.label}}{% endif %}:   
-    <br />
-    {{form.cell_no(class='input-width', placeholder="")}} 
-    <br />
-    {% if form.cell_no.errors %} 
-    {% for error in form.cell_no.errors %}
-      <div class="error-message error-color">{{error}}</div>
-    {% endfor %} 
-    {% endif %} 
-  </div>
-  <div class="form-group">
-    {% if form.password.errors %}{{form.password.label(class='error-color')}} {% else %} {{form.password.label}}{% endif %}:
-    <br />
-    {{form.password(class='input-width')}} 
-    <br />
-    {% if form.password.errors %} 
-    {% for error in form.password.errors %}
-      <div class="error-message error-color">{{error}}</div>
-    {% endfor %} 
-    {% endif %} 
-  </div>
-  {{form.submit(class='btn form-button')}}<br />
-</form>
+  <h1 class="all-heading">Registration</h1>
+  <form class="card form-container" action="" method="POST">
+    <!-- hidden input field -->
+    {{form.hidden_tag()}} 
+    <!-- actual register -->
+    <div class="form-group input-form-group">
+      {% if form.user_id.errors %}{{form.user_id.label(class='error-color')}} {% else %} {{form.user_id.label}}{% endif %}:<br />
+      {{form.user_id(class='input-width', placeholder="")}} 
+      <br />
+      {% if form.user_id.errors %} 
+      {% for error in form.user_id.errors %}
+        <div class="error-message error-color">{{error}}</div>
+      {% endfor %} 
+      {% endif %} 
+    </div>
+    <div class="form-group input-form-group">
+      {% if form.name.errors %}{{form.name.label(class='error-color')}} {% else %} {{form.name.label}}{% endif %}:
+      <br />
+      {{form.name(class='input-width', placeholder="")}} 
+      <br />
+      {% if form.name.errors %} 
+      {% for error in form.name.errors %}
+        <div class="error-message error-color">{{error}}</div>
+      {% endfor %} 
+      {% endif %} 
+    </div>
+    <div class="form-group input-form-group">
+      {% if form.surname.errors %}{{form.surname.label(class='error-color')}} {% else %} {{form.surname.label}}{% endif %}: 
+      <br />
+      {{form.surname(class='input-width', placeholder="")}} 
+      <br />
+      {% if form.surname.errors %} 
+      {% for error in form.surname.errors %}
+        <div class="error-message error-color">{{error}}</div>
+      {% endfor %} 
+      {% endif %} 
+  
+    </div>
+    <div class="form-group input-form-group">
+      {% if form.email.errors %}{{form.email.label(class='error-color')}} {% else %} {{form.email.label}}{% endif %}:  
+      <br />
+      {{form.email(class='input-width', placeholder="")}} 
+      <br />
+      {% if form.email.errors %} 
+      {% for error in form.email.errors %}
+        <div class="error-message error-color">{{error}}</div>
+      {% endfor %} 
+      {% endif %} 
+    </div>
+    <div class="form-group input-form-group">
+      {% if form.cell_no.errors %}{{form.cell_no.label(class='error-color')}} {% else %} {{form.cell_no.label}}{% endif %}:   
+      <br />
+      {{form.cell_no(class='input-width', placeholder="")}} 
+      <br />
+      {% if form.cell_no.errors %} 
+      {% for error in form.cell_no.errors %}
+        <div class="error-message error-color">{{error}}</div>
+      {% endfor %} 
+      {% endif %} 
+    </div>
+    <div class="form-group input-form-group">
+      {% if form.password.errors %}{{form.password.label(class='error-color')}} {% else %} {{form.password.label}}{% endif %}:
+      <br />
+      {{form.password(class='input-width')}} 
+      <br />
+      {% if form.password.errors %} 
+      {% for error in form.password.errors %}
+        <div class="error-message error-color">{{error}}</div>
+      {% endfor %} 
+      {% endif %} 
+    </div>
+    {{form.submit(class='btn form-button')}}<br />
+  </form>
+</div>
 {% endblock %}

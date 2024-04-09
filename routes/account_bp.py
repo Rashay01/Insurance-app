@@ -3,7 +3,7 @@ from models.users import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, ValidationError, EmailField
-from wtforms.validators import InputRequired, Length
+from wtforms.validators import InputRequired, Length, Regexp
 from extensions import db
 from app import lg_user
 
@@ -16,14 +16,33 @@ class EmailForm(FlaskForm):
 
 
 class ContactForm(FlaskForm):
-    cont_num = StringField("New Contact number", validators=[InputRequired()])
+    cont_num = StringField(
+        "New Contact number",
+        validators=[
+            InputRequired(),
+            Length(min=10),
+            Regexp("^(\+\d{2})?\d{10}$", message="Valid cellphone with numbers"),
+        ],
+    )
     submit = SubmitField("Save Changes")
 
 
 class PasswordForm(FlaskForm):
     user_id = ""
-    password = StringField("Old password", validators=[InputRequired()])
-    new_password = StringField("New password", validators=[InputRequired()])
+    password = StringField(
+        "Old password", validators=[InputRequired(), Length(min=8, max=12)]
+    )
+    new_password = StringField(
+        "New password",
+        validators=[
+            InputRequired(),
+            Length(min=8, max=12),
+            Regexp(
+                "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$",
+                message="Valid password with at least one uppercase letter, one lowercase letter, one number and one special character '@$!%*?&'",
+            ),
+        ],
+    )
     submit = SubmitField("Save Changes")
 
     def validate_password(self, field):
@@ -32,6 +51,7 @@ class PasswordForm(FlaskForm):
         if user is None:
             ValidationError("Server Error")
         if not check_password_hash(user.password, field.data):
+            flash("Incorrect Old password")
             raise ValidationError("Invalid old password")
 
     def update_user_id(self, user):

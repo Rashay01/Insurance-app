@@ -9,6 +9,14 @@
     background-color: #0076be;
     color: #ffffff;
   }
+  .error-color{
+    color: red;
+  }
+  .error-message {  
+    word-wrap: break-word; 
+    max-width: 340px;
+    font-size: small;
+  } 
 </style>
 {% endblock %} {% block body%}
 <h1>Account</h1>
@@ -59,8 +67,18 @@
 
       <form action="" method="POST">
         <div class="modal-body">
-          {{ email_form.hidden_tag() }} {{email_form.email.label}}
-          {{email_form.email()}}
+          {{ email_form.hidden_tag() }}
+          <div class="form-group">
+            {{email_form.email.label}}
+            <br/> 
+            {{email_form.email()}}
+            <br/>
+            {% if email_form.email.errors %} 
+            {% for error in email_form.email.errors %}
+              <div class="error-message error-color">{{error}}</div>
+            {% endfor %} 
+            {% endif %}
+          </div>
         </div>
 
         <div class="modal-footer">{{email_form.submit()}}</div>
@@ -93,8 +111,17 @@
 
       <form action="" method="POST">
         <div class="modal-body">
-          {{ contact_form.hidden_tag() }} {{contact_form.cont_num.label}}
-          {{contact_form.cont_num()}}
+          {% if contact_form.cont_num.errors %} 
+          {% for error in contact_form.cont_num.errors %}
+            <div class="error-message error-color">{{error}}</div>
+          {% endfor %} 
+          {% endif %}
+          {{ contact_form.hidden_tag() }}
+          <div class="form-group">
+            {{contact_form.cont_num.label}}
+            <br> 
+            {{contact_form.cont_num()}}
+          </div>
         </div>
 
         <div class="modal-footer">{{contact_form.submit()}}</div>
@@ -127,13 +154,30 @@
 
       <form action="" method="POST">
         <div class="modal-body">
-          {% if password_form.password.errors %} {% for error in
-          password_form.password.errors %}
-          <div style="color: red">{{error}}</div>
-          {% endfor %} {% endif %}<br />
-          {{ password_form.hidden_tag() }} {{password_form.password.label}}
-          {{password_form.password()}}<br />
-          {{password_form.new_password.label}} {{password_form.new_password()}}
+          
+          {{ password_form.hidden_tag() }} 
+          <div class="form-group">
+            {{password_form.password.label}}
+            <br />
+            {{password_form.password()}}
+            <br>
+            {% if password_form.password.errors %} 
+            {% for error in password_form.password.errors %}
+              <div class="error-message error-color">{{error}}</div>
+            {% endfor %} 
+            {% endif %}
+          </div>
+          <div class="form-group">
+            {{password_form.new_password.label}} 
+            <br>
+            {{password_form.new_password()}}
+            <br>
+            {% if password_form.new_password.errors %} 
+            {% for error in password_form.new_password.errors %}
+              <div class="error-message error-color">{{error}}</div>
+            {% endfor %} 
+            {% endif %}
+          </div>
         </div>
 
         <div class="modal-footer">{{password_form.submit()}}</div>

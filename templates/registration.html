@@ -1,17 +1,88 @@
-{% extends 'base.html' %} {% block style %} {% endblock %} {% block body%}
+{% extends 'base.html' %} 
+{% block style %} 
+<style>
+  .error-message {  
+    word-wrap: break-word; 
+    color: red; 
+    max-width: 340px;
+    font-size: small;
+  } 
+</style>
+{% endblock %} 
+{% block body%}
 <h1>Registration</h1>
 <form action="" method="POST">
   <!-- hidden input field -->
-  {{form.hidden_tag()}} {% if form.user_id.errors %} {% for error in
-  form.user_id.errors %}
-  <div style="color: red">{{error}}</div>
-  {% endfor %} {% endif %} <br />
-  {{form.user_id.label}}: {{form.user_id(placeholder="username")}} <br />
-  {{form.name.label}}: {{form.name(placeholder="username")}} <br />
-  {{form.surname.label}}: {{form.surname(placeholder="username")}} <br />
-  {{form.email.label}}: {{form.email(placeholder="username")}} <br />
-  {{form.cell_no.label}}: {{form.cell_no(placeholder="username")}} <br />
-  {{form.password.label}}: {{form.password()}} <br />
+  {{form.hidden_tag()}} 
+  
+
+  
+  <!-- actual register -->
+  <div class="form-group">
+    {{form.user_id.label}}: <br />
+    {{form.user_id(placeholder="")}} 
+    <br />
+    {% if form.user_id.errors %} 
+    {% for error in form.user_id.errors %}
+      <div class="error-message">{{error}}</div>
+    {% endfor %} 
+    {% endif %} 
+  </div>
+  <div class="form-group">
+    {{form.name.label}}: <br />
+    {{form.name(placeholder="")}} 
+    <br />
+    {% if form.name.errors %} 
+    {% for error in form.name.errors %}
+      <div class="error-message">{{error}}</div>
+    {% endfor %} 
+    {% endif %} 
+  </div>
+  <div class="form-group">
+    {{form.surname.label}}: 
+    <br />
+    {{form.surname(placeholder="")}} 
+    <br />
+    {% if form.surname.errors %} 
+    {% for error in form.surname.errors %}
+      <div class="error-message">{{error}}</div>
+    {% endfor %} 
+    {% endif %} 
+
+  </div>
+  <div class="form-group">
+    {{form.email.label}}: 
+    <br />
+    {{form.email(placeholder="")}} 
+    <br />
+    {% if form.email.errors %} 
+    {% for error in form.email.errors %}
+      <div class="error-message">{{error}}</div>
+    {% endfor %} 
+    {% endif %} 
+  </div>
+  <div class="form-group">
+    {{form.cell_no.label}}: 
+    <br />
+    {{form.cell_no(placeholder="")}} 
+    <br />
+    {% if form.cell_no.errors %} 
+    {% for error in form.cell_no.errors %}
+      <div class="error-message">{{error}}</div>
+    {% endfor %} 
+    {% endif %} 
+  </div>
+  <div class="form-group">
+    {{form.password.label}}: 
+    <br />
+    {{form.password()}} 
+    <br />
+    {% if form.password.errors %} 
+    {% for error in form.password.errors %}
+      <div class="error-message">{{error}}</div>
+    {% endfor %} 
+    {% endif %} 
+  </div>
   {{form.submit}}<br />
 </form>
 {% endblock %}

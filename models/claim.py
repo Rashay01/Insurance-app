@@ -8,7 +8,7 @@ class Claim(db.Model):
     claim_number = db.Column(
         db.String(50), primary_key=True, default=lambda: str(uuid.uuid4())
     )
-    claim_date = db.Column(db.DateTime, nullable=False, default=func.now())
+    claim_date = db.Column(db.DateTime, nullable=False, default=func.current_date())
     date_incident_occurred = db.Column(db.DateTime, nullable=False)
     claim_description = db.Column(db.String(500), nullable=False)
     police_claim_number = db.Column(db.String(15))

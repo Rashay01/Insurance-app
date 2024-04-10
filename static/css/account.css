@@ -1,0 +1,101 @@
+.Account-heading {
+    
+    margin-left: 15px;
+    margin-top: 20px;
+  }
+  .popup-heading,.Account-heading{
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+
+  }
+  .button,.logout-button {
+    margin: 10px;
+    background: #333e48;
+    color: #ffffff;
+   
+  }
+  .center {
+    margin-left: 15px;
+    margin-right: 15px;
+    width:100%;
+    padding: 10px;
+    padding-left: 30px;
+  }
+  .Account-form{
+    display: flex;
+  }
+  .button{
+    width: 200px;
+  }
+  .button:hover,.logout-button:hover {
+    background-color: #0076be;
+    color: #ffffff;
+  }
+  .logout-button{
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  .account-icon-container{
+    margin: 10px;
+  } 
+  .account-icon{
+    margin: 80px;
+    margin-left: 50px;
+    margin-right: 0%;
+    font-size: 140px;
+  }
+  .popup-model-header{
+    background-color: #0076be;
+  }
+  .popup-button{
+    margin: 0px;
+  }
+  .Content-title{
+    font-weight: bold;
+  }
+  .account-button-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  .account-details{
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 10px;
+  }
+  @media (min-width: 531px) {
+    .account-icon{
+      margin-left: 50px;
+    padding-left: 35px ;
+    }
+    .center{
+      margin: auto;
+      width: 70%;
+    }
+    .account-details{
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+  }
+  @media (min-width: 768px) {
+    .account-icon{
+      margin-left: 90px;
+    padding-left: 35px ;
+    }
+    .center{
+      display: flex;
+      flex-direction: column;
+      justify-items: center;
+      width: 500px;
+    }
+    .account-details{
+      grid-template-columns: 1fr 1fr;
+      gap: 5px;
+  }
+  .Account-heading {
+    margin-left: 15px;
+    margin-top: 30px;
+  }
+  }
+}

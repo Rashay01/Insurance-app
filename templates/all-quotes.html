@@ -1,7 +1,15 @@
 {% extends 'base.html' %} {% block style %}
+<style>
+  body {
+    background-image: url('/static/background2.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+</style>
 {% endblock %} {% block body%}
-<h2 class="all-heading">All Quotes</h2>
-<h3 class="all-category-heading">Classic Cars:</h3>
+<h2 class="all-heading heading-background">All Quotes</h2>
+<h3 class="all-category-heading heading-background">Classic Cars:</h3>
 {% for car_quote, quote, classic_car in quotes_data %}
 <div class="card all-items-container">
   <h5>No: {{quote.quote_id}}</h5>

@@ -1,8 +1,16 @@
 {% extends 'base.html' %} {% block style %}
+<style>
+  body {
+    background-image: url('/static/background2.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+</style>
 {% endblock %} {% block body%}
 <div class="claim-form-container">
-  <h1 class="all-heading">New Claim</h1>
   <form class="card form-container" action="" method="POST">
+    <h1 class="all-heading">New Claim</h1>
     <div class="claim-form-input-items">
       <div class="form-group">
         <label class="form-top-label">Select Policy number:</label><br />
@@ -20,29 +28,26 @@
         <br />
         {{form.date_incident_occurred(class='claim-input')}}
         <br />
-        {% if form.date_incident_occurred.errors %} 
-        {% for error in form.date_incident_occurred.errors %}
-          <div class="error-message error-color">{{error}}</div>
-        {% endfor %} 
-        {% endif %} 
+        {% if form.date_incident_occurred.errors %} {% for error in
+        form.date_incident_occurred.errors %}
+        <div class="error-message error-color">{{error}}</div>
+        {% endfor %} {% endif %}
       </div>
       <div class="form-group">
         {{form.claim_description.label}} <br />
         {{form.claim_description(class='claim-input claim-description-input')}}
-        {% if form.claim_description.errors %} 
-        {% for error in form.claim_description.errors %}
-          <div class="error-message error-color">{{error}}</div>
-        {% endfor %} 
-        {% endif %} 
+        {% if form.claim_description.errors %} {% for error in
+        form.claim_description.errors %}
+        <div class="error-message error-color">{{error}}</div>
+        {% endfor %} {% endif %}
       </div>
       <div>
         {{form.police_claim_number.label}}<br />
-        {{form.police_claim_number(class='claim-input')}}
-        {% if form.police_claim_number.errors %} 
-        {% for error in form.police_claim_number.errors %}
-          <div class="error-message error-color">{{error}}</div>
-        {% endfor %} 
-        {% endif %} 
+        {{form.police_claim_number(class='claim-input')}} {% if
+        form.police_claim_number.errors %} {% for error in
+        form.police_claim_number.errors %}
+        <div class="error-message error-color">{{error}}</div>
+        {% endfor %} {% endif %}
       </div>
       {{form.submit(class="btn form-button")}}
     </div>

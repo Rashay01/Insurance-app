@@ -1,6 +1,14 @@
 {% extends 'base.html' %} {% block style %}
+<style>
+  body {
+    background-image: url('/static/background2.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+</style>
 {% endblock %} {% block body%}
-<h2 class="all-heading">All Claims</h2>
+<h2 class="all-heading heading-background">All Claims</h2>
 {% for claim, policy, classic_car in claims_data %}
 <div class="card all-items-container">
   <h5>Claim No: {{claim.claim_number}}</h5>

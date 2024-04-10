@@ -1,32 +1,31 @@
-{% extends 'base.html' %} 
-
-{% block body%}
+{% extends 'base.html' %} {% block style %}
+<style>
+  body {
+    background-image: url('/static/login.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+</style>
+{% endblock %} {% block body%}
 <div class="login-sign-up-form-container">
-  <h1 class="all-heading">Login</h1>
   <form class="card form-container" action="" method="POST">
-    
-    
+    <h1 class="all-heading">Login</h1>
     <div class="form-group input-form-group">
-      {{ form.hidden_tag() }} 
-      {% if form.ID.errors %} 
-      {% for error in form.ID.errors %}
-        <div class="error-color input-form-group">{{error}}</div>
-      {% endfor %} 
-      {% endif %} 
-      {% if form.password.errors %} 
-      {% for error in form.password.errors %}
-        <div class=" error-color input-form-group">{{error}}</div>
-      {% endfor %} 
-      {% endif %} 
-      
-      {{form.ID.label}}:
+      {{ form.hidden_tag() }} {% if form.ID.errors %} {% for error in
+      form.ID.errors %}
+      <div class="error-color input-form-group">{{error}}</div>
+      {% endfor %} {% endif %} {% if form.password.errors %} {% for error in
+      form.password.errors %}
+      <div class="error-color input-form-group">{{error}}</div>
+      {% endfor %} {% endif %} {{form.ID.label}}:
       <br />
-      {{form.ID(class='input-width', placeholder="")}} 
+      {{form.ID(class='input-width', placeholder="")}}
     </div>
     <div class="form-group input-form-group">
-      {{form.password.label}}: 
+      {{form.password.label}}:
       <br />
-      {{form.password(class='input-width')}} 
+      {{form.password(class='input-width')}}
     </div>
     {{form.submit(class='btn form-button')}}
   </form>

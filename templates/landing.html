@@ -1,19 +1,49 @@
-{% extends 'base.html' %} {% block body%}
+{% extends 'base.html' %} {% block body%} {% block style %}
+<style>
+  .landing-div {
+    width: 600px;
+    color: white;
+  }
+  .landing-page-bold {
+    font-weight: bold;
+  }
+  body {
+    background-image: url('/static/car.jpg');
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: contain;
+  }
+  .background {
+    background-color: rgba(19, 19, 19, 0.7);
+  }
+</style>
+{% endblock %}
+<div class="landing-div">
+  <h1 class="all-heading">Platinum Plus</h1>
 
-<h1>Platinum Plus </h1>
-<p>
-  Definition of Luxury Item: A luxury item is not necessary to live, but it is
-  deemed highly desirable within a culture or society. It tends to be sensitive
-  to a person's income or wealth, meaning that as wealth rises, so do purchases
-  of luxury items. Luxury items can include high-end automobiles and yachts but
-  also services, such as full-time or live-in chefs and housekeepers.
-</p>
+  <p class="background">
+    <span class="landing-page-bold">Sanlam Platinum Plus </span>is a insurance
+    provider for top end Luxury and antique items.
+  </p>
 
-<p>
-  A luxury item insurance policy may cover high-value items like jewelry, art,
-  or electronics. Luxury items are considered elite in a particular society and
-  are typically high-quality, rare, and require more resources to produce than
-  non-luxury items. Examples of luxury items include:
-</p>
+  <p class="background">
+    A <span class="landing-page-bold">luxury item </span>insurance policy may
+    cover high-value items like jewelry, art, or electronics. Luxury items are
+    considered elite in a particular society and are typically high-quality,
+    rare, and require more resources to produce than non-luxury items. Examples
+    of luxury items include:
+  </p>
+  <ul class="background">
+    <li>Classic Cars</li>
+    <li>Yachts</li>
+    <li>High-end watches and jewelry</li>
+    <li>Private jets</li>
+    <li>Landscaping services</li>
+    <li>Expensive real estate</li>
+    <li>Country club memberships</li>
+    <li>Designer clothing and shoes</li>
+  </ul>
+</div>
+<!-- <img src="/static/car.jpg" /> -->
 
 {% endblock %}

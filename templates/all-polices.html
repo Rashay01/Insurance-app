@@ -1,10 +1,13 @@
 {% extends 'base.html' %} {% block style %}
+
+<style></style>
+
 {% endblock %} {% block body%}
 
 <!-- Actual policy code -->
 <div class="polices-container">
-  <h2 class="all-heading">All Policies</h2>
-  <h3 class="all-category-heading">Classic Cars:</h3>
+  <h2 class="all-heading heading-background">All Policies</h2>
+  <h3 class="all-category-heading heading-background">Classic Cars:</h3>
   {% for policy,classic_car in all_policies_data.classic_car %}
   <div
     class="card all-items-container {% if not policy.active %}policy-container{% endif %}"

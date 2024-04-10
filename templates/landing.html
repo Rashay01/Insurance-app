@@ -1,8 +1,10 @@
 {% extends 'base.html' %} {% block body%} {% block style %}
 <style>
   .landing-div {
-    width: 600px;
+    width: 90%;
+    height: 100 vh;
     color: white;
+    background-color: rgba(19, 19, 19, 0.7);
   }
   .landing-page-bold {
     font-weight: bold;
@@ -14,17 +16,40 @@
     background-size: contain;
   }
   .background {
-    background-color: rgba(19, 19, 19, 0.7);
+    font-size: large;
+    margin: 10px;
+    margin-left: 15px;
+    padding: 20px;
+  }
+  .background-list {
+    font-size: large;
+    margin: 10px;
+    margin-left: 25px;
+    padding: 20px;
+  }
+  .landing-heading {
+    font-size: 50px;
+  }
+  @media (min-width: 515px) {
+    .landing-div {
+      width: 70%;
+    }
+  }
+  @media (min-width: 768px) {
+    .landing-div {
+      width: 50%;
+    }
   }
 </style>
 {% endblock %}
 <div class="landing-div">
-  <h1 class="all-heading">Platinum Plus</h1>
-
-  <p class="background">
-    <span class="landing-page-bold">Sanlam Platinum Plus </span>is a insurance
-    provider for top end Luxury and antique items.
-  </p>
+  <h1 class="all-heading landing-heading">Platinum Plus</h1>
+  <div class="background">
+    <p>
+      <span class="landing-page-bold">Sanlam Platinum Plus </span>is a insurance
+      provider for top end Luxury and antique items.
+    </p>
+  </div>
 
   <p class="background">
     A <span class="landing-page-bold">luxury item </span>insurance policy may
@@ -33,16 +58,18 @@
     rare, and require more resources to produce than non-luxury items. Examples
     of luxury items include:
   </p>
-  <ul class="background">
-    <li>Classic Cars</li>
-    <li>Yachts</li>
-    <li>High-end watches and jewelry</li>
-    <li>Private jets</li>
-    <li>Landscaping services</li>
-    <li>Expensive real estate</li>
-    <li>Country club memberships</li>
-    <li>Designer clothing and shoes</li>
-  </ul>
+  <div class="background-list">
+    <ul>
+      <li>Classic Cars</li>
+      <li>Yachts</li>
+      <li>High-end watches and jewelry</li>
+      <li>Private jets</li>
+      <li>Landscaping services</li>
+      <li>Expensive real estate</li>
+      <li>Country club memberships</li>
+      <li>Designer clothing and shoes</li>
+    </ul>
+  </div>
 </div>
 <!-- <img src="/static/car.jpg" /> -->
 

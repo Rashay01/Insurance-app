@@ -1,20 +1,86 @@
 {% extends 'base.html' %} {% block style %}
 <style>
+  .landing-div {
+    width: 90%;
+    height: 100 vh;
+    color: white;
+    background-color: rgba(19, 19, 19, 0.7);
+  }
   body {
     background-image: url('/static/moving-car.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
   }
+  .background {
+    font-size: large;
+    margin: 10px;
+    margin-left: 15px;
+    padding: 20px;
+  }
+  .landing-heading {
+    font-size: 50px;
+  }
+  .background {
+    font-size: large;
+    margin: 10px;
+    margin-left: 15px;
+    padding: 20px;
+  }
+  .contact-details {
+    margin: 30px;
+    padding-bottom: 40px;
+  }
+  .contact-button {
+    max-width: 150px;
+    background-color: #0076be;
+    color: #ffffff;
+  }
+  .contact-button:hover {
+    background-color: #ffffff;
+    color: #0076be;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  @media (min-width: 515px) {
+    .landing-div {
+      width: 70%;
+    }
+  }
+  @media (min-width: 768px) {
+    .landing-div {
+      width: 50%;
+    }
+  }
 </style>
 {% endblock %} {% block body%}
-
-<h1>Contact</h1>
-<ul>
-  <li>021 947 9111 Ext: 001</li>
-  <li>Email us: info@SanlamPlatinumPlus.co.za</li>
-  <li>Sanlam Head Office – Platinum Plus</li>
-  <li>C/O; Sanlam Platiunum Plus 2 Strand Road, Bellville</li>
-</ul>
+<div class="landing-div">
+  <h1 class="all-heading landing-heading">Contact</h1>
+  <form class="background">
+    <div class="form-group">
+      <label>Name</label><br />
+      <input type="Text" />
+    </div>
+    <div class="form-group">
+      <label>email</label><br />
+      <input type="Text" />
+    </div>
+    <div class="form-group">
+      <label>Cell Number</label>
+      <br />
+      <input type="Text" />
+    </div>
+    <br />
+    <button class="btn contact-button">Contact me</button>
+  </form>
+  <br />
+  <div class="contact-details">
+    <ul>
+      <li>021 947 9111 Ext: 001</li>
+      <li>Email us: info@SanlamPlatinumPlus.co.za</li>
+      <li>Sanlam Head Office – Platinum Plus</li>
+      <li>C/O; Sanlam Platiunum Plus 2 Strand Road, Bellville</li>
+    </ul>
+  </div>
+</div>
 
 {% endblock %}

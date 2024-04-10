@@ -20,70 +20,7 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <style>
-      body {
-        margin: 0;
-        font-family: "Roboto",Arial, sans-serif;
-      }
-      .logo {
-        max-width: 100px;
-        max-height: 40px;
-      }
-      .nav-tag {
-        color: #ffffff;
-      }
-      .nav-tag:hover {
-        color: #111820;
-      }
-
-      .nav {
-        background-color: #0076be;
-        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-      }
-      .nav-account,
-      .nav-right-item {
-        margin-left: 10px;
-        margin-right: 10px;
-        color: #ffffff;
-      }
-      .nav-account:hover {
-        color: #111820;
-      }
-      .empty-nav{
-        height: 55px;
-        width: 100%;
-      }
-      .flash-container {
-        font-family: sans-serif;
-        font-weight: bold;
-        z-index: 1; /* set higher z-index value */
-        position: relative; /* position must be set for z-index to work */
-      }
-      .flash-message {
-        margin: 0;
-        padding-top: 10px;
-        padding-bottom: 10px;
-      }
-      .flashes {
-        display: flex;
-        justify-content: space-around;
-        max-width: 200px;
-        border-radius: 10px;
-        margin: 5px;
-        padding: 5px;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        animation: notification 0s ease-in 3s forwards;
-      }
-
-      @keyframes notification {
-        to {
-          display: none;
-          width: 0;
-          height: 0;
-          overflow: hidden;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="/static/style.css">
     {% block style %} {% endblock %}
   </head>
   <body>

@@ -1,0 +1,128 @@
+body {
+    margin: 0;
+    font-family: "Roboto",Arial, sans-serif;
+  }
+
+  /* Nav Bar */
+  .logo {
+    max-width: 100px;
+    max-height: 40px;
+  }
+  .nav-tag {
+    color: #ffffff;
+  }
+  .nav-tag:hover {
+    color: #111820;
+  }
+
+  .nav {
+    background-color: #0076be;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  }
+  .nav-account,
+  .nav-right-item {
+    margin-left: 10px;
+    margin-right: 10px;
+    color: #ffffff;
+  }
+  .nav-account:hover {
+    color: #111820;
+  }
+  .empty-nav{
+    height: 55px;
+    width: 100%;
+  }
+  /* Flash container */
+  .flash-container {
+    font-family: sans-serif;
+    font-weight: bold;
+    z-index: 1; /* set higher z-index value */
+    position: relative; /* position must be set for z-index to work */
+  }
+  .flash-message {
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .flashes {
+    display: flex;
+    justify-content: space-around;
+    max-width: 200px;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    animation: notification 0s ease-in 3s forwards;
+  }
+
+  @keyframes notification {
+    to {
+      display: none;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+  }
+
+  /* All headings */
+
+  .all-heading {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    margin-left: 15px;
+    margin-top: 20px;
+  }
+  /* Error messages */
+  .error-color{
+    color: red;
+  }
+  .error-message {  
+    word-wrap: break-word; 
+    max-width: 340px;
+    font-size: small;
+  } 
+  /* form items and containers */
+  .input-width {
+    width: 300px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+  }
+  .form-container {
+    margin: 20px;
+    max-width: 1000px;
+  }
+  .form-button {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    background-color: #333e48;
+    color: #ffffff;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    width: 300px;
+  }
+  .form-button:hover {
+    background-color: #0076be;
+    color: #ffffff;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  .input-form-group{
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .quote-form-container {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media (min-width: 768px) {
+    .quote-form-container {
+      width: 92%;
+    }
+  }
+  @media (min-width: 768px) {
+    .quote-form-container {
+      width: 60%;
+    }
+  }

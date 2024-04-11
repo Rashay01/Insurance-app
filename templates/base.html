@@ -50,14 +50,9 @@
               <a
                 class="nav-link nav-tag"
                 href="/dashboard"
-                {%
-                if
-                not
-                lg_user
-                %}
-                hidden{%
-                endif
-                %}
+                {% if not lg_user %}
+                hidden
+                {% endif %}
                 >Dashboard</a
               >
             </li>
@@ -76,42 +71,27 @@
           <a
             class="nav-account"
             href="/account"
-            {%
-            if
-            not
-            lg_user
-            %}
-            hidden{%
-            endif
-            %}
+            {% if not lg_user %}
+            hidden
+            {% endif %}
           >
             <i class="fa-solid fa-circle-user fa-xl"></i>
           </a>
           <a
             class="btn btn-success my-2 my-sm-0 nav-right-item"
             href="/registration"
-            {%
-            if
-            lg_user
-            %}
+            {% if lg_user %}
             hidden
-            {%
-            endif
-            %}
+            {% endif %}
           >
             Register
           </a>
           <a
             class="btn btn-success my-2 my-sm-0 nav-right-item"
             href="/login"
-            {%
-            if
-            lg_user
-            %}
+            {% if lg_user %}
             hidden
-            {%
-            endif
-            %}
+            {% endif %}
           >
             Login
           </a>

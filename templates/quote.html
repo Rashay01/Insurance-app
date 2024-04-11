@@ -1,6 +1,9 @@
-{% extends 'base.html' %} {% block style %}
-<link rel="stylesheet" href="/static/css/single-item.css" />
-{% endblock %} {% block body%}
+{% extends 'base.html' %} 
+{% block style %}
+  <link rel="stylesheet" href="/static/css/single-item.css" />
+{% endblock %} 
+
+{% block body%}
 <h1 class="all-heading heading-background">Quote</h1>
 <div class="card card-claim-form">
   <h2><span class="bold-item-data">No:</span> {{quote.quote_id}}</h2>

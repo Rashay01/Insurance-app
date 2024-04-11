@@ -1,46 +1,5 @@
 {% extends 'base.html' %} {% block body%} {% block style %}
-<style>
-  .landing-div {
-    width: 90%;
-    height: 100 vh;
-    color: white;
-    background-color: rgba(19, 19, 19, 0.7);
-  }
-  .landing-page-bold {
-    font-weight: bold;
-  }
-  body {
-    background-image: url('/static/car.jpg');
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-size: contain;
-  }
-  .background {
-    font-size: large;
-    margin: 10px;
-    margin-left: 15px;
-    padding: 20px;
-  }
-  .background-list {
-    font-size: large;
-    margin: 10px;
-    margin-left: 25px;
-    padding: 20px;
-  }
-  .landing-heading {
-    font-size: 50px;
-  }
-  @media (min-width: 515px) {
-    .landing-div {
-      width: 70%;
-    }
-  }
-  @media (min-width: 768px) {
-    .landing-div {
-      width: 50%;
-    }
-  }
-</style>
+<link rel="stylesheet" href="/static/css/landingpages.css" />
 {% endblock %}
 <div class="landing-div">
   <h1 class="all-heading landing-heading">Platinum Plus</h1>

@@ -1,0 +1,34 @@
+body {
+    background-image: url('/static/moving-car.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  .contact-details {
+    margin: 30px;
+    padding-bottom: 40px;
+  }
+  .contact-button {
+    max-width: 150px;
+    background-color: #0076be;
+    color: #ffffff;
+  }
+  .contact-button:hover {
+    background-color: #ffffff;
+    color: #0076be;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  .input-text {
+    width: 300px;
+  }
+  @media (min-width: 515px) {
+    .landing-div {
+      width: 70%;
+    }
+  }
+  @media (min-width: 768px) {
+    .landing-div {
+      width: 50%;
+    }
+  }

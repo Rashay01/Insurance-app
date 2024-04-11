@@ -94,6 +94,23 @@ body {
   max-width: 340px;
   font-size: small;
 }
+/* common main pages */
+.landing-div {
+  width: 90%;
+  height: 100 vh;
+  color: white;
+  background-color: rgba(19, 19, 19, 0.7);
+}
+
+.background {
+  font-size: large;
+  margin: 10px;
+  margin-left: 15px;
+  padding: 20px;
+}
+.landing-heading {
+  font-size: 50px;
+}
 /* form items and containers */
 .input-width {
   width: 300px;

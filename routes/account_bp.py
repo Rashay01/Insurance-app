@@ -4,8 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, ValidationError, EmailField
 from wtforms.validators import InputRequired, Length, Regexp
+from flask_login import login_required, logout_user, current_user
 from extensions import db
-from app import lg_user
 
 account_bp = Blueprint("account", __name__)
 
@@ -59,13 +59,14 @@ class PasswordForm(FlaskForm):
 
 
 @account_bp.route("/account", methods=["POST", "GET"])
+@login_required
 def user_account_page():
     email_form = EmailForm()
     contact_form = ContactForm()
     password_form = PasswordForm()
 
-    user = User.query.get(lg_user["ID"])
-    password_form.update_user_id(lg_user["ID"])
+    user = User.query.get(current_user.ID)
+    password_form.update_user_id(current_user.ID)
 
     if email_form.validate_on_submit():
         try:
@@ -77,7 +78,6 @@ def user_account_page():
             db.session.rollback()
             return render_template(
                 "Error-message.html",
-                lg_user=lg_user,
                 message="Server Error",
                 status_code="500",
                 error_options=None,
@@ -93,7 +93,6 @@ def user_account_page():
             db.session.rollback()
             return render_template(
                 "Error-message.html",
-                lg_user=lg_user,
                 message="Server Error",
                 status_code="500",
                 error_options=None,
@@ -110,7 +109,6 @@ def user_account_page():
             db.session.rollback()
             return render_template(
                 "Error-message.html",
-                lg_user=lg_user,
                 message="Server Error",
                 status_code="500",
                 error_options=None,
@@ -122,12 +120,12 @@ def user_account_page():
         email_form=email_form,
         contact_form=contact_form,
         password_form=password_form,
-        lg_user=lg_user,
     )
 
 
 @account_bp.route("/logout", methods=["POST"])
+@login_required
 def logout():
-    lg_user.clear()
+    logout_user()
     flash("Logged out successfully")
     return redirect("/")

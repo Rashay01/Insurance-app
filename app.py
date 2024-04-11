@@ -19,6 +19,7 @@ from wtforms import (
     TextAreaField,
 )
 from wtforms.validators import InputRequired, Length
+from flask_login import LoginManager, login_required
 from extensions import db
 
 
@@ -31,17 +32,22 @@ app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
 db.init_app(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "user.login_page"
 
-# lg_user = {
-#     "ID": "0101165410081",
-#     "name": "Rashay",
-#     "surname": "Daya",
-#     "email": "rashay.jcdaya@gmail.com",
-#     "cell_no": "0836681148",
-#     "password": "password01",
-# }
+from models.users import User
 
-lg_user = {}
+
+@login_manager.user_loader
+def load_user(ID):
+    return User.query.filter_by(ID=ID).first()
+
+
+@app.route("/testings")
+@login_required
+def testings():
+    return "<h2>hi</h2>"
 
 
 # BluePrints imports

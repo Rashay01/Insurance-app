@@ -9,7 +9,7 @@ from models.claim import Claim
 from models.claim_status import ClaimStatus
 from datetime import datetime, timedelta
 from extensions import db
-from app import lg_user
+from flask_login import current_user, login_required
 import uuid
 
 all_claims_bp = Blueprint("all_claims", __name__)
@@ -40,12 +40,13 @@ class ClaimForm(FlaskForm):
 
 
 @all_claims_bp.route("/new-claim", methods=["POST", "GET"])
+@login_required
 def new_claim():
     form = ClaimForm()
     polices_sql = (
         Select(Policy, ClassicCars)
         .join(ClassicCars, Policy.policy_number == ClassicCars.policy_number)
-        .filter_by(customer_id=lg_user["ID"])
+        .filter_by(customer_id=current_user.ID)
         .filter(Policy.active == True)
         .order_by(Policy.policy_number)
     )
@@ -53,7 +54,6 @@ def new_claim():
     if len(polices) == 0:
         return render_template(
             "Error-message.html",
-            lg_user=lg_user,
             message="You have not taken a Policy out.",
             error_options="policy",
         )
@@ -83,44 +83,42 @@ def new_claim():
             db.session.rollback()
             return render_template(
                 "Error-message.html",
-                lg_user=lg_user,
                 message="Server Error",
                 status_code="500",
                 error_options=None,
             )
 
-    return render_template(
-        "new-claim.html", polices=polices, form=form, lg_user=lg_user
-    )
+    return render_template("new-claim.html", polices=polices, form=form)
 
 
 @all_claims_bp.route("/all-claims")
+@login_required
 def all_claims_page():
     claims_sql = (
         Select(Claim, Policy, ClassicCars)
         .join(Policy, Claim.policy_number == Policy.policy_number)
         .join(ClassicCars, Policy.policy_number == ClassicCars.policy_number)
-        .filter_by(customer_id=lg_user["ID"])
+        .filter_by(customer_id=current_user.ID)
         .order_by(Claim.claim_date.desc())
     )
     claims_Data = db.session.execute(claims_sql).fetchall()
     if len(claims_Data) == 0:
         return render_template(
             "Error-message.html",
-            lg_user=lg_user,
             message="No claims have been made.",
             error_options="claim",
         )
-    return render_template("all-claims.html", claims_data=claims_Data, lg_user=lg_user)
+    return render_template("all-claims.html", claims_data=claims_Data)
 
 
 @all_claims_bp.route("/all-claims/<id>")
+@login_required
 def specific_claims_page(id):
     claims_sql = (
         Select(Claim, Policy, ClassicCars)
         .join(Policy, Claim.policy_number == Policy.policy_number)
         .join(ClassicCars, Policy.policy_number == ClassicCars.policy_number)
-        .filter_by(customer_id=lg_user["ID"])
+        .filter_by(customer_id=current_user.ID)
         .filter(Claim.claim_number == id)
         .order_by(Claim.claim_date.desc())
     )
@@ -128,7 +126,6 @@ def specific_claims_page(id):
     if claims_Data is None:
         return render_template(
             "Error-message.html",
-            lg_user=lg_user,
             message="Claim not found",
             status_code="404",
             error_options=None,
@@ -145,5 +142,4 @@ def specific_claims_page(id):
         quote=claims_Data[1],
         classic_car=claims_Data[2],
         statuses=status,
-        lg_user=lg_user,
     )

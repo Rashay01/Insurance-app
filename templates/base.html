@@ -50,7 +50,7 @@
               <a
                 class="nav-link nav-tag"
                 href="/dashboard"
-                {% if not lg_user %}
+                {% if not current_user.is_authenticated %}
                 hidden
                 {% endif %}
                 >Dashboard</a
@@ -71,7 +71,7 @@
           <a
             class="nav-account"
             href="/account"
-            {% if not lg_user %}
+            {% if not current_user.is_authenticated %}
             hidden
             {% endif %}
           >
@@ -80,7 +80,7 @@
           <a
             class="btn btn-success my-2 my-sm-0 nav-right-item"
             href="/registration"
-            {% if lg_user %}
+            {% if current_user.is_authenticated %}
             hidden
             {% endif %}
           >
@@ -89,7 +89,7 @@
           <a
             class="btn btn-success my-2 my-sm-0 nav-right-item"
             href="/login"
-            {% if lg_user %}
+            {% if current_user.is_authenticated %}
             hidden
             {% endif %}
           >

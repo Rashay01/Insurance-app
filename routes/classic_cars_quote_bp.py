@@ -18,7 +18,7 @@ from models.quote import Quote
 from models.policy import Policy
 import uuid
 from extensions import db
-from app import lg_user
+from flask_login import current_user, login_required
 from datetime import datetime
 
 classic_cars_quote_bp = Blueprint("classic_cars_quote", __name__)
@@ -88,6 +88,7 @@ class ClassicCarsForm(FlaskForm):
 
 
 @classic_cars_quote_bp.route("/classic-cars", methods=["GET", "POST"])
+@login_required
 def get_new_quote():
     form = ClassicCarsForm()
     if form.validate_on_submit():
@@ -107,7 +108,7 @@ def get_new_quote():
             "odometer_reading": form.odometer_reading.data,
             "fuel_type": form.fuel_type.data,
             "color": form.color.data,
-            "customer_id": lg_user["ID"],
+            "customer_id": current_user.ID,
             "current_value": current_value,
             "year_purchased": form.year_purchased.data.strftime("%Y-%m-%d"),
         }
@@ -135,21 +136,21 @@ def get_new_quote():
             db.session.rollback()
             return render_template(
                 "Error-message.html",
-                lg_user=lg_user,
                 message="Server Error",
                 status_code="500",
                 error_options=None,
             )
-    return render_template("new-classic-cars-quote.html", form=form, lg_user=lg_user)
+    return render_template("new-classic-cars-quote.html", form=form)
 
 
 @classic_cars_quote_bp.route("/all-quotes")
+@login_required
 def get_all_user_quotes():
     cars_quote = (
         Select(CarQuote, Quote, ClassicCars)
         .join(Quote, CarQuote.quote_id == Quote.quote_id)
         .join(ClassicCars, CarQuote.vehicle_id == ClassicCars.vehicle_id)
-        .filter_by(customer_id=lg_user["ID"])
+        .filter_by(customer_id=current_user.ID)
         .filter(Quote.status == "Deciding")
         .order_by(Quote.quote_date.desc())
     )
@@ -157,27 +158,26 @@ def get_all_user_quotes():
     if len(result) == 0:
         return render_template(
             "Error-message.html",
-            lg_user=lg_user,
             message="You have no existing quotes",
             error_options="quote",
         )
-    return render_template("all-quotes.html", quotes_data=result, lg_user=lg_user)
+    return render_template("all-quotes.html", quotes_data=result)
 
 
 @classic_cars_quote_bp.route("/all-quotes/<id>")
+@login_required
 def get_single_user_quote(id):
     data = (
         Select(CarQuote, Quote, ClassicCars)
         .join(Quote, CarQuote.quote_id == Quote.quote_id)
         .join(ClassicCars, CarQuote.vehicle_id == ClassicCars.vehicle_id)
-        .filter_by(customer_id=lg_user["ID"])
+        .filter_by(customer_id=current_user.ID)
         .filter(Quote.quote_id == id)
     )
     result = db.session.execute(data).first()
     if len(result) == 0:
         return render_template(
             "Error-message.html",
-            lg_user=lg_user,
             message="Quote not found",
             status_code="404",
             error_options=None,
@@ -186,7 +186,6 @@ def get_single_user_quote(id):
     if category is None:
         return render_template(
             "Error-message.html",
-            lg_user=lg_user,
             message="Category Not Found",
             status_code="500",
             error_options=None,
@@ -196,11 +195,11 @@ def get_single_user_quote(id):
         quote=result[1],
         item=result[2],
         category=category.to_dict(),
-        lg_user=lg_user,
     )
 
 
 @classic_cars_quote_bp.route("/quote/delete", methods=["POST"])
+@login_required
 def delete_classic_car_quote_user():
     quote_id = request.form.get("quote_id")
     try:
@@ -214,7 +213,6 @@ def delete_classic_car_quote_user():
         db.session.rollback()
         return render_template(
             "Error-message.html",
-            lg_user=lg_user,
             message="Server Error",
             status_code="500",
             error_options=None,
@@ -222,6 +220,7 @@ def delete_classic_car_quote_user():
 
 
 @classic_cars_quote_bp.route("/quote/accept", methods=["POST"])
+@login_required
 def accept_classic_car_quote_user():
     quote_id = request.form.get("quote_id")
     vehicle_id = request.form.get("vehicle_id")
@@ -249,7 +248,6 @@ def accept_classic_car_quote_user():
         db.session.rollback()
         return render_template(
             "Error-message.html",
-            lg_user=lg_user,
             message="Server Error",
             status_code="500",
             error_options=None,

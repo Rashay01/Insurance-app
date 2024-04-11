@@ -1,26 +1,27 @@
 from flask import Blueprint, request, render_template, redirect, flash
 from sqlalchemy.sql import func, Select
 from models.classic_cars import ClassicCars
+from flask_login import current_user, login_required
 from models.policy import Policy
 from extensions import db
-from app import lg_user
+
 
 classic_cars_policy_bp = Blueprint("classic_cars_policy", __name__)
 
 
 @classic_cars_policy_bp.route("/")
+@login_required
 def all_policies():
     data = (
         Select(Policy, ClassicCars)
         .join(ClassicCars, Policy.policy_number == ClassicCars.policy_number)
-        .filter_by(customer_id=lg_user["ID"])
+        .filter_by(customer_id=current_user.ID)
         .order_by(Policy.active.desc(), Policy.policy_date.desc())
     )
     filtered_policies = db.session.execute(data).fetchall()
     if len(filtered_policies) == 0:
         return render_template(
             "Error-message.html",
-            lg_user=lg_user,
             message="You have not taken a policy out.",
             error_options="policy",
         )
@@ -29,16 +30,16 @@ def all_policies():
         "all-polices.html",
         curr_page="all policies",
         all_policies_data=all_policies_data,
-        lg_user=lg_user,
     )
 
 
 @classic_cars_policy_bp.route("/<id>")
+@login_required
 def specific_policies(id):
     data = (
         Select(Policy, ClassicCars)
         .join(ClassicCars, Policy.policy_number == ClassicCars.policy_number)
-        .filter_by(customer_id=lg_user["ID"])
+        .filter_by(customer_id=current_user.ID)
         .filter(Policy.policy_number == id)
         .order_by(Policy.policy_date.desc())
     )
@@ -46,7 +47,6 @@ def specific_policies(id):
     if filtered_policies is None:
         return render_template(
             "Error-message.html",
-            lg_user=lg_user,
             message="Policy not found",
             status_code="404",
             error_options=None,
@@ -57,11 +57,11 @@ def specific_policies(id):
         curr_page="all polices",
         policy=filtered_policies[0],
         item=filtered_policies[1],
-        lg_user=lg_user,
     )
 
 
 @classic_cars_policy_bp.route("/delete", methods=["POST"])
+@login_required
 def delete_user_specific_policies():
     policy_number = request.form.get("policy_number")
     try:
@@ -69,7 +69,6 @@ def delete_user_specific_policies():
         if policy is None:
             return render_template(
                 "Error-message.html",
-                lg_user=lg_user,
                 message="Policy not found",
                 status_code="404",
                 error_options=None,
@@ -83,7 +82,6 @@ def delete_user_specific_policies():
         db.session.rollback()
         return render_template(
             "Error-message.html",
-            lg_user=lg_user,
             message="Server Error",
             status_code="500",
             error_options=None,

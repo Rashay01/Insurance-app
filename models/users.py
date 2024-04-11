@@ -1,7 +1,8 @@
 from extensions import db
+from flask_login import UserMixin
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "users"
     ID = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(50), nullable=False)
@@ -22,3 +23,6 @@ class User(db.Model):
             "password": self.password,
             "address": self.address,
         }
+
+    def get_id(self):
+        return self.ID

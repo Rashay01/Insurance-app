@@ -3,9 +3,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, ValidationError, EmailField
 from wtforms.validators import InputRequired, Length, Regexp
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user
 from extensions import db
 from models.users import User
-from app import lg_user
 
 user_bp = Blueprint("user", __name__)
 
@@ -107,13 +107,12 @@ def registration_page():
             db.session.rollback()
             return render_template(
                 "Error-message.html",
-                lg_user=lg_user,
                 message="Server Error",
                 status_code="500",
                 error_options=None,
             )
 
-    return render_template("registration.html", form=form, lg_user=lg_user)
+    return render_template("registration.html", form=form)
 
 
 @user_bp.route("/login", methods=["GET", "POST"])
@@ -121,7 +120,7 @@ def login_page():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(ID=form.ID.data).first()
-        lg_user.update(user.to_dict())
+        login_user(user)
         flash("Logged in successfully")
         return redirect("/dashboard")
-    return render_template("login.html", form=form, lg_user=lg_user)
+    return render_template("login.html", form=form)

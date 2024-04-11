@@ -1,37 +1,5 @@
 {% extends 'base.html' %} {% block style %}
-<style>
-  .card-claim-form {
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px;
-  }
-  .bold-item-data {
-    font-weight: bold;
-  }
-  .items-details-data {
-    display: grid;
-    column-gap: 20px;
-    grid-template-columns: 1fr 1fr;
-    width: 340px;
-  }
-  .button-single-item {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    background-color: #333e48;
-    color: #ffffff;
-  }
-  .button-single-item:hover {
-    background-color: #0076be;
-    color: #ffffff;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  }
-  .buttons-container-single-item {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-</style>
+<link rel="stylesheet" href="/static/css/single-item.css" />
 {% endblock %} {% block body%}
 <h1 class="all-heading heading-background">Quote</h1>
 <div class="card card-claim-form">

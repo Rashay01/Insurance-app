@@ -1,42 +1,5 @@
 {% extends 'base.html' %} {% block style %}
-<style>
-  body {
-    background-image: url('/static/background2.jpg');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-  }
-  .claim-list-item {
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .all-status {
-    margin-bottom: 20px;
-  }
-  .card-claim-form {
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px;
-  }
-  .bold-item-data {
-    font-weight: bold;
-  }
-  .items-details-data {
-    display: grid;
-    column-gap: 20px;
-    grid-template-columns: 1fr 1fr;
-    width: 340px;
-  }
-  .status-info {
-    margin-right: 70px;
-    font-weight: bold;
-  }
-  .single-claim-button {
-    width: 100px;
-  }
-</style>
+<link rel="stylesheet" href="/static/css/single-item.css" />
 {% endblock %} {% block body%}
 <h1 class="all-heading heading-background">Claim</h1>
 <div class="card card-claim-form">

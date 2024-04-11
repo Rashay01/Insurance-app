@@ -75,7 +75,13 @@ def user_account_page():
             return redirect("/account")
         except Exception as e:
             db.session.rollback()
-            return "<h2>500 Server Error</h2>"
+            return render_template(
+                "Error-message.html",
+                lg_user=lg_user,
+                message="Server Error",
+                status_code="500",
+                error_options=None,
+            )
 
     if contact_form.validate_on_submit():
         try:
@@ -85,7 +91,13 @@ def user_account_page():
             return redirect("/account")
         except Exception as e:
             db.session.rollback()
-            return "<h2>500 Server Error</h2>"
+            return render_template(
+                "Error-message.html",
+                lg_user=lg_user,
+                message="Server Error",
+                status_code="500",
+                error_options=None,
+            )
 
     if password_form.validate_on_submit():
         try:
@@ -96,7 +108,13 @@ def user_account_page():
             # return redirect("/account")
         except Exception as e:
             db.session.rollback()
-            return "<h2>500 Server Error</h2>"
+            return render_template(
+                "Error-message.html",
+                lg_user=lg_user,
+                message="Server Error",
+                status_code="500",
+                error_options=None,
+            )
 
     return render_template(
         "account.html",

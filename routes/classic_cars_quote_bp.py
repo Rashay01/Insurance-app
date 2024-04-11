@@ -133,7 +133,13 @@ def get_new_quote():
             return redirect("/dashboard")
         except Exception as e:
             db.session.rollback()
-            return f"<h2>Error {e}</h2>"
+            return render_template(
+                "Error-message.html",
+                lg_user=lg_user,
+                message="Server Error",
+                status_code="500",
+                error_options=None,
+            )
     return render_template("new-classic-cars-quote.html", form=form, lg_user=lg_user)
 
 
@@ -149,7 +155,12 @@ def get_all_user_quotes():
     )
     result = db.session.execute(cars_quote).fetchall()
     if len(result) == 0:
-        return "<h2>You have no existing quotes</h2>"
+        return render_template(
+            "Error-message.html",
+            lg_user=lg_user,
+            message="You have no existing quotes",
+            error_options="quote",
+        )
     return render_template("all-quotes.html", quotes_data=result, lg_user=lg_user)
 
 
@@ -164,10 +175,22 @@ def get_single_user_quote(id):
     )
     result = db.session.execute(data).first()
     if len(result) == 0:
-        return "<h2>Quote not found</h2>"
+        return render_template(
+            "Error-message.html",
+            lg_user=lg_user,
+            message="Quote not found",
+            status_code="404",
+            error_options=None,
+        )
     category = Category.query.get(result[1].category_id)
     if category is None:
-        return "<h2>Category is not found</h2>"
+        return render_template(
+            "Error-message.html",
+            lg_user=lg_user,
+            message="Category Not Found",
+            status_code="500",
+            error_options=None,
+        )
     return render_template(
         "quote.html",
         quote=result[1],
@@ -189,7 +212,13 @@ def delete_classic_car_quote_user():
         return redirect("/quote/all-quotes")
     except Exception as e:
         db.session.rollback()
-        return "<h2>500 Server Error</h2>"
+        return render_template(
+            "Error-message.html",
+            lg_user=lg_user,
+            message="Server Error",
+            status_code="500",
+            error_options=None,
+        )
 
 
 @classic_cars_quote_bp.route("/quote/accept", methods=["POST"])
@@ -218,4 +247,10 @@ def accept_classic_car_quote_user():
         return redirect("/quote/all-quotes")
     except Exception as e:
         db.session.rollback()
-        return "<h2>500 Server Error</h2>"
+        return render_template(
+            "Error-message.html",
+            lg_user=lg_user,
+            message="Server Error",
+            status_code="500",
+            error_options=None,
+        )

@@ -105,7 +105,13 @@ def registration_page():
             return redirect("/login")
         except Exception as e:
             db.session.rollback()
-            return f"<h2>Error Occurred {e}</h2>"
+            return render_template(
+                "Error-message.html",
+                lg_user=lg_user,
+                message="Server Error",
+                status_code="500",
+                error_options=None,
+            )
 
     return render_template("registration.html", form=form, lg_user=lg_user)
 

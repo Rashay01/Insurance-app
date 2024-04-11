@@ -51,7 +51,12 @@ def new_claim():
     )
     polices = db.session.execute(polices_sql).fetchall()
     if len(polices) == 0:
-        return "<h2>You have no polices</h2>"
+        return render_template(
+            "Error-message.html",
+            lg_user=lg_user,
+            message="You have not taken a Policy out.",
+            error_options="policy",
+        )
     if form.validate_on_submit():
         claim_number = str(uuid.uuid4())
         policy_number = request.form.get("policy_number")
@@ -76,7 +81,13 @@ def new_claim():
             return redirect("/dashboard")
         except Exception as e:
             db.session.rollback()
-            return f"<h2>Error {e}</h2>"
+            return render_template(
+                "Error-message.html",
+                lg_user=lg_user,
+                message="Server Error",
+                status_code="500",
+                error_options=None,
+            )
 
     return render_template(
         "new-claim.html", polices=polices, form=form, lg_user=lg_user
@@ -94,7 +105,13 @@ def all_claims_page():
     )
     claims_Data = db.session.execute(claims_sql).fetchall()
     if len(claims_Data) == 0:
-        return "<h2>No claims have been made</h2>"
+        return render_template(
+            "Error-message.html",
+            lg_user=lg_user,
+            message="No claims have been made.",
+            status_code="500",
+            error_options="claim",
+        )
     return render_template("all-claims.html", claims_data=claims_Data, lg_user=lg_user)
 
 
@@ -110,7 +127,13 @@ def specific_claims_page(id):
     )
     claims_Data = db.session.execute(claims_sql).first()
     if claims_Data is None:
-        return "<h2>404 Claim not found</h2>"
+        return render_template(
+            "Error-message.html",
+            lg_user=lg_user,
+            message="Claim not found",
+            status_code="404",
+            error_options=None,
+        )
     status = (
         ClaimStatus.query.filter_by(claim_number=id)
         .order_by(ClaimStatus.status_date)

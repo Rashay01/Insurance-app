@@ -26,22 +26,22 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("FORM_SECRET_KEY")
-connection_string = os.environ.get("DATABASE_STRING_TO_CONNECT")
+connection_string = os.environ.get("DATABASE_STRING_TO_CONNECT1")
 app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
 db.init_app(app)
 
 
-# lg_user = {
-#     "ID": "0101165410081",
-#     "name": "Rashay",
-#     "surname": "Daya",
-#     "email": "rashay.jcdaya@gmail.com",
-#     "cell_no": "0836681148",
-#     "password": "password01",
-# }
+lg_user = {
+    "ID": "0101165410081",
+    "name": "Rashay",
+    "surname": "Daya",
+    "email": "rashay.jcdaya@gmail.com",
+    "cell_no": "0836681148",
+    "password": "password01",
+}
 
-lg_user = {}
+# lg_user = {}
 
 
 # BluePrints imports
@@ -77,6 +77,18 @@ app.register_blueprint(classic_cars_quote_bp, url_prefix="/quote")
 app.register_blueprint(classic_cars_policy_bp, url_prefix="/all-policies")
 app.register_blueprint(account_bp)
 app.register_blueprint(all_claims_bp)
+
+
+@app.route("/test")
+def message():
+    message = "You have No policies, Please go get a quote or accept a quote"
+    return render_template(
+        "Error-message.html",
+        lg_user=lg_user,
+        message=message,
+        status_code="303",
+        error_options="claim",
+    )
 
 
 try:

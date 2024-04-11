@@ -18,7 +18,12 @@ def all_policies():
     )
     filtered_policies = db.session.execute(data).fetchall()
     if len(filtered_policies) == 0:
-        return "<h2>You have no policies</h2>"
+        return render_template(
+            "Error-message.html",
+            lg_user=lg_user,
+            message="You have not taken a policy out.",
+            error_options="policy",
+        )
     all_policies_data = {"classic_car": filtered_policies}
     return render_template(
         "all-polices.html",
@@ -39,7 +44,13 @@ def specific_policies(id):
     )
     filtered_policies = db.session.execute(data).first()
     if filtered_policies is None:
-        return "<h2>404 Policy not found</h2>"
+        return render_template(
+            "Error-message.html",
+            lg_user=lg_user,
+            message="Policy not found",
+            status_code="404",
+            error_options=None,
+        )
 
     return render_template(
         "policy.html",
@@ -56,7 +67,13 @@ def delete_user_specific_policies():
     try:
         policy = Policy.query.get(policy_number)
         if policy is None:
-            return "<h2>404 Policy not found</h2>"
+            return render_template(
+                "Error-message.html",
+                lg_user=lg_user,
+                message="Policy not found",
+                status_code="404",
+                error_options=None,
+            )
         policy.policy_end_date = func.now()
         policy.active = False
         db.session.commit()
@@ -64,4 +81,10 @@ def delete_user_specific_policies():
         return redirect("/all-policies/")
     except Exception as e:
         db.session.rollback()
-        return "<h2>500 Server Error</h2>"
+        return render_template(
+            "Error-message.html",
+            lg_user=lg_user,
+            message="Server Error",
+            status_code="500",
+            error_options=None,
+        )

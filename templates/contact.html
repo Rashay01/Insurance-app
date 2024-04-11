@@ -3,22 +3,34 @@
 {% endblock %} {% block body%}
 <div class="landing-div">
   <h1 class="all-heading landing-heading">Contact</h1>
-  <form class="background">
+  <form class="background" action="" method="POST">
+    {{ form.hidden_tag() }}
     <div class="form-group">
-      <label>Name</label><br />
-      <input class="input-text" type="Text" />
-    </div>
-    <div class="form-group">
-      <label>email</label><br />
-      <input class="input-text" type="Text" />
-    </div>
-    <div class="form-group">
-      <label>Cell Number</label>
+      {{form.name.label}}<br />
+      {{form.name(class='input-text')}}
       <br />
-      <input class="input-text" type="Text" />
+      {% if form.name.errors %} {% for error in form.name.errors %}
+      <div class="error-message error-color">{{error}}</div>
+      {% endfor %} {% endif %}
+    </div>
+    <div class="form-group">
+      {{form.email.label}}<br />
+      {{form.email(class='input-text')}}
+      <br />
+      {% if form.email.errors %} {% for error in form.email.errors %}
+      <div class="error-message error-color">{{error}}</div>
+      {% endfor %} {% endif %}
+    </div>
+    <div class="form-group">
+      {{form.cell_no.label}}<br />
+      {{form.cell_no(class='input-text')}}
+      <br />
+      {% if form.cell_no.errors %} {% for error in form.cell_no.errors %}
+      <div class="error-message error-color">{{error}}</div>
+      {% endfor %} {% endif %}
     </div>
     <br />
-    <button class="btn contact-button">Contact me</button>
+    {{form.submit(class="btn contact-button")}}
   </form>
   <br />
   <div class="contact-details">
@@ -26,7 +38,7 @@
       <li>021 947 9111 Ext: 001</li>
       <li>Email us: info@SanlamPlatinumPlus.co.za</li>
       <li>Sanlam Head Office – Platinum Plus</li>
-      <li>C/O; Sanlam Platiunum Plus 2 Strand Road, Bellville</li>
+      <li>C/O; Sanlam Platinum Plus 2 Strand Road, Bellville</li>
     </ul>
   </div>
 </div>

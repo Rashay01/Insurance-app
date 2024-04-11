@@ -41,7 +41,7 @@ class RegistrationForm(FlaskForm):
         validators=[
             InputRequired(),
             Length(min=10),
-            Regexp("^(\+\d{2})?\d{10}$", message="Valid cellphone with numbers"),
+            Regexp("^(\+\d{2})?\d{10}$", message="Invalid cellphone number"),
         ],
     )
 

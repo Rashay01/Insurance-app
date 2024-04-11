@@ -109,7 +109,6 @@ def all_claims_page():
             "Error-message.html",
             lg_user=lg_user,
             message="No claims have been made.",
-            status_code="500",
             error_options="claim",
         )
     return render_template("all-claims.html", claims_data=claims_Data, lg_user=lg_user)

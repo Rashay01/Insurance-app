@@ -23,7 +23,7 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
     {% block style %} {% endblock %}
   </head>
   <body>
@@ -50,9 +50,15 @@
               <a
                 class="nav-link nav-tag"
                 href="/dashboard"
-                {% if not current_user.is_authenticated %}
+                {%
+                if
+                not
+                current_user.is_authenticated
+                %}
                 hidden
-                {% endif %}
+                {%
+                endif
+                %}
                 >Dashboard</a
               >
             </li>
@@ -71,27 +77,43 @@
           <a
             class="nav-account"
             href="/account"
-            {% if not current_user.is_authenticated %}
+            {%
+            if
+            not
+            current_user.is_authenticated
+            %}
             hidden
-            {% endif %}
+            {%
+            endif
+            %}
           >
             <i class="fa-solid fa-circle-user fa-xl"></i>
           </a>
           <a
             class="btn btn-success my-2 my-sm-0 nav-right-item"
             href="/registration"
-            {% if current_user.is_authenticated %}
+            {%
+            if
+            current_user.is_authenticated
+            %}
             hidden
-            {% endif %}
+            {%
+            endif
+            %}
           >
             Register
           </a>
           <a
             class="btn btn-success my-2 my-sm-0 nav-right-item"
             href="/login"
-            {% if current_user.is_authenticated %}
+            {%
+            if
+            current_user.is_authenticated
+            %}
             hidden
-            {% endif %}
+            {%
+            endif
+            %}
           >
             Login
           </a>

@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block style %}
+<link rel="stylesheet" href="/static/css/single-item.css" />
+{% endblock %} {% block body%}
+<h1 class="all-heading heading-background">Claim</h1>
+<div class="card card-claim-form">
+  <h2><span class="bold-item-data">Claim No:</span> {{claim.claim_number}}</h2>
+  <div class="items-details-data">
+    <p class="bold-item-data">claim date:</p>
+    <p>{{claim.claim_date}}</p>
+    <p class="bold-item-data">Policy Number:</p>
+    <p>{{claim.policy_number}}</p>
+  </div>
+  <p class="bold-item-data">Classic Car</p>
+  <div class="items-details-data">
+    <p class="bold-item-data">Make:</p>
+    <p>{{classic_car.vehicle_make}}</p>
+    <p class="bold-item-data">Model:</p>
+    <p>{{classic_car.model}}</p>
+    <p class="bold-item-data">license_plate_number:</p>
+    <p>{{classic_car.license_plate_number}}</p>
+    <p class="bold-item-data">Incident date:</p>
+    <p>{{claim.date_incident_occurred}}</p>
+    <p class="bold-item-data">Police claim number:</p>
+    <p>{{claim.police_claim_number}}</p>
+  </div>
+  <p class="bold-item-data">Incident description:</p>
+  <p>{{claim.claim_description}}</p>
+  {% if claim.claim_amount %}
+  <h4>{{claim.claim_amount}}</h4>
+  {% endif %}
+</div>
+<div class="all-status">
+  <h3 class="all-heading heading-background">Status</h3>
+  <ul class="list-group">
+    {% for status in statuses %}
+    <li class="list-group-item claim-list-item">
+      <span class="status-info"> {{status.status_date}} </span>
+      {{status.status_name}}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+<a class="btn form-button single-claim-button" href="/all-claims">back</a>
+{% endblock %}

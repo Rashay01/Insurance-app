@@ -1,72 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <style>
-      .flash-container {
-        font-family: sans-serif;
-        z-index: 1; /* set higher z-index value */
-        position: relative; /* position must be set for z-index to work */
-      }
-      .flashes {
-        display: flex;
-        justify-content: space-around;
-        background-color: orange;
-        max-width: 200px;
-        border-radius: 3%;
-        margin: 5px;
-        padding: 5px;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-        animation: notification 0s ease-in 3s forwards;
-      }
-      .polices-container {
-        z-index: 0; /* set higher z-index value */
-        position: relative;
-      }
+{% extends 'base.html' %} {% block style %}
 
-      @keyframes notification {
-        to {
-          display: none;
-          width: 0;
-          height: 0;
-          overflow: hidden;
-        }
-      }
 
-      .policy-container {
-        background-color: grey;
-      }
-    </style>
-  </head>
+{% endblock %} {% block body%}
 
-  <body>
-    <div class="flash-container">
-      {% with messages = get_flashed_messages() %} {% if messages %} {% for
-      message in messages %}
-      <div class="flashes">
-        <p>{{ message }}</p>
-        <p class="flask-x">x</p>
-      </div>
-      {% endfor %} {% endif %} {% endwith %}
-    </div>
-    <!-- Actual policy code -->
-    <div class="polices-container">
-      <h2>All Policies</h2>
-      {% for policy in polices %}
-      <div class="{% if not policy.active %}policy-container{% endif %}">
-        <h3>Policy No: {{policy.id}}</h3>
-        <p>Item/s:</p>
-        <ul>
-          {% for item in policy['items'] %}
-          <li>{{item.name}}</li>
-          {% endfor %}
-        </ul>
-        <p>Price: R{{policy.price}} p/m</p>
-        <a href="/all-polices/{{policy.id}}">View More</a>
-      </div>
-      {% endfor %}
-    </div>
-  </body>
-</html>
+<!-- Actual policy code -->
+<div class="polices-container">
+  <h2 class="all-heading heading-background">All Policies</h2>
+  <h3 class="all-category-heading heading-background">Classic Cars:</h3>
+  {% for policy,classic_car in all_policies_data.classic_car %}
+  <div
+    class="card all-items-container {% if not policy.active %}policy-container{% endif %}"
+  >
+    <h5>Policy No: {{policy.policy_number}}</h5>
+    <p>Vehicle:</p>
+    <p>Make: {{classic_car.vehicle_make}}</p>
+    <p>Model: {{classic_car.model}}</p>
+    <p>Premium: R{{policy.monthly_premium}} p/m</p>
+    <a
+      class="btn {% if not policy.active %}all-button-active{% else %}all-button{% endif %}"
+      href="/all-policies/{{policy.policy_number}}"
+      >View More</a
+    >
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

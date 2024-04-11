@@ -1,13 +1,24 @@
-{% extends 'base.html' %} {% block body%}
-
-<h1>About</h1>
-<p>
-  Sanlam Platinum Plus ia an innovative up-to-date High-end Luxury and Antiques
-  insurance company. Sanlam Platinum Plus is a newly formed division of Sanlam
-  Insurance Company. Our objective is to insure your ‘high-end’ items that are
-  not common commodity insured goods for example your highly-priced jewelry, or
-  handed-down inherited heirloom jewelry that is priceless or of sentimental
-  value, or rare art or antique collector’s items.
-</p>
+{% extends 'base.html' %} {% block style %}
+<link rel="stylesheet" href="/static/css/about.css" />
+{% endblock %} {% block body%}
+<div class="landing-div">
+  <h1 class="all-heading landing-heading">About</h1>
+  <div class="background">
+    <p>
+      Sanlam Platinum Plus is an innovative up-to-date High-end Luxury and
+      Antiques insurance company.
+    </p>
+    <p>
+      Sanlam Platinum Plus is a newly formed division of Sanlam Insurance
+      Company.
+    </p>
+    <p>
+      Our objective is to insure your ‘high-end’ items that are not common
+      commodity insured goods for example your highly-priced jewelry, or
+      handed-down inherited heirloom jewelry that is priceless or of sentimental
+      value, or rare art or antique collector’s items.
+    </p>
+  </div>
+</div>
 
 {% endblock %}

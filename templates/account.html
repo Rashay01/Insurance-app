@@ -1,0 +1,191 @@
+{% extends 'base.html' %} {% block style %}
+<link rel="stylesheet" href="/static/css/account.css" />
+
+{% endblock %} {% block body%}
+<h1 class="Account-heading">Account</h1>
+<div class="card center">
+  <p class="account-icon-container">
+    <i class="fa-solid fa-circle-user fa-xl account-icon"></i>
+  </p>
+  <div class="account-details">
+    <p class="Content-title">ID Number:</p>
+    <p>{{user.ID}}</p>
+    <p class="Content-title">Full name:</p>
+    <p>{{user.name}} {{user.surname}}</p>
+    <p class="Content-title">Email:</p>
+    <p>{{user.email}}</p>
+    <p class="Content-title">Cell Number:</p>
+    <p>{{user.cell_no}}</p>
+  </div>
+</div>
+<div class="account-button-container">
+  <button
+    class="btn button"
+    data-bs-toggle="modal"
+    data-bs-target="#EmailModal"
+  >
+    Update Email
+  </button>
+  <button
+    class="btn button"
+    data-bs-toggle="modal"
+    data-bs-target="#ContactModal"
+  >
+    Update Contact Number
+  </button>
+  <button
+    class="btn button"
+    data-bs-toggle="modal"
+    data-bs-target="#PasswordModal"
+  >
+    Update password
+  </button>
+</div>
+<form class="Account-form" action="{{url_for('account.logout')}}" method="POST">
+  <button class="btn logout-button">Log Out</button>
+</form>
+
+<!-- Email Model -->
+<div
+  class="modal fade"
+  id="EmailModal"
+  tabindex="-1"
+  aria-labelledby="EmailModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header popup-model-header">
+        <h1 class="modal-title fs-5 popup-heading" id="EmailModalLabel">
+          Change Email
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <form action="" method="POST">
+        <div class="modal-body">
+          {{ email_form.hidden_tag() }}
+          <div class="form-group">
+            {{email_form.email.label}}
+            <br />
+            {{email_form.email()}}
+            <br />
+            {% if email_form.email.errors %} {% for error in
+            email_form.email.errors %}
+            <div class="error-message error-color">{{error}}</div>
+            {% endfor %} {% endif %}
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          {{email_form.submit(class='btn button popup-button')}}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Model -->
+<div
+  class="modal fade"
+  id="ContactModal"
+  tabindex="-1"
+  aria-labelledby="ContactModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header popup-model-header">
+        <h1 class="modal-title fs-5 popup-heading" id="ContactModalLabel">
+          Change Contact Number
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <form action="" method="POST">
+        <div class="modal-body">
+          {% if contact_form.cont_num.errors %} {% for error in
+          contact_form.cont_num.errors %}
+          <div class="error-message error-color">{{error}}</div>
+          {% endfor %} {% endif %} {{ contact_form.hidden_tag() }}
+          <div class="form-group">
+            {{contact_form.cont_num.label}}
+            <br />
+            {{contact_form.cont_num()}}
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          {{contact_form.submit(class='btn button popup-button')}}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Password Model -->
+<div
+  class="modal fade"
+  id="PasswordModal"
+  tabindex="-1"
+  aria-labelledby="PasswordModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header popup-model-header">
+        <h1 class="modal-title fs-5 popup-heading" id="PasswordModalLabel">
+          Change Password
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <form action="" method="POST">
+        <div class="modal-body">
+          {{ password_form.hidden_tag() }}
+          <div class="form-group">
+            {{password_form.password.label}}
+            <br />
+            {{password_form.password()}}
+            <br />
+            {% if password_form.password.errors %} {% for error in
+            password_form.password.errors %}
+            <div class="error-message error-color">{{error}}</div>
+            {% endfor %} {% endif %}
+          </div>
+          <div class="form-group">
+            {{password_form.new_password.label}}
+            <br />
+            {{password_form.new_password()}}
+            <br />
+            {% if password_form.new_password.errors %} {% for error in
+            password_form.new_password.errors %}
+            <div class="error-message error-color">{{error}}</div>
+            {% endfor %} {% endif %}
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          {{password_form.submit(class='btn button popup-button')}}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

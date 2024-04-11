@@ -1,19 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h2>{{quote.quote_id}}</h2>
-    <h2>{{quote.quote_date}}</h2>
-    <h2>{{quote.status}}</h2>
-    {% for item in items%}
-    <h2>{{item.item_name}}</h2>
-    {% endfor %}
+{% extends 'base.html' %} {% block style %}
+<link rel="stylesheet" href="/static/css/single-item.css" />
+{% endblock %} {% block body%}
+<h1 class="all-heading heading-background">Quote</h1>
+<div class="card card-claim-form">
+  <h2><span class="bold-item-data">No:</span> {{quote.quote_id}}</h2>
+  <div class="items-details-data">
+    <p class="bold-item-data">Date:</p>
+    <p>{{quote.quote_date}}</p>
+    <p class="bold-item-data">Category:</p>
+    <p>{{category.category_name}}</p>
+  </div>
+  <p class="bold-item-data">Classic car:</p>
+  <div class="items-details-data">
+    <p class="bold-item-data">Make:</p>
+    <p>{{item.vehicle_make}}</p>
+    <p class="bold-item-data">Model:</p>
+    <p>{{item.model}}</p>
+    <p class="bold-item-data">Model Year:</p>
+    <p>{{item.year_model}}</p>
+    <p class="bold-item-data">Vin:</p>
+    <p>{{item.vin}}</p>
+    <p class="bold-item-data">License plate number:</p>
+    <p>{{item.license_plate_number}}</p>
+    <p class="bold-item-data">Odometer Reading:</p>
+    <p>{{item.odometer_reading}}</p>
+    <p class="bold-item-data">Fuel type:</p>
+    <p>{{item.fuel_type}}</p>
+    <p class="bold-item-data">Color:</p>
+    <p>{{item.color}}</p>
+    <p class="bold-item-data">Vehicle value:</p>
+    <p>{{"R{:,.2f}".format(item.current_value).replace(',',' ')}}</p>
+    <p class="bold-item-data">Year purchased:</p>
+    <p>{{item.year_purchased}}</p>
+  </div>
+  <h4 class="bold-item-data">
+    {{"R{:,.2f}".format(quote.quoted_premium).replace(',',' ')}} p/Month
+  </h4>
+  <div class="buttons-container-single-item">
+    <a class="btn button-single-item" href="/quote/all-quotes">Back</a>
+    <form
+      action="{{url_for('classic_cars_quote.delete_classic_car_quote_user')}}"
+      method="POST"
+    >
+      <input type="text" name="quote_id" value="{{quote.quote_id}}" hidden />
+      <button class="btn button-single-item" type="submit">Decline</button>
+    </form>
 
-    <button>Accept</button>
-    <button>Decline</button>
-  </body>
-</html>
+    <form
+      action="{{url_for('classic_cars_quote.accept_classic_car_quote_user')}}"
+      method="POST"
+    >
+      <input type="text" name="quote_id" value="{{quote.quote_id}}" hidden />
+      <input type="text" name="vehicle_id" value="{{item.vehicle_id}}" hidden />
+      <button class="btn button-single-item" type="submit">Accept</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

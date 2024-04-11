@@ -8,9 +8,7 @@ users_bp = Blueprint("users", __name__)
 @users_bp.get("/")
 def get_users():
     user_list = User.query.all()
-    data = [
-        user.to_dict() for user in user_list
-    ] 
+    data = [user.to_dict() for user in user_list]
     return jsonify(data)
 
 
@@ -37,7 +35,7 @@ def update_specific_user(id):
         return jsonify(result)
     except Exception as e:
         db.session.rollback()
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500
 
 
 @users_bp.delete("/<id>")
@@ -49,20 +47,20 @@ def delete_specific_user(id):
         data = user.to_dict()
         db.session.delete(user)
         db.session.commit()
-        return jsonify({"message":"User successfully deleted","data":data})
+        return jsonify({"message": "User successfully deleted", "data": data})
     except Exception as e:
         db.session.rollback()
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500
 
 
 @users_bp.post("/")
 def add_user():
     data = request.json
-    new_user= User(**data)
+    new_user = User(**data)
     try:
         db.session.add(new_user)
         db.session.commit()
         result = {"message": "User added successfully", "data": new_user.to_dict()}
         return jsonify(result), 201
     except Exception as e:
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500

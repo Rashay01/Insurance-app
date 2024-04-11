@@ -1,21 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-
-  <body>
-    <h1>All Quotes</h1>
-    {% for quote, items in quotes_data %}
-    <h2>No: {{quote.quote_id}}</h2>
-    <p>Items</p>
-    {% for item in items %}
-    <p>{{item[1]}}</p>
-    {% endfor %}
-    <p>{{"R{:,.2f}".format(quote.quoted_premium).replace(',',' ')}}</p>
-    <a href="/all-quotes/{{quote.quote_id}}">View more</a>
-    {% endfor %}
-  </body>
-</html>
+{% extends 'base.html' %} {% block style %}
+{% endblock %} {% block body%}
+<h2 class="all-heading heading-background">All Quotes</h2>
+<h3 class="all-category-heading heading-background">Classic Cars:</h3>
+{% for car_quote, quote, classic_car in quotes_data %}
+<div class="card all-items-container">
+  <h5>No: {{quote.quote_id}}</h5>
+  <p>Vehicle:</p>
+  <p>Make: {{classic_car.vehicle_make}}</p>
+  <p>Model: {{classic_car.model}}</p>
+  <p>
+    Premium: {{"R {:,.2f} p/m".format(quote.quoted_premium).replace(',',' ')}}
+  </p>
+  <a class="btn all-button" href="/quote/all-quotes/{{quote.quote_id}}"
+    >View more</a
+  >
+</div>
+{% endfor %} {% endblock %}

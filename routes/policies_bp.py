@@ -4,13 +4,13 @@ from extensions import db
 
 policies_bp = Blueprint("policies", __name__)
 
+
 @policies_bp.get("/")
 def get_policies():
     policies_list = Policy.query.all()
-    data = [
-        policy.to_dict() for policy in policies_list
-    ] 
+    data = [policy.to_dict() for policy in policies_list]
     return jsonify(data)
+
 
 @policies_bp.get("/<id>")
 def get_specific_policies(id):
@@ -18,6 +18,7 @@ def get_specific_policies(id):
     if policy is None:
         return jsonify({"message": "Policy Not found"}), 404
     return jsonify(policy.to_dict())
+
 
 @policies_bp.put("/<id>")
 def update_specific_policies(id):
@@ -34,8 +35,9 @@ def update_specific_policies(id):
         return jsonify(result)
     except Exception as e:
         db.session.rollback()
-        return {"message": "Error occurred","Error": str(e)}, 500
-    
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500
+
+
 @policies_bp.delete("/<id>")
 def delete_specific_policies(id):
     policy = Policy.query.get(id)
@@ -45,11 +47,12 @@ def delete_specific_policies(id):
         data = policy.to_dict()
         db.session.delete(policy)
         db.session.commit()
-        return jsonify({"message":"Policy successfully deleted","data":data})
+        return jsonify({"message": "Policy successfully deleted", "data": data})
     except Exception as e:
         db.session.rollback()
-        return {"message": "Error occurred","Error": str(e)}, 500
-    
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500
+
+
 @policies_bp.post("/")
 def add_policies():
     data = request.json
@@ -60,4 +63,4 @@ def add_policies():
         result = {"message": "Policy added successfully", "data": new_policy.to_dict()}
         return jsonify(result), 201
     except Exception as e:
-        return {"message": "Error occurred","Error": str(e)}, 500
+        return jsonify({"message": "Error occurred", "Error": str(e)}), 500

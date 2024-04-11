@@ -34,3 +34,11 @@ As a Proof Of Concept (POC) and to develop a Minimum Viable Product (MVP) we dec
 As further enhancements the intention is to include a module to the web-application to cater for reporting and analytics, and to provide for the approval workflow for claims processing. API Authentication and Authorization will also be catered for going forward.
 
 With regards to the choice of the technology stack, we used Python as the programming language, together with Flask (including Flask-WTF, Flask-Login, Flask-SQLAlchemy) to showcase a full-stack developer approach from server-side logic with Flask to database interactions and RESTful API services. We used Jinja2 templates to render responsive HTML pages. CSS was used to style the HTML pages using Bootstrap which contained the JavaScript to enhance the user interface.
+
+# Setup
+
+1. One can run the `create_tables.sql` file to create the tables in the database as well as get some dummy data.
+2. Run `pip install -r requirements.txt` to get all the dependencies installed
+3. Run `flask run` to run the app
+
+Note: The test users password is `password` and the ID number is `0101165412342`

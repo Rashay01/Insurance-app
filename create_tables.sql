@@ -81,13 +81,13 @@ Insert into category(category_name,category_desc,premium_percentage)
 Values ('classic cars','antique/colletors cars more than 25 years old and in good condition',0.00225),
 ('jewelry','antique/colletors jewelry that is in good condition',0.0225)
 
-Insert into users values('0101165410082','Rashay','Daya','rashay.jcdaya@gmail.com','0833331111','scrypt:32768:8:1$WOULdilOiIRJM0dw$eaed19ab61daa3c85421a5e22eea3d21b9c4d3c545d4281964f9d17a45652d073f61a3a23fe1fa98ca4056f947eddcd9f542f9c23658daea161a6889651d143e','121 Cape Town')
+Insert into users values('0101165412342','Rashay','Test','rashay@gmail.com','0833331111','scrypt:32768:8:1$WOULdilOiIRJM0dw$eaed19ab61daa3c85421a5e22eea3d21b9c4d3c545d4281964f9d17a45652d073f61a3a23fe1fa98ca4056f947eddcd9f542f9c23658daea161a6889651d143e','333 Cape Town')
 
 insert into classic_cars(vehicle_id,vehicle_make, model, year_model, vin, license_plate_number, odometer_reading, fuel_type, color, customer_id,current_value,year_purchased)
-values ('as1234-12asd12','Alfa Romeo','Giulietta Spider', '1957','ZARBB32N0M6004488', 'JCD007GP', 246879,'Diesel', 'white', '0101165410082',8000000,'1997-06-16')
+values ('as1234-12asd12','Alfa Romeo','Giulietta Spider', '1957','ZARBB32N0M6004488', 'JCD007GP', 246879,'Diesel', 'white', '0101165412342',8000000,'1997-06-16')
 
 insert into classic_cars(vehicle_id,vehicle_make, model, year_model, vin, license_plate_number, odometer_reading, fuel_type, color, customer_id,current_value,year_purchased)
-values ('as1234-12asd13','Mercedes Benz','M Class', '1999','4JGAB54E1XA094195', 'JCD008GP', 246890,'Petrol', 'black', '0101165410082',4500000,'2000-06-17')
+values ('as1234-12asd13','Mercedes Benz','M Class', '1999','4JGAB54E1XA094195', 'JCD008GP', 246890,'Petrol', 'black', '0101165412342',4500000,'2000-06-17')
 
 insert into quote(quote_id,quote_date,quoted_premium,quote_decision_date,status,category_id) values('qt-001','2024-03-01',18000,'2024-03-05','Accepted',1)
 ,('qt-002','2024-04-02',11250,NULL,'Deciding',1)

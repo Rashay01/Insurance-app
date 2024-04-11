@@ -27,7 +27,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("FORM_SECRET_KEY")
-connection_string = os.environ.get("DATABASE_STRING_TO_CONNECT1")
+connection_string = os.environ.get("DATABASE_STRING_TO_CONNECT")
 app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
 db.init_app(app)
@@ -43,11 +43,6 @@ from models.users import User
 def load_user(ID):
     return User.query.filter_by(ID=ID).first()
 
-
-@app.route("/testings")
-@login_required
-def testings():
-    return "<h2>hi</h2>"
 
 
 # BluePrints imports

@@ -28,15 +28,15 @@ fuel_types_list = [("Petrol", "Petrol"), ("Diesel", "Diesel")]
 
 class ClassicCarsForm(FlaskForm):
     vehicle_make = StringField(
-        "vehicle make", validators=[InputRequired(), Length(min=1)]
+        "Vehicle Make", validators=[InputRequired(), Length(min=1)]
     )
     model = StringField("model", validators=[InputRequired()])
     year_model = StringField(
-        "year model",
+        "Year Model",
         validators=[InputRequired(), Regexp("^\d{4}$", message="Enter a valid year")],
     )
     vin = StringField(
-        "vin",
+        "VIN",
         validators=[
             InputRequired(),
             Length(min=17, max=17),
@@ -56,12 +56,12 @@ class ClassicCarsForm(FlaskForm):
     )
     odometer_reading = IntegerField("odometer_reading", validators=[InputRequired()])
     fuel_type = SelectField(
-        "fuel_type", validators=[InputRequired()], choices=fuel_types_list
+        "Fuel Type", validators=[InputRequired()], choices=fuel_types_list
     )
     color = StringField("color", validators=[InputRequired()])
-    current_value = FloatField("current_value", validators=[InputRequired()])
+    current_value = FloatField("Current Value (R)", validators=[InputRequired()])
     year_purchased = DateField(
-        "year_purchased", format="%Y-%m-%d", validators=[InputRequired()]
+        "Year Purchased", format="%Y-%m-%d", validators=[InputRequired()]
     )
     new_item = SubmitField("Get Quote")
 
@@ -76,7 +76,7 @@ class ClassicCarsForm(FlaskForm):
     def validate_year_purchased(self, field):
         curr_date = datetime.now().date()
         if curr_date < field.data:
-            raise ValidationError("Date must be before or equal to current date")
+            raise ValidationError("Date must on or before current date")
 
     def validate_year_model(self, field):
         curr_date = datetime.now().year
@@ -85,9 +85,9 @@ class ClassicCarsForm(FlaskForm):
             if date <= 0:
                 raise ValidationError("enter a positive year")
             if date > (curr_date - 25):
-                raise ValidationError("We cover classic cars from 25 years ago")
+                raise ValidationError("We only cover classic cars aged 25 years or more")
         except Exception as e:
-            raise ValidationError("Enter a year with Numbers (YYYY)")
+            raise ValidationError("Enter a year with as in (YYYY)")
 
 
 @classic_cars_quote_bp.route("/classic-cars", methods=["GET", "POST"])
@@ -133,7 +133,7 @@ def get_new_quote():
             db.session.commit()
             db.session.add(new_cars_quote)
             db.session.commit()
-            flash("New Quote changed successfully")
+            flash("New Quote successfully received")
             return redirect("/dashboard")
         except Exception as e:
             db.session.rollback()

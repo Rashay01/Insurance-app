@@ -27,7 +27,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("FORM_SECRET_KEY")
-connection_string = os.environ.get("DATABASE_STRING_TO_CONNECT")
+connection_string = os.environ.get("DATABASE_STRING_lOCAL")
 app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
 db.init_app(app)
@@ -82,7 +82,6 @@ app.register_blueprint(all_claims_bp)
 
 try:
     with app.app_context():
-        # Use text() to explicitly declare your SQL command
         result = db.session.execute(text("SELECT 1")).fetchall()
         # db.drop_all()
         # db.create_all()

@@ -17,17 +17,17 @@ all_claims_bp = Blueprint("all_claims", __name__)
 
 class ClaimForm(FlaskForm):
     date_incident_occurred = DateField(
-        "Date incident occurred", validators=[InputRequired()]
+        "Date of incident", validators=[InputRequired()]
     )
     claim_description = TextAreaField(
         "Description of what happened?", validators=[InputRequired(), Length(max=500)]
     )
     police_claim_number = StringField(
-        "Police claim number",
+        "Police case number",
         validators=[
             InputRequired(),
             Length(max=15),
-            Regexp("^[A-Za-z0-9_-]+$", message="Enter a valid police number"),
+            Regexp("^[A-Za-z0-9_-]+$", message="Enter a valid police case number"),
         ],
     )
     submit = SubmitField("Submit new claim")
@@ -36,7 +36,7 @@ class ClaimForm(FlaskForm):
         curr_date = datetime.now().date()
         incident_date = field.data
         if incident_date > curr_date or curr_date - incident_date > timedelta(days=2):
-            raise ValidationError("Claim must happen within two days of incident")
+            raise ValidationError("Claim must placed within two days of incident")
 
 
 @all_claims_bp.route("/new-claim", methods=["POST", "GET"])

@@ -39,6 +39,7 @@ With regards to the choice of the technology stack, we used Python as the progra
 
 1. One can run the `create_tables.sql` file to create the tables in the database as well as get some dummy data.
 2. Run `pip install -r requirements.txt` to get all the dependencies installed
-3. Run `flask run` to run the app
+3. In the `.env` add the database connection with the variable name `AZURE_CONNECTION_URL` and the secret key with `FORM_SECRET_KEY`
+4. Run `flask run` to run the app
 
 Note: The test users password is `password` and the ID number is `0101165412342`

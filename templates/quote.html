@@ -1,9 +1,6 @@
-{% extends 'base.html' %} 
-{% block style %}
-  <link rel="stylesheet" href="/static/css/single-item.css" />
-{% endblock %} 
-
-{% block body%}
+{% extends 'base.html' %} {% block style %}
+<link rel="stylesheet" href="/static/css/single-item.css" />
+{% endblock %} {% block body%}
 <h1 class="all-heading heading-background">Quote</h1>
 <div class="card card-claim-form">
   <h2><span class="bold-item-data">No:</span> {{quote.quote_id}}</h2>
@@ -32,7 +29,7 @@
     <p class="bold-item-data">Color:</p>
     <p>{{item.color}}</p>
     <p class="bold-item-data">Vehicle value:</p>
-    <p>{{item.current_value}}</p>
+    <p>{{"R{:,.2f}".format(item.current_value).replace(',',' ')}}</p>
     <p class="bold-item-data">Year purchased:</p>
     <p>{{item.year_purchased}}</p>
   </div>
@@ -42,19 +39,20 @@
   <div class="buttons-container-single-item">
     <a class="btn button-single-item" href="/quote/all-quotes">Back</a>
     <form
+      action="{{url_for('classic_cars_quote.delete_classic_car_quote_user')}}"
+      method="POST"
+    >
+      <input type="text" name="quote_id" value="{{quote.quote_id}}" hidden />
+      <button class="btn button-single-item" type="submit">Decline</button>
+    </form>
+
+    <form
       action="{{url_for('classic_cars_quote.accept_classic_car_quote_user')}}"
       method="POST"
     >
       <input type="text" name="quote_id" value="{{quote.quote_id}}" hidden />
       <input type="text" name="vehicle_id" value="{{item.vehicle_id}}" hidden />
       <button class="btn button-single-item" type="submit">Accept</button>
-    </form>
-    <form
-      action="{{url_for('classic_cars_quote.delete_classic_car_quote_user')}}"
-      method="POST"
-    >
-      <input type="text" name="quote_id" value="{{quote.quote_id}}" hidden />
-      <button class="btn button-single-item" type="submit">Decline</button>
     </form>
   </div>
 </div>

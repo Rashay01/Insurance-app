@@ -3,6 +3,7 @@ from app import lg_user
 
 main_bp = Blueprint("main", __name__)
 
+
 @main_bp.route("/")
 def home():
     return render_template("landing.html", curr_page="home", lg_user=lg_user)
@@ -20,5 +21,6 @@ def contact():
 
 @main_bp.route("/dashboard")
 def dashboard():
-    print(lg_user)
-    return render_template("dashboard.html", curr_page="dashboard", user=lg_user, lg_user=lg_user)
+    return render_template(
+        "dashboard.html", curr_page="dashboard", user=lg_user, lg_user=lg_user
+    )

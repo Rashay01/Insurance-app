@@ -80,11 +80,14 @@ class ClassicCarsForm(FlaskForm):
 
     def validate_year_model(self, field):
         curr_date = datetime.now().year
-        date = int(field.data)
-        if date <= 0:
-            raise ValidationError("enter a positive year")
-        if date > (curr_date - 25):
-            raise ValidationError("We cover classic cars from 25 years ago")
+        try:
+            date = int(field.data)
+            if date <= 0:
+                raise ValidationError("enter a positive year")
+            if date > (curr_date - 25):
+                raise ValidationError("We cover classic cars from 25 years ago")
+        except Exception as e:
+            raise ValidationError("Enter a year with Numbers (YYYY)")
 
 
 @classic_cars_quote_bp.route("/classic-cars", methods=["GET", "POST"])

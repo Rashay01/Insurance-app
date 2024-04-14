@@ -1,5 +1,7 @@
 # Sanlam Platinum Plus Insurance
 
+*Setup is further down in documentation*
+
 On conducting desktop insurance research it was identified that there is very limited insurance cover for luxury, top-end, valuable, rare, antique and sentimental-valued products and possessions. If this type of insurance was available, it is not well publicized and generally falls under the specified items insurance for home contents or personal insurance.
 
 Thus, we identified a gap in the market for a company to focus pre-dominantly only on insurance for these type of luxury, rare products, antiques and highly expensive products.
@@ -34,6 +36,10 @@ As a Proof Of Concept (POC) and to develop a Minimum Viable Product (MVP) we dec
 As further enhancements the intention is to include a module to the web-application to cater for reporting and analytics, and to provide for the approval workflow for claims processing. API Authentication and Authorization will also be catered for going forward.
 
 With regards to the choice of the technology stack, we used Python as the programming language, together with Flask (including Flask-WTF, Flask-Login, Flask-SQLAlchemy) to showcase a full-stack developer approach from server-side logic with Flask to database interactions and RESTful API services. We used Jinja2 templates to render responsive HTML pages. CSS was used to style the HTML pages using Bootstrap which contained the JavaScript to enhance the user interface.
+
+## REST API's documentation
+
+[documentation](https://documenter.getpostman.com/view/33636476/2sA3Bj7tKf)
 
 # Setup
 

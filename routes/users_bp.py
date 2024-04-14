@@ -1,11 +1,27 @@
 from flask import Blueprint, jsonify, request
 from models.users import User
 from extensions import db
+from flask_login import login_required, login_user
+from werkzeug.security import generate_password_hash, check_password_hash
 
 users_bp = Blueprint("users", __name__)
 
 
+@users_bp.get("/login_user_api")
+def login_test():
+    id = request.json.get("id")
+    password = request.json.get("password")
+
+    user = User.query.get(id)
+    if user and check_password_hash(user.password, password):
+        login_user(user)
+        return jsonify({"message": "Login successful"})
+    else:
+        return jsonify({"message": "Invalid username or password"}), 401
+
+
 @users_bp.get("/")
+@login_required
 def get_users():
     user_list = User.query.all()
     data = [user.to_dict() for user in user_list]
@@ -13,6 +29,7 @@ def get_users():
 
 
 @users_bp.get("/<id>")
+@login_required
 def get_specific_user(id):
     user = User.query.get(id)
     if user is None:
@@ -21,6 +38,7 @@ def get_specific_user(id):
 
 
 @users_bp.put("/<id>")
+@login_required
 def update_specific_user(id):
     user_update = request.json
     user = User.query.get(id)
@@ -39,6 +57,7 @@ def update_specific_user(id):
 
 
 @users_bp.delete("/<id>")
+@login_required
 def delete_specific_user(id):
     user = User.query.get(id)
     if user is None:
@@ -54,9 +73,14 @@ def delete_specific_user(id):
 
 
 @users_bp.post("/")
+@login_required
 def add_user():
     data = request.json
+    password = data.get("password", None)
     new_user = User(**data)
+    if password:
+        has_pass = generate_password_hash(password)
+        new_user.password = has_pass
     try:
         db.session.add(new_user)
         db.session.commit()

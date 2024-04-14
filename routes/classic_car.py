@@ -1,11 +1,13 @@
 from flask import Blueprint, jsonify, request
 from models.classic_cars import ClassicCars
+from flask_login import login_required
 from extensions import db
 
 classic_car_bp = Blueprint("classic_car", __name__)
 
 
 @classic_car_bp.get("/")
+@login_required
 def get_classic_car():
     ClassicCars_list = ClassicCars.query.all()
     data = [car.to_dict() for car in ClassicCars_list]
@@ -13,6 +15,7 @@ def get_classic_car():
 
 
 @classic_car_bp.get("/<id>")
+@login_required
 def get_specific_classic_car(id):
     cars_list = ClassicCars.query.get(id)
     if cars_list is None:
@@ -21,6 +24,7 @@ def get_specific_classic_car(id):
 
 
 @classic_car_bp.put("/<id>")
+@login_required
 def update_specific_classic_car(id):
     car_update = request.json
     selected_car = ClassicCars.query.get(id)
@@ -42,6 +46,7 @@ def update_specific_classic_car(id):
 
 
 @classic_car_bp.delete("/<id>")
+@login_required
 def delete_specific_classic_car(id):
     selected_car = ClassicCars.query.get(id)
     if selected_car is None:
@@ -57,6 +62,7 @@ def delete_specific_classic_car(id):
 
 
 @classic_car_bp.post("/")
+@login_required
 def add_classic_car():
     data = request.json
     new_car = ClassicCars(**data)

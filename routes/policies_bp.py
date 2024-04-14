@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_login import login_required
 from models.policy import Policy
 from extensions import db
 
@@ -6,6 +7,7 @@ policies_bp = Blueprint("policies", __name__)
 
 
 @policies_bp.get("/")
+@login_required
 def get_policies():
     policies_list = Policy.query.all()
     data = [policy.to_dict() for policy in policies_list]
@@ -13,6 +15,7 @@ def get_policies():
 
 
 @policies_bp.get("/<id>")
+@login_required
 def get_specific_policies(id):
     policy = Policy.query.get(id)
     if policy is None:
@@ -21,6 +24,7 @@ def get_specific_policies(id):
 
 
 @policies_bp.put("/<id>")
+@login_required
 def update_specific_policies(id):
     policy_update = request.json
     policy = Policy.query.get(id)
@@ -39,6 +43,7 @@ def update_specific_policies(id):
 
 
 @policies_bp.delete("/<id>")
+@login_required
 def delete_specific_policies(id):
     policy = Policy.query.get(id)
     if policy is None:
@@ -54,6 +59,7 @@ def delete_specific_policies(id):
 
 
 @policies_bp.post("/")
+@login_required
 def add_policies():
     data = request.json
     new_policy = Policy(**data)

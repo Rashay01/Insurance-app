@@ -1,11 +1,13 @@
 from flask import Blueprint, jsonify, request
 from models.claim_status import ClaimStatus
+from flask_login import login_required
 from extensions import db
 
 claim_status_bp = Blueprint("claims_status", __name__)
 
 
 @claim_status_bp.get("/")
+@login_required
 def get_claim_status():
     claim_status_list = ClaimStatus.query.all()
     data = [claim_status.to_dict() for claim_status in claim_status_list]
@@ -13,6 +15,7 @@ def get_claim_status():
 
 
 @claim_status_bp.get("/<id>")
+@login_required
 def get_specific_claim_status(id):
     claim_status = ClaimStatus.query.get(id)
     if claim_status is None:
@@ -21,6 +24,7 @@ def get_specific_claim_status(id):
 
 
 @claim_status_bp.put("/<id>")
+@login_required
 def update_specific_claim_status(id):
     claim_status_update = request.json
     claim_status = ClaimStatus.query.get(id)
@@ -42,6 +46,7 @@ def update_specific_claim_status(id):
 
 
 @claim_status_bp.delete("/<id>")
+@login_required
 def delete_specific_claim_status(id):
     claim_status = ClaimStatus.query.get(id)
     if claim_status is None:
@@ -57,6 +62,7 @@ def delete_specific_claim_status(id):
 
 
 @claim_status_bp.post("/")
+@login_required
 def add_claim_status():
     data = request.json
     new_claim_status = ClaimStatus(**data)

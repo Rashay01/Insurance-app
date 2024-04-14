@@ -1,11 +1,13 @@
 from flask import Blueprint, jsonify, request
 from models.quote import Quote
+from flask_login import login_required
 from extensions import db
 
 quotes_bp = Blueprint("quotes", __name__)
 
 
 @quotes_bp.get("/")
+@login_required
 def get_quote():
     quotes_list = Quote.query.all()
     data = [quote.to_dict() for quote in quotes_list]
@@ -13,6 +15,7 @@ def get_quote():
 
 
 @quotes_bp.get("/<id>")
+@login_required
 def get_specific_quote(id):
     quotes_list = Quote.query.get(id)
     if quotes_list is None:
@@ -21,6 +24,7 @@ def get_specific_quote(id):
 
 
 @quotes_bp.delete("/<id>")
+@login_required
 def delete_specific_quote(id):
     quote = Quote.query.get(id)
     if quote is None:
@@ -36,6 +40,7 @@ def delete_specific_quote(id):
 
 
 @quotes_bp.post("/")
+@login_required
 def update_the_quote():
     data = request.json
     new_quote = Quote(**data)
@@ -49,6 +54,7 @@ def update_the_quote():
 
 
 @quotes_bp.put("/<id>")
+@login_required
 def update_specific_quote(id):
     quote_update = request.json
     quote = Quote.query.get(id)

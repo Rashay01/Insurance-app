@@ -1,11 +1,13 @@
 from flask import Blueprint, jsonify, request
 from models.category import Category
+from flask_login import login_required
 from extensions import db
 
 category_bp = Blueprint("category", __name__)
 
 
 @category_bp.get("/")
+@login_required
 def get_category():
     category_list = Category.query.all()
     data = [category.to_dict() for category in category_list]
@@ -13,6 +15,7 @@ def get_category():
 
 
 @category_bp.get("/<id>")
+@login_required
 def get_specific_category(id):
     category = Category.query.get(id)
     if category is None:
@@ -21,6 +24,7 @@ def get_specific_category(id):
 
 
 @category_bp.put("/<id>")
+@login_required
 def update_specific_category(id):
     category_update = request.json
     category = Category.query.get(id)
@@ -42,6 +46,7 @@ def update_specific_category(id):
 
 
 @category_bp.delete("/<id>")
+@login_required
 def delete_specific_category(id):
     category = Category.query.get(id)
     if category is None:
@@ -57,6 +62,7 @@ def delete_specific_category(id):
 
 
 @category_bp.post("/")
+@login_required
 def add_category():
     data = request.json
     new_category = Category(**data)

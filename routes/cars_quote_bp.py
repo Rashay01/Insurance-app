@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_login import login_required
 from models.cars_quote import CarQuote
 from extensions import db
 
@@ -6,6 +7,7 @@ cars_quote_bp = Blueprint("cars_quote", __name__)
 
 
 @cars_quote_bp.get("/")
+@login_required
 def get_cars_quote():
     cars_quote_list = CarQuote.query.all()
     data = [cars_quote.to_dict() for cars_quote in cars_quote_list]
@@ -13,6 +15,7 @@ def get_cars_quote():
 
 
 @cars_quote_bp.get("/<vehicleId>/<quoteId>")
+@login_required
 def get_specific_cars_quote(vehicleId, quoteId):
     cars_quote = CarQuote.query.get({"vehicle_id": vehicleId, "quote_id": quoteId})
     if cars_quote is None:
@@ -21,6 +24,7 @@ def get_specific_cars_quote(vehicleId, quoteId):
 
 
 @cars_quote_bp.put("/<vehicleId>/<quoteId>")
+@login_required
 def update_specific_cars_quote(vehicleId, quoteId):
     cars_quote_update = request.json
     cars_quote = CarQuote.query.get({"vehicle_id": vehicleId, "quote_id": quoteId})
@@ -42,6 +46,7 @@ def update_specific_cars_quote(vehicleId, quoteId):
 
 
 @cars_quote_bp.delete("/<vehicleId>/<quoteId>")
+@login_required
 def delete_specific_cars_quote(vehicleId, quoteId):
     cars_quote = CarQuote.query.get({"vehicle_id": vehicleId, "quote_id": quoteId})
     if cars_quote is None:
@@ -59,6 +64,7 @@ def delete_specific_cars_quote(vehicleId, quoteId):
 
 
 @cars_quote_bp.post("/")
+@login_required
 def add_cars_quote():
     data = request.json
     new_cars_quote = CarQuote(**data)

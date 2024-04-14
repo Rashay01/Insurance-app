@@ -19,7 +19,7 @@ from wtforms import (
     TextAreaField,
 )
 from wtforms.validators import InputRequired, Length
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, login_user
 from extensions import db
 
 
@@ -42,7 +42,6 @@ from models.users import User
 @login_manager.user_loader
 def load_user(ID):
     return User.query.filter_by(ID=ID).first()
-
 
 
 # BluePrints imports

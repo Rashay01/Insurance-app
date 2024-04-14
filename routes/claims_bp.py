@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_login import login_required
 from models.claim import Claim
 from extensions import db
 
@@ -6,6 +7,7 @@ claims_bp = Blueprint("claims", __name__)
 
 
 @claims_bp.get("/")
+@login_required
 def get_claims():
     claim_list = Claim.query.all()
     data = [claim.to_dict() for claim in claim_list]
@@ -13,6 +15,7 @@ def get_claims():
 
 
 @claims_bp.get("/<id>")
+@login_required
 def get_specific_claim(id):
     claim = Claim.query.get(id)
     if claim is None:
@@ -21,6 +24,7 @@ def get_specific_claim(id):
 
 
 @claims_bp.put("/<id>")
+@login_required
 def update_specific_claim(id):
     claim_update = request.json
     claim = Claim.query.get(id)
@@ -39,6 +43,7 @@ def update_specific_claim(id):
 
 
 @claims_bp.delete("/<id>")
+@login_required
 def delete_specific_claim(id):
     claim = Claim.query.get(id)
     if claim is None:
@@ -54,6 +59,7 @@ def delete_specific_claim(id):
 
 
 @claims_bp.post("/")
+@login_required
 def add_claim():
     data = request.json
     new_claim = Claim(**data)

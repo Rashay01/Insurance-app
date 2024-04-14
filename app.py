@@ -44,7 +44,6 @@ def load_user(ID):
     return User.query.filter_by(ID=ID).first()
 
 
-
 # BluePrints imports
 from routes.users_bp import users_bp
 from routes.quotes_bp import quotes_bp

@@ -41,6 +41,8 @@ With regards to the choice of the technology stack, we used Python as the progra
 
 [documentation](https://documenter.getpostman.com/view/33636476/2sA3Bj7tKf)
 
+It is also in the file `Insurance App (IPMS).postman_collection.json`
+
 # Setup
 
 1. One can run the `create_tables.sql` file to create the tables in the database as well as get some dummy data.

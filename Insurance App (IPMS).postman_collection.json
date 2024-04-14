@@ -1,0 +1,1082 @@
+{
+	"info": {
+		"_postman_id": "dcbec258-4d9c-48e1-a5ab-3740a43c1b26",
+		"name": "Insurance App (IPMS)",
+		"description": "This contains all the ways to edit the database through Restful APi's\n\nThe endpoints are protected through out the whole app - to be able to use all the API's you need the cookie that contains the authorized user. You can get this cookie from performing the Users Login user API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "login a user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"0101165412342\",\r\n    \"password\":\"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users/login_user_api",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"login_user_api"
+							]
+						},
+						"description": "Requires a id and password"
+					},
+					"response": []
+				},
+				{
+					"name": "Get all Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								""
+							]
+						},
+						"description": "This gets all users"
+					},
+					"response": []
+				},
+				{
+					"name": "Get user by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users/0101165412342",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"0101165412342"
+							]
+						},
+						"description": "passs the user id and get the id"
+					},
+					"response": []
+				},
+				{
+					"name": "Add new User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"rashay.jcdaya@gmail.com1\",\r\n    \"ID\": \"0101165410083\",\r\n    \"name\": \"Rashay1\",\r\n    \"password\": \"Pass0111\",\r\n    \"surname\": \"Daya1\",\r\n    \"cell_no\": \"0832212345\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								""
+							]
+						},
+						"description": "Add a new user whish requires :\n\nID, name, surname, password, cell_no\n\nIt encrypts the password using a hash"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cell_no\": \"0832221234\",\r\n    \"name\": \"Testing\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users/0101165410083",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"0101165410083"
+							]
+						},
+						"description": "Update any field in the user table. One canot add new fields"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users/0101165410083",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"0101165410083"
+							]
+						},
+						"description": "Delete a user from the user ID"
+					},
+					"response": []
+				}
+			],
+			"description": "This allows one to preform actions on the Users table in the database."
+		},
+		{
+			"name": "Classic Cars",
+			"item": [
+				{
+					"name": "Get all classic cars",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/classic-car/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"classic-car",
+								""
+							]
+						},
+						"description": "Displays all classic cars"
+					},
+					"response": []
+				},
+				{
+					"name": "Get single classic cars",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/classic-car/as1234-12asd13",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"classic-car",
+								"as1234-12asd13"
+							]
+						},
+						"description": "get a single classic car from the vehicle_id"
+					},
+					"response": []
+				},
+				{
+					"name": "Insert single classic cars",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"color\": \"black\",\r\n    \"current_value\": 4500000.0,\r\n    \"customer_id\": \"0101165412342\",\r\n    \"fuel_type\": \"Petrol\",\r\n    \"license_plate_number\": \"JCD008GP\",\r\n    \"model\": \"M Class\",\r\n    \"odometer_reading\": 246890,\r\n    \"policy_number\": null,\r\n    \"vehicle_id\": \"as1234-12asd14\",\r\n    \"vehicle_make\": \"Mercedes Benz\",\r\n    \"vin\": \"4JGAB54E1XA094195\",\r\n    \"year_model\": \"1999\",\r\n    \"year_purchased\": \"1999-02-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/classic-car/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"classic-car",
+								""
+							]
+						},
+						"description": "Add a new classic car item with fields:\n\n*   vehicle_id\n*   vehicle_make\n*   model\n*   year_model\n*   vin\n*   license_plate_number\n*   odometer_reading\n*   fuel_type\n*   color\n*   customer_id\n*   current_value\n*   year_purchased"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a single classic car",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"color\": \"black\",\r\n    \"current_value\": 4600000.00\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/classic-car/as1234-12asd14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"classic-car",
+								"as1234-12asd14"
+							]
+						},
+						"description": "Update any valid field"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a single classic car",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/classic-car/as1234-12asd14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"classic-car",
+								"as1234-12asd14"
+							]
+						},
+						"description": "Delete a single classic car"
+					},
+					"response": []
+				}
+			],
+			"description": "Do CRUD operations using RESTFUL API's"
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "get all categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								""
+							]
+						},
+						"description": "gets all the categories."
+					},
+					"response": []
+				},
+				{
+					"name": "get a single category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/category/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								"1"
+							]
+						},
+						"description": "Get a single category using the category ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Insert a new category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category_desc\": \"antique/colletors Yaught/boat more than 25 years old and in good condition\",\r\n    \"category_name\": \"Yaught/boat\",\r\n    \"premium_percentage\": 0.00325\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								""
+							]
+						},
+						"description": "Insert a new category with fields:\n\n*   category_name\n*   category_desc\n*   premium_percentage"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a existing category",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category_name\": \"Yaught or boat\",\r\n    \"premium_percentage\": 0.00425\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/category/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								"3"
+							]
+						},
+						"description": "Update a existing category with their ID in the endpoint url field. You can update the valid fields."
+					},
+					"response": []
+				},
+				{
+					"name": "Update a existing category Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/category/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"category",
+								"3"
+							]
+						},
+						"description": "Delete a single category using the ID"
+					},
+					"response": []
+				}
+			],
+			"description": "Perform CRUD operation using RESTFUL API's."
+		},
+		{
+			"name": "Quote",
+			"item": [
+				{
+					"name": "get all quotes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/quotes/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"quotes",
+								""
+							]
+						},
+						"description": "get one using the ID"
+					},
+					"response": []
+				},
+				{
+					"name": "get a single quotes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/quotes/qt-001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"quotes",
+								"qt-001"
+							]
+						},
+						"description": "get one using the ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Insert a quote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category_id\": 1,\r\n    \"quote_date\": \"2024-04-01\",\r\n    \"quote_decision_date\": \"2024-04-02\",\r\n    \"quote_id\": \"qt-006\",\r\n    \"quoted_premium\": 18000.0,\r\n    \"status\": \"Accepted\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/quotes/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"quotes",
+								""
+							]
+						},
+						"description": "Create a new Quote:\n\n*   quote_id\n*   quote_date\n*   quoted_premium\n*   quote_decision_date\n*   status\n*   category_id"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a quote Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \r\n    \"quote_decision_date\": \"2024-04-03\",\r\n    \"status\": \"Declined\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/quotes/qt-006",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"quotes",
+								"qt-006"
+							]
+						},
+						"description": "Update the valid fields with the ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a quote",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/quotes/qt-006",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"quotes",
+								"qt-006"
+							]
+						},
+						"description": "Delete one using the ID"
+					},
+					"response": []
+				}
+			],
+			"description": "Do CRUD operations using RESTFUL API's"
+		},
+		{
+			"name": "Policy",
+			"item": [
+				{
+					"name": "Get all Policies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/policies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"policies"
+							]
+						},
+						"description": "get all of them"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single Policy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/policies/pol-001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"policies",
+								"pol-001"
+							]
+						},
+						"description": "get one using the ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Insert a single Policy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"active\": true,\r\n    \"category_id\": 1,\r\n    \"monthly_premium\": 18000.0,\r\n    \"policy_date\": \"2024-01-01\",\r\n    \"policy_end_date\": null,\r\n    \"policy_number\": \"pol-002\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/policies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"policies"
+							]
+						},
+						"description": "Create a new policy:\n\n*   policy_number\n*   policy_date\n*   monthly_premium\n*   category_id"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a single Policy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"monthly_premium\": 19000.0,\r\n    \"policy_date\": \"2024-01-04\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/policies/pol-002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"policies",
+								"pol-002"
+							]
+						},
+						"description": "Update the valid fields with the ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a single Policy Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/policies/pol-002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"policies",
+								"pol-002"
+							]
+						},
+						"description": "Delete one using the ID"
+					},
+					"response": []
+				}
+			],
+			"description": "Do CRUD operations using RESTFUL API's"
+		},
+		{
+			"name": "car-quote",
+			"item": [
+				{
+					"name": "Get all Car Quotes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/cars-quote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"cars-quote"
+							]
+						},
+						"description": "get all of them"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single Car Quotes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/cars-quote/as1234-12asd12/qt-001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"cars-quote",
+								"as1234-12asd12",
+								"qt-001"
+							]
+						},
+						"description": "get one using the IDs Vehicle_id and then Quote_id"
+					},
+					"response": []
+				},
+				{
+					"name": "Insert a single car quote",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"quote_id\": \"qt-002\",\r\n        \"vehicle_id\": \"as1234-12asd12\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/cars-quote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"cars-quote"
+							]
+						},
+						"description": "Create a new cars_quote:\n\n*   vehicle_id\n*   quote_id"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a single car quote",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/cars-quote/as1234-12asd12/qt-002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"cars-quote",
+								"as1234-12asd12",
+								"qt-002"
+							]
+						},
+						"description": "Delete one using the ID's"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a single car quote",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quote_id\": \"qt-002\",\r\n    \"vehicle_id\": \"as1234-12asd12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/cars-quote/as1234-12asd12/qt-001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"cars-quote",
+								"as1234-12asd12",
+								"qt-001"
+							]
+						},
+						"description": "Update the valid fields with the IDs"
+					},
+					"response": []
+				}
+			],
+			"description": "Do CRUD operations using RESTFUL API's"
+		},
+		{
+			"name": "Claims",
+			"item": [
+				{
+					"name": "Get all claims",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/claims/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"claims",
+								""
+							]
+						},
+						"description": "get all of them"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single claim",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/claims/claim-001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"claims",
+								"claim-001"
+							]
+						},
+						"description": "get one using the ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a claim",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"claim_amount\": null,\r\n    \"claim_date\": \"2024-04-14\",\r\n    \"claim_description\": \"There was theft of my car that was kept in the garage. It was stolen at 4 AM in the morning\",\r\n    \"claim_number\": \"claim-002\",\r\n    \"date_incident_occurred\": \"2024-04-13\",\r\n    \"police_claim_number\": \"CAS060435-01\",\r\n    \"policy_number\": \"pol-001\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/claims/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"claims",
+								""
+							]
+						},
+						"description": "Create a claim:\n\n*   claim_number\n*   claim_date\n*   date_incident_occurred\n*   claim_description\n*   police_claim_number\n*   policy_number"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a claim",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"claim_date\": \"2024-04-15\",\r\n    \"claim_description\": \"There was theft of my car that was kept in the garage. It was stolen at 4 AM in the morning. Tesing\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/claims/claim-002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"claims",
+								"claim-002"
+							]
+						},
+						"description": "Update the valid fields with the ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a claim",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/claims/claim-002",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"claims",
+								"claim-002"
+							]
+						},
+						"description": "Delete one using the ID"
+					},
+					"response": []
+				}
+			],
+			"description": "Do CRUD operations using RESTFUL API's"
+		},
+		{
+			"name": "claim-satus",
+			"item": [
+				{
+					"name": "Get all claim status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/claims-status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"claims-status"
+							]
+						},
+						"description": "get all of them"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single claim status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/claims-status/csts-001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"claims-status",
+								"csts-001"
+							]
+						},
+						"description": "get one using the ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Insert a single claim status",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"claim_number\": \"claim-001\",\r\n    \"status_date\": \"2024-01-06\",\r\n    \"status_id\": \"csts-006\",\r\n    \"status_name\": \"Received\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/claims-status/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"claims-status",
+								""
+							]
+						},
+						"description": "Create a new claim status:\n\n*   status_id\n*   status_name\n*   status_date\n*   claim_number"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a single claim status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"status_name\": \"Investigation\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/claims-status/csts-006",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"claims-status",
+								"csts-006"
+							]
+						},
+						"description": "Update the valid fields with the ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a single claim status",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/claims-status/csts-006",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"claims-status",
+								"csts-006"
+							]
+						},
+						"description": "Delete one using the ID"
+					},
+					"response": []
+				}
+			],
+			"description": "Do CRUD operations using RESTFUL API's"
+		}
+	]
+}

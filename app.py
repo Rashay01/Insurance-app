@@ -44,6 +44,7 @@ def load_user(ID):
     return User.query.filter_by(ID=ID).first()
 
 
+<<<<<<< HEAD
 @app.get('/login_test')
 def login_test():
     id = request.json.get('id')
@@ -61,6 +62,8 @@ def login_test():
 def testing():
     return jsonify({'message':'hi'})
 
+=======
+>>>>>>> 324c2ebd141cd6e2b46e0cb8de468f1d44d4b542
 # BluePrints imports
 from routes.users_bp import users_bp
 from routes.quotes_bp import quotes_bp

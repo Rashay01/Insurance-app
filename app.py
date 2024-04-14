@@ -19,7 +19,7 @@ from wtforms import (
     TextAreaField,
 )
 from wtforms.validators import InputRequired, Length
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, login_user
 from extensions import db
 
 
@@ -27,7 +27,7 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("FORM_SECRET_KEY")
-connection_string = os.environ.get("AZURE_CONNECTION_URL")
+connection_string = os.environ.get("DATABASE_STRING_lOCAL1")
 app.config["SQLALCHEMY_DATABASE_URI"] = connection_string
 
 db.init_app(app)
@@ -44,6 +44,22 @@ def load_user(ID):
     return User.query.filter_by(ID=ID).first()
 
 
+@app.get('/login_test')
+def login_test():
+    id = request.json.get('id')
+    password = request.json.get('password')
+
+    user = User.query.get(id)
+    if user:
+        login_user(user)
+        return jsonify({'message': 'Login successful'})
+    else:
+        return jsonify({'message': 'Invalid username or password'}), 401
+    
+@app.get('/testing')
+@login_required
+def testing():
+    return jsonify({'message':'hi'})
 
 # BluePrints imports
 from routes.users_bp import users_bp

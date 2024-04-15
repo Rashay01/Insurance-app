@@ -45,7 +45,7 @@ With regards to the choice of the technology stack, we used Python as the progra
 
 ## REST API's documentation
 
-[documentation](https://documenter.getpostman.com/view/33636476/2sA3Bj7tKf)
+[Click me for the documentation](https://documenter.getpostman.com/view/33636476/2sA3Bj7tKf)
 
 It is also in the postman collection file with the name `Insurance App (IPMS).postman_collection.json`
 

@@ -1,7 +1,13 @@
 # Sanlam Platinum Plus Insurance
 
-*Setup is further down in documentation*
+# Setup
 
+1. One can run the `create_tables.sql` file to create the tables in the database as well as get some dummy data.
+2. Run `pip install -r requirements.txt` to get all the dependencies installed
+3. In the `.env` add the database connection with the variable name `AZURE_CONNECTION_URL` and the secret key with `FORM_SECRET_KEY`
+4. Run `flask run` to run the app
+
+## Sanlam Platinum Plus Insurance
 On conducting desktop insurance research it was identified that there is very limited insurance cover for luxury, top-end, valuable, rare, antique and sentimental-valued products and possessions. If this type of insurance was available, it is not well publicized and generally falls under the specified items insurance for home contents or personal insurance.
 
 Thus, we identified a gap in the market for a company to focus pre-dominantly only on insurance for these type of luxury, rare products, antiques and highly expensive products.
@@ -41,13 +47,17 @@ With regards to the choice of the technology stack, we used Python as the progra
 
 [documentation](https://documenter.getpostman.com/view/33636476/2sA3Bj7tKf)
 
-It is also in the file `Insurance App (IPMS).postman_collection.json`
+It is also in the postman collection file with the name `Insurance App (IPMS).postman_collection.json`
 
-# Setup
 
-1. One can run the `create_tables.sql` file to create the tables in the database as well as get some dummy data.
-2. Run `pip install -r requirements.txt` to get all the dependencies installed
-3. In the `.env` add the database connection with the variable name `AZURE_CONNECTION_URL` and the secret key with `FORM_SECRET_KEY`
-4. Run `flask run` to run the app
+
+
+
 
 Note: The test users password is `password` and the ID number is `0101165412342`
+
+## Design process:
+
+- a basic wire frame was conducted in [figma basic wire frame](https://www.figma.com/file/o1jrudMDK24V6NuATfFBB1/Untitled?type=design&node-id=0%3A1&mode=design&t=LiqwcPvkY29EzjV5-1)
+- Designed a ERD :
+![ERD Diagram](./ERD%20diagram.png "ERD Diagram")

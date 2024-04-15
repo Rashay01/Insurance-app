@@ -7,6 +7,8 @@
 3. In the `.env` add the database connection with the variable name `AZURE_CONNECTION_URL` and the secret key with `FORM_SECRET_KEY`
 4. Run `flask run` to run the app
 
+Note: The test users password is `password` and the ID number is `0101165412342`
+
 ## Sanlam Platinum Plus Insurance
 On conducting desktop insurance research it was identified that there is very limited insurance cover for luxury, top-end, valuable, rare, antique and sentimental-valued products and possessions. If this type of insurance was available, it is not well publicized and generally falls under the specified items insurance for home contents or personal insurance.
 
@@ -54,7 +56,7 @@ It is also in the postman collection file with the name `Insurance App (IPMS).po
 
 
 
-Note: The test users password is `password` and the ID number is `0101165412342`
+
 
 ## Design process:
 

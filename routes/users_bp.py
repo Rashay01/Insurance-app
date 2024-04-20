@@ -1,3 +1,4 @@
+# REST API for Users data
 from flask import Blueprint, jsonify, request
 from models.users import User
 from extensions import db

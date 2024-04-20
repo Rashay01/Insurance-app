@@ -1,3 +1,4 @@
+#RESTFUL API dor Claims status
 from flask import Blueprint, jsonify, request
 from models.claim_status import ClaimStatus
 from flask_login import login_required

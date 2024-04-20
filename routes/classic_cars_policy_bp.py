@@ -8,7 +8,7 @@ from extensions import db
 
 classic_cars_policy_bp = Blueprint("classic_cars_policy", __name__)
 
-
+#DIsplays all the policies with classic cars 
 @classic_cars_policy_bp.route("/")
 @login_required
 def all_policies():
@@ -33,6 +33,7 @@ def all_policies():
     )
 
 
+# Displays a single policy 
 @classic_cars_policy_bp.route("/<id>")
 @login_required
 def specific_policies(id):
@@ -59,7 +60,7 @@ def specific_policies(id):
         item=filtered_policies[1],
     )
 
-
+# Delete a policy
 @classic_cars_policy_bp.route("/delete", methods=["POST"])
 @login_required
 def delete_user_specific_policies():

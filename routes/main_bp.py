@@ -33,11 +33,11 @@ def contact():
     form = ContactForm()
     if form.validate_on_submit():
         flash(f"We will contact you soon")
-    return render_template("contact.html")
+    return render_template("contact.html", form=form)
 
 
 @main_bp.route("/dashboard")
 @login_required
 def dashboard():
 
-    return render_template("dashboard.html", user=current_user)
+    return render_template("dashboard.html", curr_page="dashboard", user=current_user)

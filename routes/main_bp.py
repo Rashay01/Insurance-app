@@ -20,12 +20,12 @@ class ContactForm(FlaskForm):
 
 @main_bp.route("/")
 def home():
-    return render_template("landing.html", curr_page="home")
+    return render_template("landing.html")
 
 
 @main_bp.route("/about/")
 def about():
-    return render_template("about.html", curr_page="about")
+    return render_template("about.html")
 
 
 @main_bp.route("/contact", methods=["POST", "GET"])
@@ -33,11 +33,11 @@ def contact():
     form = ContactForm()
     if form.validate_on_submit():
         flash(f"We will contact you soon")
-    return render_template("contact.html", curr_page="contact", form=form)
+    return render_template("contact.html")
 
 
 @main_bp.route("/dashboard")
 @login_required
 def dashboard():
 
-    return render_template("dashboard.html", curr_page="dashboard", user=current_user)
+    return render_template("dashboard.html", user=current_user)

@@ -1,7 +1,4 @@
-{% extends 'base.html' %} {% block style %}
-
-
-{% endblock %} {% block body%}
+{% extends 'base.html' %} {% block style %} {% endblock %} {% block body%}
 
 <!-- Actual policy code -->
 <div class="polices-container">
@@ -11,11 +8,14 @@
   <div
     class="card all-items-container {% if not policy.active %}policy-container{% endif %}"
   >
-    <h5>Policy No: {{policy.policy_number}}</h5>
+    <h5 class="bold_item_text">Policy No: {{policy.policy_number}}</h5>
     <p>Vehicle:</p>
     <p>Make: {{classic_car.vehicle_make}}</p>
     <p>Model: {{classic_car.model}}</p>
-    <p>Premium: R{{policy.monthly_premium}} p/m</p>
+    <p>
+      Premium:
+      <span class="bold_item_text">R{{policy.monthly_premium}} p/m</span>
+    </p>
     <a
       class="btn {% if not policy.active %}all-button-active{% else %}all-button{% endif %}"
       href="/all-policies/{{policy.policy_number}}"

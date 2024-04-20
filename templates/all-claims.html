@@ -2,7 +2,7 @@
 <h2 class="all-heading heading-background">All Claims</h2>
 {% for claim, policy, classic_car in claims_data %}
 <div class="card all-items-container">
-  <h5>Claim No: {{claim.claim_number}}</h5>
+  <h5 class="bold_item_text">Claim No: {{claim.claim_number}}</h5>
   <p>Claim Date: {{claim.claim_date}}</p>
   <p>Policy No: {{policy.policy_number}}</p>
   <p>Make: {{classic_car.vehicle_make}}</p>

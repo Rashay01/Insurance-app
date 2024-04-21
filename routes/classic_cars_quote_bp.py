@@ -74,7 +74,7 @@ class ClassicCarsForm(FlaskForm):
     vehicle_make = StringField(
         "Vehicle Make", validators=[InputRequired(), Length(min=1)]
     )
-    model = StringField("model", validators=[InputRequired()])
+    model = StringField("Model", validators=[InputRequired()])
     year_model = StringField(
         "Year Model",
         validators=[InputRequired(), Regexp("^\d{4}$", message="Enter a valid year")],
@@ -98,11 +98,11 @@ class ClassicCarsForm(FlaskForm):
             ),
         ],
     )
-    odometer_reading = IntegerField("odometer_reading", validators=[InputRequired()])
+    odometer_reading = IntegerField("Odometer Reading", validators=[InputRequired()])
     fuel_type = SelectField(
         "Fuel Type", validators=[InputRequired()], choices=fuel_types_list
     )
-    color = StringField("color", validators=[InputRequired()])
+    color = StringField("Color", validators=[InputRequired()])
     current_value = FloatField("Current Value (R)", validators=[InputRequired()])
     year_purchased = DateField(
         "Year Purchased", format="%Y-%m-%d", validators=[InputRequired()]

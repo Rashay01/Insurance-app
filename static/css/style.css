@@ -18,7 +18,7 @@ body {
 .logo-container {
   background-color: #ffffff;
   padding: 3px 10px;
-  border-radius: 10px;
+  border-radius: 7px;
   font-weight: bold;
 }
 .nav-tag {
@@ -39,6 +39,9 @@ body {
   margin-right: 10px;
   color: #ffffff;
 }
+.nav-account {
+  text-decoration: none;
+}
 .nav-account:hover {
   color: #111820;
 }
@@ -50,8 +53,9 @@ body {
 .flash-container {
   font-family: sans-serif;
   font-weight: bold;
-  z-index: 1; /* set higher z-index value */
-  position: relative; /* position must be set for z-index to work */
+  z-index: 1;
+  position: relative;
+  margin-top: 13px;
 }
 .flash-message {
   margin: 0;

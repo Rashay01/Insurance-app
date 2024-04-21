@@ -96,7 +96,10 @@
             endif
             %}
           >
-            <i class="fa-solid fa-circle-user fa-xl"></i>
+            <div class="account-items">
+              <i class="fa-solid fa-circle-user fa-xl"></i>
+              {{current_user.name}} {{current_user.surname}}
+            </div>
           </a>
           <a
             class="btn btn-success my-2 my-sm-0 nav-right-item"

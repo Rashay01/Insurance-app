@@ -8,6 +8,10 @@ from wtforms import (
 
 )
 from wtforms.validators import InputRequired, Length,Regexp
+from sqlalchemy.sql import Select
+from models.classic_cars import ClassicCars
+from models.policy import Policy
+from extensions import db
 
 main_bp = Blueprint("main", __name__)
 
@@ -39,5 +43,14 @@ def contact():
 @main_bp.route("/dashboard")
 @login_required
 def dashboard():
-
-    return render_template("dashboard.html", curr_page="dashboard", user=current_user)
+    data = (
+        Select(Policy, ClassicCars)
+        .join(ClassicCars, Policy.policy_number == ClassicCars.policy_number)
+        .filter_by(customer_id=current_user.ID)
+        .order_by(Policy.active.desc(), Policy.policy_date.desc())
+    )
+    filtered_policies = db.session.execute(data).first()
+    if filtered_policies is None:
+        return render_template("dashboard.html", curr_page="dashboard", user=current_user, policy={},classic_car={})
+    print(filtered_policies)
+    return render_template("dashboard.html", curr_page="dashboard", user=current_user, policy=filtered_policies[0],classic_car=filtered_policies[1])

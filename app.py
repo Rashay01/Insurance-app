@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, url_for
+from flask import Flask
 from sqlalchemy.sql import text
 from dotenv import load_dotenv
 from flask_login import LoginManager

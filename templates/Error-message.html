@@ -1,47 +1,23 @@
-{% extends 'base.html' %} {% block style %}
-<style>
-    .center-error-message{
-        margin: 0;
-        display: grid;
-        place-content: center;
-        min-height: 89vh;
-    }
-    .error-message-container{
-        background-color: #ffffff;
-        max-width: 500px;
-        border-radius: 10px;
-        padding: 10px;
-        text-align: center;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    }
-    .error-message-text{
-        font-family: 'Roboto', sans-serif;
-        font-weight: 700;
-    }
-    .error-message-button-container{
-        margin-top: 15px;
-    }
-</style>
+{% extends 'base.html' %} {% block docName %}Error{% endblock %} {% block style
+%}
+<link rel="stylesheet" href="/static/css/error.css" />
 {% endblock %} {% block body%}
 <div class="center-error-message">
-
-    <div class="error-message-container">
-        <h1 class="error-message-text">{{status_code}}</h1>
-        <h1 class="error-message-text">{{message}}</h1>
-        {% if error_options != None %}
-        <div class="error-message-button-container">
-            {% if error_options == 'quote' %}
-            <a class="btn all-button" href="/quote/classic-cars">New Quotes</a>
-            {% endif %}
-            {% if error_options == 'policy' %}
-            <a class="btn all-button" href="/quote/classic-cars">New Quotes</a>
-            <a class="btn all-button" href="/quote/all-quotes">Existing Quotes</a>
-            {% endif %}
-            {% if error_options == 'claim' %}
-            <a class="btn all-button" href="/new-claim">New Claim</a>
-            {% endif %}
-        </div>
-        {% endif %}
+  <div class="error-message-container">
+    <h1 class="error-message-text">{{status_code}}</h1>
+    <h1 class="error-message-text">{{message}}</h1>
+    {% if error_options != None %}
+    <div class="error-message-button-container">
+      {% if error_options == 'quote' %}
+      <a class="btn all-button" href="/quote/classic-cars">New Quotes</a>
+      {% endif %} {% if error_options == 'policy' %}
+      <a class="btn all-button" href="/quote/classic-cars">New Quotes</a>
+      <a class="btn all-button" href="/quote/all-quotes">Existing Quotes</a>
+      {% endif %} {% if error_options == 'claim' %}
+      <a class="btn all-button" href="/new-claim">New Claim</a>
+      {% endif %}
     </div>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

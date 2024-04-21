@@ -1,5 +1,6 @@
-{% extends 'base.html' %} {% block style %}
-{% endblock %} {% block body%}
+{% extends 'base.html' %}
+{% block docName %}Dashboard {% endblock %}
+{% block style %} {% endblock %} {% block body%}
 <div class="card dashboard-card">
   <h2 class="dashboard-heading">Welcome {{user.name}} {{user.surname}}</h2>
 
@@ -36,4 +37,23 @@
     </div>
   </div>
 </div>
+{% if policy %}
+<div class="card dashboard-card">
+  <h1 class="dashboard-heading">Policy</h1>
+  <h5 class="bold_item_text">Policy No: {{policy.policy_number}}</h5>
+    <p>Vehicle:</p>
+    <p>Make: {{classic_car.vehicle_make}}</p>
+    <p>Model: {{classic_car.model}}</p>
+    <p>
+      Premium:
+      <span class="bold_item_text">R{{policy.monthly_premium}} p/m</span>
+    </p>
+    <a
+      class="btn {% if not policy.active %}all-button-active{% else %}all-button{% endif %}"
+      href="/all-policies/{{policy.policy_number}}"
+      >View More</a
+    >
+  </div>
+</div>
+{% endif %}
 {% endblock %}

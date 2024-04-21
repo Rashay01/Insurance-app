@@ -20,17 +20,61 @@ import uuid
 from extensions import db
 from flask_login import current_user, login_required
 from datetime import datetime
+import re
 
 classic_cars_quote_bp = Blueprint("classic_cars_quote", __name__)
 
 fuel_types_list = [("Petrol", "Petrol"), ("Diesel", "Diesel")]
 
+def extract_info(id_number):
+    # Regular expression pattern to extract birthdate and gender
+    pattern = r"(?P<birthdate>\d{2})(?P<year>\d{2})(?P<month>\d{2})(?P<gender>\d{1})(?P<sequence>\d{4})(?P<citizenship>\d{2})"
+    
+    match = re.match(pattern, id_number)
+    if match:
+        birthdate = match.group('birthdate')
+        year = match.group('year')
+        month = match.group('month')
+        gender = match.group('gender')
+        
+        current_year = datetime.now().year
+        last_two_digits = current_year % 100
+        if int(year) < last_two_digits:
+            birth_year = 2000 + int(year)
+        else:
+            birth_year = 1900 + int(year)
+        
+        
+        age = current_year - birth_year
+        
+        male = False if int(gender) < 5 else True
+        
+        return birth_year, age, male
+    else:
+        return None
+
+def calculate_amount(curr_value, percentage):
+    info = extract_info(current_user.ID)
+    if info:
+        birthdate, age, male = info
+        print("Birthdate:", birthdate)
+        print("Age:", age)
+        print("Gender:", male)
+        if male == True:
+            percentage+=0.001
+        if age > 59:
+            percentage+=0.01
+        elif age < 25:
+            percentage+=0.001
+        return round(curr_value*percentage,2) 
+    else:
+        return None
 
 class ClassicCarsForm(FlaskForm):
     vehicle_make = StringField(
         "Vehicle Make", validators=[InputRequired(), Length(min=1)]
     )
-    model = StringField("model", validators=[InputRequired()])
+    model = StringField("Model", validators=[InputRequired()])
     year_model = StringField(
         "Year Model",
         validators=[InputRequired(), Regexp("^\d{4}$", message="Enter a valid year")],
@@ -54,11 +98,11 @@ class ClassicCarsForm(FlaskForm):
             ),
         ],
     )
-    odometer_reading = IntegerField("odometer_reading", validators=[InputRequired()])
+    odometer_reading = IntegerField("Odometer Reading", validators=[InputRequired()])
     fuel_type = SelectField(
         "Fuel Type", validators=[InputRequired()], choices=fuel_types_list
     )
-    color = StringField("color", validators=[InputRequired()])
+    color = StringField("Color", validators=[InputRequired()])
     current_value = FloatField("Current Value (R)", validators=[InputRequired()])
     year_purchased = DateField(
         "Year Purchased", format="%Y-%m-%d", validators=[InputRequired()]
@@ -90,6 +134,7 @@ class ClassicCarsForm(FlaskForm):
             raise ValidationError("Enter a year with as in (YYYY)")
 
 
+# Get a quote for a classic car
 @classic_cars_quote_bp.route("/classic-cars", methods=["GET", "POST"])
 @login_required
 def get_new_quote():
@@ -100,7 +145,14 @@ def get_new_quote():
         vehicle_id = str(uuid.uuid4())
         quote_id = str(uuid.uuid4())
         current_value = form.current_value.data
-        cal_value = round(current_value * category["premium_percentage"], 2)
+        # cal_value = round(current_value * category["premium_percentage"], 2)
+        cal_value = calculate_amount(current_value,category["premium_percentage"])
+        if cal_value is None:
+            return render_template(
+                "Error-message.html",
+                message="Error with user ID Not a SA ID. Contact us",
+                error_options=None,
+            )
         data = {
             "vehicle_id": vehicle_id,
             "vehicle_make": form.vehicle_make.data,

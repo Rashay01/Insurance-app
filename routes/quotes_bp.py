@@ -1,3 +1,4 @@
+#RESTFUL APIs for Quote
 from flask import Blueprint, jsonify, request
 from models.quote import Quote
 from flask_login import login_required

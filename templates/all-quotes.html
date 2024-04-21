@@ -1,15 +1,18 @@
-{% extends 'base.html' %} {% block style %}
-{% endblock %} {% block body%}
+{% extends 'base.html' %} {% block docName %}All Quotes {% endblock %} {% block
+style %} {% endblock %} {% block body%}
 <h2 class="all-heading heading-background">All Quotes</h2>
 <h3 class="all-category-heading heading-background">Classic Cars:</h3>
 {% for car_quote, quote, classic_car in quotes_data %}
 <div class="card all-items-container">
-  <h5>No: {{quote.quote_id}}</h5>
+  <h5 class="bold_item_text">No: {{quote.quote_id}}</h5>
   <p>Vehicle:</p>
   <p>Make: {{classic_car.vehicle_make}}</p>
   <p>Model: {{classic_car.model}}</p>
   <p>
-    Premium: {{"R {:,.2f} p/m".format(quote.quoted_premium).replace(',',' ')}}
+    Premium:
+    <span class="bold_item_text">
+      {{"R {:,.2f} p/m".format(quote.quoted_premium).replace(',',' ')}}
+    </span>
   </p>
   <a class="btn all-button" href="/quote/all-quotes/{{quote.quote_id}}"
     >View more</a

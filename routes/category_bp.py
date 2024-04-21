@@ -1,3 +1,4 @@
+#RESTFUL APIs for Category
 from flask import Blueprint, jsonify, request
 from models.category import Category
 from flask_login import login_required

@@ -9,7 +9,7 @@ from extensions import db
 
 account_bp = Blueprint("account", __name__)
 
-
+# Flask forms for updating users credentials
 class EmailForm(FlaskForm):
     email = EmailField("New Email", validators=[InputRequired()])
     submit = SubmitField("Save Changes")

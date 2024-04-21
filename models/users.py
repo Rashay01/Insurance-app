@@ -26,3 +26,6 @@ class User(db.Model, UserMixin):
 
     def get_id(self):
         return self.ID
+    
+    def get_is_admin(self):
+        return False

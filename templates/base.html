@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="../static/favicon.ico"
+    />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>{% block docName %} {% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,7 +34,12 @@
   <body>
     <nav class="navbar fixed-top navbar-expand-lg nav">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/">Platinum Plus</a>
+        <a class="navbar-brand" href="/">
+          <div class="logo-container">
+            <img class="logo" src="../static/logo.svg" alt="SANLAM" /> Platinum
+            Plus
+          </div>
+        </a>
         <button
           class="navbar-toggler"
           type="button"
@@ -87,7 +97,10 @@
             endif
             %}
           >
-            <i class="fa-solid fa-circle-user fa-xl"></i>
+            <div class="account-items">
+              <i class="fa-solid fa-circle-user fa-xl"></i>
+              {{current_user.name}} {{current_user.surname}}
+            </div>
           </a>
           <a
             class="btn btn-success my-2 my-sm-0 nav-right-item"
@@ -132,16 +145,6 @@
     </div>
 
     {% block body %} {% endblock %}
-
-    <!-- <footer>
-      <p>Copyright © 2024</p>
-      <p>
-        Sanlam Limited is the licensed controlling company of the Sanlam Limited
-        Insurance Group. Sanlam Life Insurance Limited is an insurer licensed to
-        conduct life insurance business and is a licensed financial services
-        provider and a registered credit provider.
-      </p>
-    </footer> -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

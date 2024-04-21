@@ -46,7 +46,7 @@ def dashboard():
     data = (
         Select(Policy, ClassicCars)
         .join(ClassicCars, Policy.policy_number == ClassicCars.policy_number)
-        .filter_by(customer_id=current_user.ID)
+        .filter_by(customer_id=current_user.ID).filter(Policy.active==True)
         .order_by(Policy.active.desc(), Policy.policy_date.desc())
     )
     filtered_policies = db.session.execute(data).first()

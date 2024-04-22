@@ -63,3 +63,7 @@ It is also in the postman collection file with the name `Insurance App (IPMS).po
 - a basic wire frame was conducted in [figma basic wire frame](https://www.figma.com/file/o1jrudMDK24V6NuATfFBB1/Untitled?type=design&node-id=0%3A1&mode=design&t=LiqwcPvkY29EzjV5-1)
 - Designed a ERD :
 ![ERD Diagram](./ERD%20diagram.png "ERD Diagram")
+
+
+## Video On GUI and what user is able to do
+[Video link](https://drive.google.com/file/d/16ZHZCkomaNpttGnUV6UOrB0fAKwZX36d/view?usp=drive_link)

@@ -1,15 +1,41 @@
 # Sanlam Platinum Plus Insurance
 
-# Setup
+A policy management web app for insuring luxury items, built in Python and Flask. Customers register, get quotes, take out policies and file claims.
 
-1. One can run the `create_tables.sql` file to create the tables in the database as well as get some dummy data.
-2. Run `pip install -r requirements.txt` to get all the dependencies installed
-3. In the `.env` add the database connection with the variable name `AZURE_CONNECTION_URL` and the secret key with `FORM_SECRET_KEY`
-4. Run `flask run` to run the app
+**Status:** training project, finished in April 2024. The MVP covers classic cars only. It isn't maintained or deployed.
 
-Note: The test users password is `password` and the ID number is `0101165412342`
+| | |
+|---|---|
+| Stack | Python 3.8 · Flask · Flask-Login · Flask-WTF · SQLAlchemy · Jinja2 · Bootstrap |
+| Database | Azure SQL, connected through pyodbc (schema and seed data in `create_tables.sql`) |
+| Container | `Dockerfile` runs the app on Gunicorn, port 8000 |
+| API docs | [Postman documentation](https://documenter.getpostman.com/view/33636476/2sA3Bj7tKf) |
+| Demo | [Video walkthrough](https://drive.google.com/file/d/16ZHZCkomaNpttGnUV6UOrB0fAKwZX36d/view?usp=drive_link) |
 
-## Sanlam Platinum Plus Insurance
+## Setup
+
+1. Run `create_tables.sql` against your database to create the tables and load dummy data.
+2. Install dependencies with `pip install -r requirements.txt`.
+3. Create a `.env` file with these variables:
+
+   | Variable | Purpose |
+   |---|---|
+   | `AZURE_CONNECTION_URL` | SQLAlchemy connection string for the database |
+   | `FORM_SECRET_KEY` | Flask secret key for sessions and form CSRF |
+
+4. Start the app with `flask run`.
+
+The seed data includes a test user. Its password is `password` and its ID number is `0101165412342`.
+
+## Not built yet
+
+- Luxury categories beyond classic cars (jewellery was planned next)
+- Reporting and analytics
+- An approval workflow for claims
+- API authentication and authorisation
+- Automated tests
+
+## Background
 On conducting desktop insurance research it was identified that there is very limited insurance cover for luxury, top-end, valuable, rare, antique and sentimental-valued products and possessions. If this type of insurance was available, it is not well publicized and generally falls under the specified items insurance for home contents or personal insurance.
 
 Thus, we identified a gap in the market for a company to focus pre-dominantly only on insurance for these type of luxury, rare products, antiques and highly expensive products.
